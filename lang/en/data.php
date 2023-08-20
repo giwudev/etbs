@@ -112,6 +112,50 @@ return [
 	'init_id'=>'Initiateur',
 
 
+	/*
+	|--------------------------------------------------------------------------
+	|   DISCIPLINE
+	|--------------------------------------------------------------------------
+	*/
+	'id_disci'=>'Identifiant',
+	'code_disci'=>'Code',
+	'libelle_disci'=>'Discipline',
+	'ecole_id'=>'Ecole',
+	'init_id'=>'Initiateur',
+
+	/*
+	|--------------------------------------------------------------------------
+	|   ELEVE
+	|--------------------------------------------------------------------------
+	*/
+	'id_el'=>'Identifiant',
+	'nom_el'=>'Nom',
+	'prenom_el'=>'Prénom(s)',
+	'matricule_el'=>'Matricule',
+	'date_nais_el'=>'Date naissance',
+	'sexe_el'=>'Sexe',
+	'photo_el'=>'Photo',
+	'tuteur_el'=>'Tuteur',
+	'email_el'=>'E-mail',
+	'tel_el'=>'Contact',
+	'ecole_id'=>'Ecole',
+	'init_id'=>'Initiateur',
+
+	/*
+	|--------------------------------------------------------------------------
+	|   EMPLOITEMP
+	|--------------------------------------------------------------------------
+	*/
+	'id_empl'=>'Identifiant',
+	'heure_debut'=>'Heure debut',
+	'heure_fin'=>'Heure fin',
+	'jour_semaine'=>'Jour semaine',
+	'discipline_id'=>'Discipline',
+	'promotion_id'=>'Promotion',
+	'annee_id'=>'Annee',
+	'prof_id'=>'Professeur',
+	'init_id'=>'Initiateur',
+
 	//data-giwu-cms
 
 	

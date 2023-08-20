@@ -123,6 +123,33 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('promotion/exporterExcel',[App\Http\Controllers\PromotionController::class, 'exporterExcel']);
 	Route::get('promotion/exporterPdf',[App\Http\Controllers\PromotionController::class, 'exporterPdf']);
 
+		/*
+	|--------------------------------------------------------------------------
+	|   DISCIPLINE
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('discipline/AffichePopDelete/{id}',[App\Http\Controllers\DisciplineController::class, 'AffichePopDelete']);
+	Route::get('discipline/exporterExcel',[App\Http\Controllers\DisciplineController::class, 'exporterExcel']);
+	Route::get('discipline/exporterPdf',[App\Http\Controllers\DisciplineController::class, 'exporterPdf']);
+
+		/*
+	|--------------------------------------------------------------------------
+	|   ELEVE
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('eleve/AffichePopDelete/{id}',[App\Http\Controllers\EleveController::class, 'AffichePopDelete']);
+	Route::get('eleve/exporterExcel',[App\Http\Controllers\EleveController::class, 'exporterExcel']);
+	Route::get('eleve/exporterPdf',[App\Http\Controllers\EleveController::class, 'exporterPdf']);
+
+		/*
+	|--------------------------------------------------------------------------
+	|   EMPLOITEMP
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('emploitemp/AffichePopDelete/{id}',[App\Http\Controllers\EmploitempController::class, 'AffichePopDelete']);
+	Route::get('emploitemp/exporterExcel',[App\Http\Controllers\EmploitempController::class, 'exporterExcel']);
+	Route::get('emploitemp/exporterPdf',[App\Http\Controllers\EmploitempController::class, 'exporterPdf']);
+
 	//add-route-cms
 
     Route::resources([
@@ -136,6 +163,9 @@ Route::group(['middleware' => 'auth'],function(){
 		'trimsem'=>App\Http\Controllers\TrimsemController::class,
 		'classe'=>App\Http\Controllers\ClasseController::class,
 		'promotion'=>App\Http\Controllers\PromotionController::class,
+		'discipline'=>App\Http\Controllers\DisciplineController::class,
+		'eleve'=>App\Http\Controllers\EleveController::class,
+		'emploitemp'=>App\Http\Controllers\EmploitempController::class,
 		//resources-giwu
     ]);
 });
