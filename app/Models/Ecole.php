@@ -2,7 +2,7 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Models;
 
@@ -27,7 +27,8 @@ class Ecole extends Model {
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->orwhere('nom_eco','like','%'.strtoupper(trim($recherche).'%'));
+				$query->where(function ($query) Use ($recherche){
+                    $query->orwhere('nom_eco','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('sigle_eco','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('adres_eco','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('ville_eco','like','%'.strtoupper(trim($recherche).'%'));
