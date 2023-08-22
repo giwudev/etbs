@@ -2,7 +2,7 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Http\Controllers;
 
@@ -31,21 +31,41 @@ class EmploitempController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index(Request $req) {
+    $array = GiwuService::Path_Image_menu("/param/emploitemp");
+    if ($array['titre'] == "") {
+        return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
+    } else {
+        foreach ($array as $name => $data) {
+            $giwu[$name] = $data;
+        }
+    }
 
-		$array = GiwuService::Path_Image_menu("/param/emploitemp");
-		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
-		$giwu['list'] = Emploitemp::getListEmploieTemps($req)->paginate(20);
-		$giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
-		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
-		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
-		$giwu['listprof_id'] = User::sltListUser();
-		$giwu['listinit_id'] = User::sltListUser();
-		$giwu['listetablis_id'] = Ecole::sltListEcole();
-		if($req->ajax()) {
-			return view('emploitemp.index-search')->with($giwu);
-		}
-		return view('emploitemp.index')->with($giwu);
-	}
+    $giwu['list'] = Emploitemp::getListEmploieTemps($req)->paginate(20);
+    $giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
+    $giwu['listpromotion_id'] = Promotion::sltListPromotion();
+    $giwu['listannee_id'] = Anneesco::sltListAnneesco();
+    $giwu['listprof_id'] = User::sltListUser();
+    $giwu['listinit_id'] = User::sltListUser();
+    $giwu['listetablis_id'] = Ecole::sltListEcole();
+
+    // Ajouter les jours de la semaine au tableau $giwu
+    $giwu['jours_semaine'] = [
+        'Lundi' ,
+        'Mardi' ,
+        'Mercredi' ,
+        'Jeudi' ,
+        'Vendredi' ,
+        'Samedi' ,
+        'Dimanche' ,
+    ];
+
+    if ($req->ajax()) {
+        return view('emploitemp.index-search')->with($giwu);
+    }
+
+    return view('emploitemp.index')->with($giwu);
+}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -61,7 +81,16 @@ class EmploitempController extends Controller {
 		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
 		$giwu['listprof_id'] = User::sltListUser();
 		$giwu['listinit_id'] = User::sltListUser();
-		return view('emploitemp.create')->with($giwu);
+        $giwu['jours_semaine'] = [
+        'Lundi' ,
+        'Mardi',
+        'Mercredi',
+        'Jeudi',
+        'Vendredi',
+        'Samedi',
+        'Dimanche',
+             ];
+        return view('emploitemp.create')->with($giwu);
 	}
 
 	/**
@@ -70,7 +99,9 @@ class EmploitempController extends Controller {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request) {
+
+
+    /* public function store(Request $request) {
 		//
 		try {
 			$datas = $request->all();
@@ -84,16 +115,56 @@ class EmploitempController extends Controller {
 			$newAdd->annee_id = $datas['annee_id'];
 			$newAdd->prof_id = $datas['prof_id'];
 			$newAdd->init_id = Auth::id();
-			$newAdd->save(); 
+			$newAdd->save();
 
 			GiwuSaveTrace::enregistre('Ajout du nouveau emploitemp : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
-			
+
 			return Redirect::back()->with('success',trans('data.infos_add'));
 		} catch (\Illuminate\Database\QueryException $e) {
 			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());
 		}
 
-	}
+	}*/
+    public function store(Request $request) {
+    try {
+        $datas = $request->all();
+        unset($datas['_token']);
+
+        if ($datas['heure_debut'] >= $datas['heure_fin']) {
+            return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
+        }
+
+        $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
+            ->where(function ($query) use ($datas) {
+                $query->where('heure_debut', '<=', $datas['heure_fin'])
+                      ->where('heure_fin', '>=', $datas['heure_debut']);
+            })
+            ->first();
+
+        if ($existingEmploiTemp) {
+            return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
+        }
+
+        $newAdd = new Emploitemp();
+        $newAdd->heure_debut = $datas['heure_debut'];
+        $newAdd->heure_fin = $datas['heure_fin'];
+        $newAdd->jour_semaine = $datas['jour_semaine'];
+        $newAdd->discipline_id = $datas['discipline_id'];
+        $newAdd->promotion_id = $datas['promotion_id'];
+        $newAdd->annee_id = $datas['annee_id'];
+        $newAdd->prof_id = $datas['prof_id'];
+        $newAdd->init_id = Auth::id();
+        $newAdd->save();
+
+        GiwuSaveTrace::enregistre('Ajout du nouveau emploi de temps : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
+
+        return Redirect::back()->with('success', trans('data.infos_add'));
+    } catch (\Illuminate\Database\QueryException $e) {
+        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+    }
+}
+
+
 
 	/**
 	 * Display the specified resource.
@@ -112,18 +183,38 @@ class EmploitempController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id) {
-		//
-		$array = GiwuService::Path_Image_menu("/param/emploitemp/edit");
-		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
-		$giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
-		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
-		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
-		$giwu['listprof_id'] = User::sltListUser();
-		$giwu['listinit_id'] = User::sltListUser();
-		$giwu['item'] = Emploitemp::where('id_empl',$id)->first();
-		return view('emploitemp.edit')->with($giwu);
-	}
+public function edit($id) {
+    $array = GiwuService::Path_Image_menu("/param/emploitemp/edit");
+    if ($array['titre'] == "") {
+        return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
+    } else {
+        foreach ($array as $name => $data) {
+            $giwu[$name] = $data;
+        }
+    }
+
+    $giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
+    $giwu['listpromotion_id'] = Promotion::sltListPromotion();
+    $giwu['listannee_id'] = Anneesco::sltListAnneesco();
+    $giwu['listprof_id'] = User::sltListUser();
+    $giwu['listinit_id'] = User::sltListUser();
+
+    // Fetch the item being edited
+    $giwu['item'] = Emploitemp::where('id_empl', $id)->first();
+
+   $giwu['jours_semaine'] = [
+        'Lundi' ,
+        'Mardi',
+        'Mercredi',
+        'Jeudi',
+        'Vendredi',
+        'Samedi',
+        'Dimanche',
+             ];
+
+    return view('emploitemp.edit')->with($giwu);
+}
+
 
 	/**
 	 * Update the specified resource in storage.
@@ -133,30 +224,42 @@ class EmploitempController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id) {
-		//
-		try {
-			$dataInitiale = Emploitemp::where('id_empl',$id)->first()->toArray();
-			$datas = $request->all();
-			unset($datas['_token']);
+    try {
+        $dataInitiale = Emploitemp::where('id_empl', $id)->first()->toArray();
 
-			$newUpd=Emploitemp::where('id_empl',$id)->first();
+        $datas = $request->all();
+        unset($datas['_token']);
+if ($datas['heure_debut'] >= $datas['heure_fin']) {
+            return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
+        }
 
-			$newUpd->heure_debut = $datas['heure_debut'];
-			$newUpd->heure_fin = $datas['heure_fin'];
-			$newUpd->jour_semaine = $datas['jour_semaine'];
-			$newUpd->discipline_id = $datas['discipline_id'];
-			$newUpd->promotion_id = $datas['promotion_id'];
-			$newUpd->annee_id = $datas['annee_id'];
-			$newUpd->prof_id = $datas['prof_id'];
-			$newUpd->save();
+        $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
+            ->where(function ($query) use ($datas) {
+                $query->where('heure_debut', '<=', $datas['heure_fin'])
+                      ->where('heure_fin', '>=', $datas['heure_debut']);
+            })
+            ->first();
 
-			GiwuSaveTrace::enregistre("Modification emploitemp : ".GiwuService::DiffDetailModifier($dataInitiale,$newUpd->toArray()));
-			return redirect()->route('emploitemp.index')->with('success',trans('data.infos_update'));
-		} catch (\Illuminate\Database\QueryException $e) {
-			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());
+        if ($existingEmploiTemp) {
+            return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
+        }
+        $newUpd = Emploitemp::where('id_empl', $id)->first();
+        $newUpd->heure_debut = $datas['heure_debut'];
+        $newUpd->heure_fin = $datas['heure_fin'];
+        $newUpd->jour_semaine = $datas['jour_semaine'];
+        $newUpd->discipline_id = $datas['discipline_id'];
+        $newUpd->promotion_id = $datas['promotion_id'];
+        $newUpd->annee_id = $datas['annee_id'];
+        $newUpd->prof_id = $datas['prof_id'];
+        $newUpd->save();
 
-		}
-	}
+        GiwuSaveTrace::enregistre("Modification emploitemp : " . GiwuService::DiffDetailModifier($dataInitiale, $newUpd->toArray()));
+        return redirect()->route('emploitemp.index')->with('success', trans('data.infos_update'));
+    } catch (\Illuminate\Database\QueryException $e) {
+        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+    }
+}
+
 
 	/**
 	 * Remove the specified resource from storage.
@@ -212,7 +315,7 @@ class EmploitempController extends Controller {
 		return $pdf->stream('emploitemp-'.date('Ymdhis').'.pdf');
 	}
 
-	
+
 
 
 }
