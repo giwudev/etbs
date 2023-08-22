@@ -22,16 +22,12 @@
                     <td>{!! $listgiwu->heure_debut !!}</td>
                     <td>{!! $listgiwu->heure_fin !!}</td>
                     <td style='text-align:right'>
-                        {{ $jours_semaine[$listgiwu->jour_semaine] }}</td>
+                        {{ trans('entite.semaine')[$listgiwu->jour_semaine] }}</td>
                     <td>{!! isset($listgiwu->discipline) ? $listgiwu->discipline->code_disci : trans('data.not_found') !!}</td>
                     <td>{!! isset($listgiwu->promotion) ? $listgiwu->promotion->libelle_pro : trans('data.not_found') !!}</td>
                     <td>{!! isset($listgiwu->anneesco) ? $listgiwu->anneesco->annee_debut : trans('data.not_found') !!}</td>
-                    <td>{!! isset($listgiwu->users_g)
-                        ? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom
-                        : trans('data.not_found') !!}</td>
-                    <td>{!! isset($listgiwu->users_g)
-                        ? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom
-                        : trans('data.not_found') !!}</td>
+                    <td>{!! isset($listgiwu->users_g)? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom: trans('data.not_found') !!}</td>
+                    <td>{!! isset($listgiwu->users_g)? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom: trans('data.not_found') !!}</td>
                     @if (in_array('update_emploitemp', session('InfosAction')) || in_array('delete_emploitemp', session('InfosAction')))
                         <td class="text-center">
                             @if (in_array('update_emploitemp', session('InfosAction')))

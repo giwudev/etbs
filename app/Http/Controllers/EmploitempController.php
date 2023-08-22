@@ -47,22 +47,9 @@ class EmploitempController extends Controller {
     $giwu['listprof_id'] = User::sltListUser();
     $giwu['listinit_id'] = User::sltListUser();
     $giwu['listetablis_id'] = Ecole::sltListEcole();
-
-    // Ajouter les jours de la semaine au tableau $giwu
-    $giwu['jours_semaine'] = [
-        'Lundi' ,
-        'Mardi' ,
-        'Mercredi' ,
-        'Jeudi' ,
-        'Vendredi' ,
-        'Samedi' ,
-        'Dimanche' ,
-    ];
-
     if ($req->ajax()) {
         return view('emploitemp.index-search')->with($giwu);
     }
-
     return view('emploitemp.index')->with($giwu);
 }
 
@@ -81,15 +68,7 @@ class EmploitempController extends Controller {
 		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
 		$giwu['listprof_id'] = User::sltListUser();
 		$giwu['listinit_id'] = User::sltListUser();
-        $giwu['jours_semaine'] = [
-        'Lundi' ,
-        'Mardi',
-        'Mercredi',
-        'Jeudi',
-        'Vendredi',
-        'Samedi',
-        'Dimanche',
-             ];
+
         return view('emploitemp.create')->with($giwu);
 	}
 
@@ -202,16 +181,6 @@ public function edit($id) {
     // Fetch the item being edited
     $giwu['item'] = Emploitemp::where('id_empl', $id)->first();
 
-   $giwu['jours_semaine'] = [
-        'Lundi' ,
-        'Mardi',
-        'Mercredi',
-        'Jeudi',
-        'Vendredi',
-        'Samedi',
-        'Dimanche',
-             ];
-
     return view('emploitemp.edit')->with($giwu);
 }
 
@@ -224,41 +193,40 @@ public function edit($id) {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id) {
-    try {
-        $dataInitiale = Emploitemp::where('id_empl', $id)->first()->toArray();
+        try {
+            $dataInitiale = Emploitemp::where('id_empl', $id)->first()->toArray();
 
-        $datas = $request->all();
-        unset($datas['_token']);
-if ($datas['heure_debut'] >= $datas['heure_fin']) {
-            return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
+            $datas = $request->all();
+            unset($datas['_token']);
+            if ($datas['heure_debut'] >= $datas['heure_fin']) {
+                return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
+            }
+
+            $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
+                ->where(function ($query) use ($datas) {
+                    $query->where('heure_debut', '<=', $datas['heure_fin'])
+                        ->where('heure_fin', '>=', $datas['heure_debut']);
+                })->first();
+
+            if ($existingEmploiTemp) {
+                return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
+            }
+            $newUpd = Emploitemp::where('id_empl', $id)->first();
+            $newUpd->heure_debut = $datas['heure_debut'];
+            $newUpd->heure_fin = $datas['heure_fin'];
+            $newUpd->jour_semaine = $datas['jour_semaine'];
+            $newUpd->discipline_id = $datas['discipline_id'];
+            $newUpd->promotion_id = $datas['promotion_id'];
+            $newUpd->annee_id = $datas['annee_id'];
+            $newUpd->prof_id = $datas['prof_id'];
+            $newUpd->save();
+
+            GiwuSaveTrace::enregistre("Modification emploitemp : " . GiwuService::DiffDetailModifier($dataInitiale, $newUpd->toArray()));
+            return redirect()->route('emploitemp.index')->with('success', trans('data.infos_update'));
+        } catch (\Illuminate\Database\QueryException $e) {
+            return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
         }
-
-        $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
-            ->where(function ($query) use ($datas) {
-                $query->where('heure_debut', '<=', $datas['heure_fin'])
-                      ->where('heure_fin', '>=', $datas['heure_debut']);
-            })
-            ->first();
-
-        if ($existingEmploiTemp) {
-            return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
-        }
-        $newUpd = Emploitemp::where('id_empl', $id)->first();
-        $newUpd->heure_debut = $datas['heure_debut'];
-        $newUpd->heure_fin = $datas['heure_fin'];
-        $newUpd->jour_semaine = $datas['jour_semaine'];
-        $newUpd->discipline_id = $datas['discipline_id'];
-        $newUpd->promotion_id = $datas['promotion_id'];
-        $newUpd->annee_id = $datas['annee_id'];
-        $newUpd->prof_id = $datas['prof_id'];
-        $newUpd->save();
-
-        GiwuSaveTrace::enregistre("Modification emploitemp : " . GiwuService::DiffDetailModifier($dataInitiale, $newUpd->toArray()));
-        return redirect()->route('emploitemp.index')->with('success', trans('data.infos_update'));
-    } catch (\Illuminate\Database\QueryException $e) {
-        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
     }
-}
 
 
 	/**
