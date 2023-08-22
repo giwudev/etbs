@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 20 août 2023 à 20:23
+-- Généré le : mar. 22 août 2023 à 20:27
 -- Version du serveur : 5.7.26
 -- Version de PHP : 8.0.13
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `etbs_action_acces` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_action`),
   KEY `matierefp_action_acces_id_menu_foreign` (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=299 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=303 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_action_acces`
@@ -91,7 +91,11 @@ INSERT INTO `etbs_action_acces` (`id_action`, `id_menu`, `libelle_action`, `dev_
 (295, 196, 'Ajouter emploitemp', 'add_emploitemp', '2023-08-20 20:03:27', '2023-08-20 20:03:27'),
 (296, 196, 'Modifier emploitemp', 'update_emploitemp', '2023-08-20 20:03:27', '2023-08-20 20:03:27'),
 (297, 196, 'Supprimer emploitemp', 'delete_emploitemp', '2023-08-20 20:03:27', '2023-08-20 20:03:27'),
-(298, 196, 'Exporter emploitemp', 'exporter_emploitemp', '2023-08-20 20:03:27', '2023-08-20 20:03:27');
+(298, 196, 'Exporter emploitemp', 'exporter_emploitemp', '2023-08-20 20:03:27', '2023-08-20 20:03:27'),
+(299, 200, 'Ajouter frequenter', 'add_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30'),
+(300, 200, 'Modifier frequenter', 'update_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30'),
+(301, 200, 'Supprimer frequenter', 'delete_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30'),
+(302, 200, 'Exporter frequenter', 'exporter_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30');
 
 -- --------------------------------------------------------
 
@@ -112,18 +116,18 @@ CREATE TABLE IF NOT EXISTS `etbs_action_menu_acces` (
   KEY `emp_action_menu_acces_id_menu_foreign` (`id_menu`),
   KEY `emp_action_menu_acces_action_id_foreign` (`action_id`),
   KEY `emp_action_menu_acces_role_id_foreign` (`role_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1054 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1122 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_action_menu_acces`
 --
 
 INSERT INTO `etbs_action_menu_acces` (`id_actionmenu`, `id_menu`, `action_id`, `statut_action`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 1, 1, '2022-06-20 14:10:01', '2023-08-20 19:05:03'),
-(2, 3, 2, 1, 1, '2022-06-20 14:10:01', '2023-08-20 19:05:03'),
-(3, 3, 3, 1, 1, '2022-06-20 14:10:01', '2023-08-20 19:05:03'),
-(4, 3, 4, 1, 1, '2022-06-20 14:10:01', '2023-08-20 19:05:03'),
-(5, 3, 5, 1, 1, '2022-06-20 14:10:01', '2023-08-20 19:05:03'),
+(1, 3, 1, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(2, 3, 2, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(3, 3, 3, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(4, 3, 4, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(5, 3, 5, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
 (6, 4, 6, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
 (7, 4, 7, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
 (8, 4, 8, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
@@ -160,9 +164,9 @@ INSERT INTO `etbs_action_menu_acces` (`id_actionmenu`, `id_menu`, `action_id`, `
 (1008, 3, 3, 0, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (1009, 3, 4, 0, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (1010, 3, 5, 0, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
-(1011, 4, 6, 1, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
-(1012, 4, 7, 1, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
-(1013, 4, 8, 1, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
+(1011, 4, 6, 0, 15, '2023-06-10 14:12:41', '2023-08-22 19:19:22'),
+(1012, 4, 7, 0, 15, '2023-06-10 14:12:41', '2023-08-22 19:19:22'),
+(1013, 4, 8, 0, 15, '2023-06-10 14:12:41', '2023-08-22 19:19:22'),
 (1014, 5, 9, 1, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (1015, 5, 10, 1, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (1016, 5, 11, 1, 15, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
@@ -202,7 +206,75 @@ INSERT INTO `etbs_action_menu_acces` (`id_actionmenu`, `id_menu`, `action_id`, `
 (1050, 196, 295, 1, 1, '2023-08-20 19:05:03', '2023-08-20 19:05:03'),
 (1051, 196, 296, 1, 1, '2023-08-20 19:05:03', '2023-08-20 19:05:03'),
 (1052, 196, 297, 1, 1, '2023-08-20 19:05:03', '2023-08-20 19:05:03'),
-(1053, 196, 298, 1, 1, '2023-08-20 19:05:03', '2023-08-20 19:05:03');
+(1053, 196, 298, 1, 1, '2023-08-20 19:05:03', '2023-08-20 19:05:03'),
+(1054, 3, 1, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1055, 3, 2, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1056, 3, 3, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1057, 3, 4, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1058, 3, 5, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1059, 4, 6, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1060, 4, 7, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1061, 4, 8, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1062, 5, 9, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1063, 5, 10, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1064, 5, 11, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1065, 5, 12, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1066, 6, 24, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1067, 5, 23, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1068, 19, 170, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1069, 19, 210, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1070, 172, 263, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1071, 172, 264, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1072, 172, 265, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1073, 172, 266, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1074, 175, 267, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1075, 175, 268, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1076, 175, 269, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1077, 175, 270, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1078, 182, 282, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1079, 182, 281, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1080, 182, 280, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1081, 182, 279, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1082, 179, 275, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1083, 179, 276, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1084, 179, 277, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1085, 179, 278, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1086, 185, 283, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1087, 185, 284, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1088, 185, 285, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1089, 185, 286, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1090, 190, 287, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1091, 190, 288, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1092, 190, 289, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1093, 190, 290, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1094, 193, 291, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1095, 193, 292, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1096, 193, 293, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1097, 193, 294, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1098, 196, 295, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1099, 196, 296, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1100, 196, 297, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1101, 196, 298, 0, 16, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1102, 200, 299, 1, 1, '2023-08-22 18:58:00', '2023-08-22 18:58:00'),
+(1103, 200, 300, 1, 1, '2023-08-22 18:58:00', '2023-08-22 18:58:00'),
+(1104, 200, 301, 1, 1, '2023-08-22 18:58:00', '2023-08-22 18:58:00'),
+(1105, 200, 302, 1, 1, '2023-08-22 18:58:00', '2023-08-22 18:58:00'),
+(1106, 190, 287, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1107, 190, 288, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1108, 190, 289, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1109, 190, 290, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1110, 193, 291, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1111, 193, 292, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1112, 193, 293, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1113, 193, 294, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1114, 196, 295, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1115, 196, 296, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1116, 196, 297, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1117, 196, 298, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1118, 200, 299, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1119, 200, 300, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1120, 200, 301, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1121, 200, 302, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22');
 
 -- --------------------------------------------------------
 
@@ -349,7 +421,14 @@ CREATE TABLE IF NOT EXISTS `etbs_eleve` (
   PRIMARY KEY (`id_el`),
   KEY `etbs_eleve_ecole_id_foreign` (`ecole_id`),
   KEY `etbs_eleve_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `etbs_eleve`
+--
+
+INSERT INTO `etbs_eleve` (`id_el`, `nom_el`, `prenom_el`, `matricule_el`, `date_nais_el`, `sexe_el`, `photo_el`, `tuteur_el`, `email_el`, `tel_el`, `ecole_id`, `init_id`, `created_at`, `updated_at`) VALUES
+(1, 'ALLADAYE', 'Eric', '233232', '2000-08-08', 'F', 'phpEB1A.tmp.jpeg', 'TOHON Richard', 'richardtohon@gmail.com', '89898989', 1, 1, '2023-08-22 19:13:17', '2023-08-22 19:13:17');
 
 -- --------------------------------------------------------
 
@@ -376,7 +455,15 @@ CREATE TABLE IF NOT EXISTS `etbs_emploi_temp` (
   KEY `etbs_emploi_temp_init_id_foreign` (`init_id`),
   KEY `etbs_emploi_temp_annee_id_foreign` (`annee_id`),
   KEY `etbs_emploi_temp_prof_id_foreign` (`prof_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `etbs_emploi_temp`
+--
+
+INSERT INTO `etbs_emploi_temp` (`id_empl`, `heure_debut`, `heure_fin`, `jour_semaine`, `discipline_id`, `promotion_id`, `init_id`, `annee_id`, `prof_id`, `created_at`, `updated_at`) VALUES
+(1, '12:00:00', '13:00:00', 5, 1, 1, 1, 1, 20, '2023-08-22 13:17:37', '2023-08-22 13:18:50'),
+(2, '17:00:00', '20:00:00', 2, 2, 2, 1, 1, 20, '2023-08-22 18:23:01', '2023-08-22 18:23:01');
 
 -- --------------------------------------------------------
 
@@ -395,6 +482,31 @@ CREATE TABLE IF NOT EXISTS `etbs_failed_jobs` (
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `etbs_frequenter`
+--
+
+DROP TABLE IF EXISTS `etbs_frequenter`;
+CREATE TABLE IF NOT EXISTS `etbs_frequenter` (
+  `id_freq` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `eleve_id` bigint(20) UNSIGNED NOT NULL,
+  `promotion_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id_freq`),
+  KEY `etbs_frequenter_eleve_id_foreign` (`eleve_id`),
+  KEY `etbs_frequenter_promotion_id_foreign` (`promotion_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `etbs_frequenter`
+--
+
+INSERT INTO `etbs_frequenter` (`id_freq`, `eleve_id`, `promotion_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2023-08-22 19:15:08', '2023-08-22 19:15:08');
 
 -- --------------------------------------------------------
 
@@ -421,7 +533,7 @@ CREATE TABLE IF NOT EXISTS `etbs_menu` (
   PRIMARY KEY (`id_menu`),
   KEY `matierefp_menu_topmenu_id_foreign` (`topmenu_id`),
   KEY `matierefp_menu_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=199 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=203 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_menu`
@@ -442,7 +554,7 @@ INSERT INTO `etbs_menu` (`id_menu`, `libelle_menu`, `titre_page`, `controler`, `
 (19, 'Paramètres', 'Paramètres', NULL, 'param', 0, 1, 'ri-chat-settings-line', 1, NULL, '/param', 'oui', '2022-07-25 10:12:48', '2023-06-07 17:43:31'),
 (17, 'Création d\'un menu', 'Création d\'un menu', NULL, 'menu/create', 3, 1, 'ri-menu-add-line', 1, NULL, '/admin/menu/create', 'non', '2022-07-22 18:51:01', '2022-07-25 08:03:10'),
 (20, 'Modification d\'un rôle', 'Modification d\'un rôle', NULL, 'role/edit', 0, 1, 'ri-shield-user-line', 1, NULL, '/admin/role/edit', 'non', '2022-07-25 10:16:06', '2022-07-25 10:16:37'),
-(24, 'Consultation', 'Consultation', NULL, 'cons', 0, 1, 'ri-file-list-2-line', 3, NULL, '/cons', 'non', '2022-07-26 15:06:45', '2022-12-30 18:55:39'),
+(24, 'Consultation', 'Consultation', NULL, 'cons', 0, 1, 'ri-file-list-2-line', 3, NULL, '/cons', 'oui', '2022-07-26 15:06:45', '2023-08-22 19:02:29'),
 (74, 'Société', 'Société', NULL, 'mysociety', 2, 1, 'ri-home-4-line', 2, NULL, '/admin/societe', 'oui', '2022-10-07 16:26:14', '2022-11-09 19:50:58'),
 (172, 'École', 'École', 'EcoleController', 'ecole', 19, 1, 'ri-bill-line', 1, NULL, '/param/ecole', 'oui', '2023-06-09 14:04:37', '2023-06-09 13:07:50'),
 (173, 'Ajouter une école', 'Ajout d\'une école', 'EcoleController', 'ecole/create', 172, 1, 'ri-bill-line', 1, NULL, '/param/ecole/create', 'non', '2023-06-09 14:04:38', '2023-06-09 13:06:45'),
@@ -467,7 +579,11 @@ INSERT INTO `etbs_menu` (`id_menu`, `libelle_menu`, `titre_page`, `controler`, `
 (195, 'Modifier', 'Modification d\'un Elève', 'EleveController', 'eleve/edit', 193, 1, 'ri-bill-line', 1, NULL, '/param/eleve/edit', 'non', '2023-08-20 19:40:56', '2023-08-20 18:44:26'),
 (196, 'Emploi du temps', 'Emploi du temps', 'EmploitempController', 'emploitemp', 19, 1, 'ri-bill-line', 8, NULL, '/param/emploitemp', 'oui', '2023-08-20 20:03:27', '2023-08-20 19:07:19'),
 (197, 'Ajouter', 'Ajout d\'un emploi temps', 'EmploitempController', 'emploitemp/create', 196, 1, 'ri-bill-line', 1, NULL, '/param/emploitemp/create', 'non', '2023-08-20 20:03:27', '2023-08-20 19:22:41'),
-(198, 'Modifier', 'Modification d\'un emploi temps', 'EmploitempController', 'emploitemp/edit', 196, 1, 'ri-bill-line', 1, NULL, '/param/emploitemp/edit', 'non', '2023-08-20 20:03:27', '2023-08-20 19:23:00');
+(198, 'Modifier', 'Modification d\'un emploi temps', 'EmploitempController', 'emploitemp/edit', 196, 1, 'ri-bill-line', 1, NULL, '/param/emploitemp/edit', 'non', '2023-08-20 20:03:27', '2023-08-20 19:23:00'),
+(199, 'Faire un appel', 'Faire un appel', NULL, 'appel', 0, 1, 'ri-file-list-2-line', 3, NULL, '/appel', 'oui', '2023-08-22 18:39:07', '2023-08-22 18:39:19'),
+(200, 'Elèves par promotion', 'Elèves par promotion', 'FrequenterController', 'frequenter', 24, 1, 'ri-bill-line', 10, NULL, '/cons/frequenter', 'oui', '2023-08-22 19:56:30', '2023-08-22 19:05:25'),
+(201, 'Ajouter', 'Ajout de Frequenter', 'FrequenterController', 'frequenter/create', 200, 1, 'ri-bill-line', 1, NULL, '/cons/frequenter/create', 'non', '2023-08-22 19:56:30', '2023-08-22 19:02:03'),
+(202, 'Modifier', 'Modification de Frequenter', 'FrequenterController', 'frequenter/edit', 200, 1, 'ri-bill-line', 1, NULL, '/cons/frequenter/edit', 'non', '2023-08-22 19:56:30', '2023-08-22 19:01:56');
 
 -- --------------------------------------------------------
 
@@ -481,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `etbs_migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_migrations`
@@ -496,7 +612,8 @@ INSERT INTO `etbs_migrations` (`id`, `migration`, `batch`) VALUES
 (125, '2023_06_01_139_CreerEtbspromotionTable', 4),
 (127, '2023_06_01_158_CreerEtbsdisciplineTable', 5),
 (128, '2023_06_01_159_CreerEtbseleveTable', 6),
-(129, '2023_06_01_160_CreerEtbsemploitempTable', 7);
+(129, '2023_06_01_160_CreerEtbsemploitempTable', 7),
+(130, '2023_06_01_162_CreerEtbsfrequenterTable', 8);
 
 -- --------------------------------------------------------
 
@@ -573,15 +690,16 @@ CREATE TABLE IF NOT EXISTS `etbs_role` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_role`),
   KEY `matierefp_role_user_save_id_foreign` (`user_save_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_role`
 --
 
 INSERT INTO `etbs_role` (`id_role`, `libelle_role`, `user_save_id`, `created_at`, `updated_at`) VALUES
-(1, 'Administrateur inputer', 1, '2022-06-20 14:10:01', '2023-08-20 19:05:03'),
-(15, 'Administrateur', 1, '2023-06-10 14:12:41', '2023-06-10 15:45:27');
+(1, 'Administrateur inputer', 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(15, 'Administrateur', 1, '2023-06-10 14:12:41', '2023-08-22 19:19:21'),
+(16, 'Professeur', 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28');
 
 -- --------------------------------------------------------
 
@@ -600,7 +718,7 @@ CREATE TABLE IF NOT EXISTS `etbs_role_acces` (
   PRIMARY KEY (`id_roleacces`),
   KEY `matierefp_role_acces_role_id_foreign` (`role_id`),
   KEY `matierefp_role_acces_id_menu_foreign` (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=730 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=787 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_role_acces`
@@ -611,7 +729,7 @@ INSERT INTO `etbs_role_acces` (`role_id`, `id_menu`, `id_roleacces`, `statut_rol
 (1, 2, 2, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 5, 3, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 6, 4, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
-(1, 3, 5, 1, '2022-06-20 14:10:01', '2023-08-20 19:05:03'),
+(1, 3, 5, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
 (1, 4, 6, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 7, 7, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 8, 8, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
@@ -641,7 +759,7 @@ INSERT INTO `etbs_role_acces` (`role_id`, `id_menu`, `id_roleacces`, `statut_rol
 (15, 1, 690, 1, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (15, 2, 691, 1, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (15, 3, 692, 0, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
-(15, 4, 693, 1, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
+(15, 4, 693, 0, '2023-06-10 14:12:41', '2023-08-22 19:19:21'),
 (15, 5, 694, 1, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (15, 6, 695, 1, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
 (15, 7, 696, 1, '2023-06-10 14:12:41', '2023-06-10 14:12:41'),
@@ -677,7 +795,64 @@ INSERT INTO `etbs_role_acces` (`role_id`, `id_menu`, `id_roleacces`, `statut_rol
 (1, 195, 726, 1, NULL, NULL),
 (1, 196, 727, 1, NULL, NULL),
 (1, 197, 728, 1, NULL, NULL),
-(1, 198, 729, 1, NULL, NULL);
+(1, 198, 729, 1, NULL, NULL),
+(16, 1, 730, 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 2, 731, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 3, 732, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 4, 733, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 5, 734, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 6, 735, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 7, 736, 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 8, 737, 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 9, 738, 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 10, 739, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 18, 740, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 19, 741, 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 17, 742, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 20, 743, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 24, 744, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 74, 745, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 172, 746, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 173, 747, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 174, 748, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 175, 749, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 184, 750, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 183, 751, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 182, 752, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 179, 753, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 180, 754, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 181, 755, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 185, 756, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 186, 757, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 187, 758, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 188, 759, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 189, 760, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 190, 761, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 191, 762, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 192, 763, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 193, 764, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 194, 765, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 195, 766, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 196, 767, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 197, 768, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(16, 198, 769, 0, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(1, 199, 770, 1, '2023-08-22 18:39:07', '2023-08-22 18:39:07'),
+(1, 200, 771, 1, NULL, NULL),
+(1, 201, 772, 1, NULL, NULL),
+(1, 202, 773, 1, NULL, NULL),
+(15, 190, 774, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 191, 775, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 192, 776, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 193, 777, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 194, 778, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 195, 779, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 196, 780, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 197, 781, 1, '2023-08-22 19:19:21', '2023-08-22 19:19:21'),
+(15, 198, 782, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(15, 199, 783, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(15, 200, 784, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(15, 201, 785, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(15, 202, 786, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22');
 
 -- --------------------------------------------------------
 
@@ -695,7 +870,7 @@ CREATE TABLE IF NOT EXISTS `etbs_save_trace` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_trace`),
   KEY `matierefp_save_trace_id_user_foreign` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_save_trace`
@@ -767,7 +942,25 @@ INSERT INTO `etbs_save_trace` (`id_trace`, `libelle_trace`, `naviguateur`, `id_u
 (105, 'Modification du rôle : Old infos ((id_role=>1) <br/>(user_save_id=>1) <br/>(created_at=>2022-06-20T15:10:01.000000Z) <br/>)  New infos ((_token=>YSU0V7cu3lxpvqN8wC1QX1EXmP78Jmnbv39utSlQ) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher4=>4) <br/>(action6=>6) <br/>(action7=>7) <br/>(action8=>8) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(action23=>23) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action263=>263) <br/>(action264=>264) <br/>(action265=>265) <br/>(action266=>266) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>) ', ' ', 1, '2023-08-20 19:05:03', '2023-08-20 19:05:03'),
 (106, 'Modification du menu : Old infos ((libelle_menu=>Emploitemp) <br/>(titre_page=>Emploitemp) <br/>(num_ordre=>1) <br/>)  New infos ((libelle_menu=>Emploi du temps) <br/>(titre_page=>Emploi du temps) <br/>(num_ordre=>8) <br/>) ', ' ', 1, '2023-08-20 19:07:19', '2023-08-20 19:07:19'),
 (107, 'Modification du menu : Old infos ((titre_page=>Ajout de Emploitemp) <br/>)  New infos ((titre_page=>Ajout d\'un emploi temps) <br/>) ', ' ', 1, '2023-08-20 19:22:41', '2023-08-20 19:22:41'),
-(108, 'Modification du menu : Old infos ((titre_page=>Modification de Emploitemp) <br/>)  New infos ((titre_page=>Modification d\'un emploi temps) <br/>) ', ' ', 1, '2023-08-20 19:23:00', '2023-08-20 19:23:00');
+(108, 'Modification du menu : Old infos ((titre_page=>Modification de Emploitemp) <br/>)  New infos ((titre_page=>Modification d\'un emploi temps) <br/>) ', ' ', 1, '2023-08-20 19:23:00', '2023-08-20 19:23:00'),
+(109, 'Ajout du nouveau emploi de temps : (heure_debut=>12:00) <br/>(heure_fin=>13:00) <br/>(jour_semaine=>3) <br/>(discipline_id=>1) <br/>(promotion_id=>1) <br/>(annee_id=>1) <br/>(prof_id=>20) <br/>(init_id=>1) <br/>(created_at=>2023-08-22T14:17:37.000000Z) <br/>(id_empl=>1) <br/>', ' ', 1, '2023-08-22 13:17:38', '2023-08-22 13:17:38'),
+(110, 'Modification emploitemp : Old infos ((jour_semaine=>3) <br/>)  New infos ((jour_semaine=>5) <br/>) ', ' ', 1, '2023-08-22 13:18:50', '2023-08-22 13:18:50'),
+(111, 'Ajout du role : (libelle_role=>Professeur) <br/>(user_save_id=>1) <br/>(created_at=>2023-08-22T19:20:28.000000Z) <br/>(id_role=>16) <br/>', ' ', 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28'),
+(112, 'Ajout du nouveau emploi de temps : (heure_debut=>17:00) <br/>(heure_fin=>20:00) <br/>(jour_semaine=>2) <br/>(discipline_id=>2) <br/>(promotion_id=>2) <br/>(annee_id=>1) <br/>(prof_id=>20) <br/>(init_id=>1) <br/>(created_at=>2023-08-22T19:23:01.000000Z) <br/>(id_empl=>2) <br/>', ' ', 1, '2023-08-22 18:23:01', '2023-08-22 18:23:01'),
+(113, 'Ajout du nouveau menu : (libelle_menu=>Faire un appel) <br/>(titre_page=>Faire un appel) <br/>(route=>appel) <br/>(menu_icon=>ri-file-list-2-line) <br/>(num_ordre=>3) <br/>(topmenu_id=>) <br/>(architecture=>/appel) <br/>(elmt_menu=>oui) <br/>(user_id=>1) <br/>(created_at=>2023-08-22T19:39:07.000000Z) <br/>(id_menu=>199) <br/>', ' ', 1, '2023-08-22 18:39:07', '2023-08-22 18:39:07'),
+(114, 'Modification du menu : Old infos ((topmenu_id=>) <br/>)  New infos ((topmenu_id=>0) <br/>) ', ' ', 1, '2023-08-22 18:39:19', '2023-08-22 18:39:19'),
+(115, 'Modification du menu : Old infos ((libelle_menu=>Frequenter) <br/>(titre_page=>Frequenter) <br/>(num_ordre=>1) <br/>)  New infos ((libelle_menu=>Liste des élèves par promotion) <br/>(titre_page=>Liste des élèves par promotion) <br/>(num_ordre=>10) <br/>) ', ' ', 1, '2023-08-22 18:57:39', '2023-08-22 18:57:39'),
+(116, 'Modification du rôle : Old infos ((id_role=>1) <br/>(user_save_id=>1) <br/>(created_at=>2022-06-20T15:10:01.000000Z) <br/>)  New infos ((_token=>9OQnAKYT8KrXAKqgDMJWsPchsyRFNXsA8XixxVat) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher4=>4) <br/>(action6=>6) <br/>(action7=>7) <br/>(action8=>8) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(action23=>23) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action263=>263) <br/>(action264=>264) <br/>(action265=>265) <br/>(action266=>266) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>) ', ' ', 1, '2023-08-22 18:58:00', '2023-08-22 18:58:00'),
+(117, 'Modification du menu : Old infos ((architecture=>/param/frequenter/edit) <br/>)  New infos ((architecture=>/cons/frequenter/edit) <br/>) ', ' ', 1, '2023-08-22 19:01:56', '2023-08-22 19:01:56'),
+(118, 'Modification du menu : Old infos ((architecture=>/param/frequenter/create) <br/>)  New infos ((architecture=>/cons/frequenter/create) <br/>) ', ' ', 1, '2023-08-22 19:02:03', '2023-08-22 19:02:03'),
+(119, 'Modification du menu : Old infos ((elmt_menu=>non) <br/>)  New infos ((elmt_menu=>oui) <br/>) ', ' ', 1, '2023-08-22 19:02:29', '2023-08-22 19:02:29'),
+(120, 'Modification du menu : Old infos ((architecture=>/param/frequenter) <br/>)  New infos ((architecture=>/cons/frequenter) <br/>) ', ' ', 1, '2023-08-22 19:03:03', '2023-08-22 19:03:03'),
+(121, 'Modification du menu : ', ' ', 1, '2023-08-22 19:03:25', '2023-08-22 19:03:25'),
+(122, 'Modification du menu : Old infos ((topmenu_id=>19) <br/>)  New infos ((topmenu_id=>24) <br/>) ', ' ', 1, '2023-08-22 19:05:08', '2023-08-22 19:05:08'),
+(123, 'Modification du menu : Old infos ((libelle_menu=>Liste des élèves par promotion) <br/>(titre_page=>Liste des élèves par promotion) <br/>)  New infos ((libelle_menu=>Elèves par promotion) <br/>(titre_page=>Elèves par promotion) <br/>) ', ' ', 1, '2023-08-22 19:05:25', '2023-08-22 19:05:25'),
+(124, 'Ajout du nouveau eleve : (nom_el=>ALLADAYE) <br/>(prenom_el=>Eric) <br/>(matricule_el=>233232) <br/>(date_nais_el=>2000-08-08) <br/>(sexe_el=>F) <br/>(photo_el=>phpEB1A.tmp.jpeg) <br/>(tuteur_el=>TOHON Richard) <br/>(email_el=>richardtohon@gmail.com) <br/>(tel_el=>89898989) <br/>(ecole_id=>1) <br/>(init_id=>1) <br/>(created_at=>2023-08-22T20:13:17.000000Z) <br/>(id_el=>1) <br/>', ' ', 1, '2023-08-22 19:13:17', '2023-08-22 19:13:17'),
+(125, 'Ajout du nouveau frequenter : (eleve_id=>1) <br/>(promotion_id=>1) <br/>(created_at=>2023-08-22T20:15:08.000000Z) <br/>(id_freq=>1) <br/>', ' ', 1, '2023-08-22 19:15:08', '2023-08-22 19:15:08'),
+(126, 'Modification du rôle : Old infos ((id_role=>15) <br/>(user_save_id=>1) <br/>(created_at=>2023-06-10T15:12:41.000000Z) <br/>)  New infos ((_token=>IoIyllMUAcfCdbsJlB2na9BRv4v5u49YzyhOjuBc) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action265=>265) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>) ', ' ', 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22');
 
 -- --------------------------------------------------------
 

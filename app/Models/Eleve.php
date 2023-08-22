@@ -41,7 +41,8 @@ class Eleve extends Model {
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->where('nom_el','like','%'.strtoupper(trim($recherche).'%'));
+				$query->where(function ($query) Use ($recherche){					
+					$query->where('nom_el','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('prenom_el','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('matricule_el','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('tuteur_el','like','%'.strtoupper(trim($recherche).'%'));
@@ -64,7 +65,7 @@ class Eleve extends Model {
 	}
 
 	public static function sltListEleve(){
-		$query = self::all()->pluck('nom_el','id_el');
+		$query = self::where('ecole_id',session('etablis_idSess'))->pluck('nom_el','id_el');
 		return $query;
 	}
 

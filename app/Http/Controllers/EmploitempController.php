@@ -204,21 +204,19 @@ public function edit($id) {
 
             $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
                 ->where(function ($query) use ($datas) {
-                    $query->where('heure_debut', '<=', $datas['heure_fin'])
-                        ->where('heure_fin', '>=', $datas['heure_debut']);
+                    $query->where('heure_debut', '<=', $datas['heure_fin'])->where('heure_fin', '>=', $datas['heure_debut']);
                 })->first();
-
             if ($existingEmploiTemp) {
                 return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
             }
             $newUpd = Emploitemp::where('id_empl', $id)->first();
-            $newUpd->heure_debut = $datas['heure_debut'];
-            $newUpd->heure_fin = $datas['heure_fin'];
-            $newUpd->jour_semaine = $datas['jour_semaine'];
-            $newUpd->discipline_id = $datas['discipline_id'];
-            $newUpd->promotion_id = $datas['promotion_id'];
-            $newUpd->annee_id = $datas['annee_id'];
-            $newUpd->prof_id = $datas['prof_id'];
+            $newUpd->heure_debut 	= $datas['heure_debut'];
+            $newUpd->heure_fin 		= $datas['heure_fin'];
+            $newUpd->jour_semaine 	= $datas['jour_semaine'];
+            $newUpd->discipline_id 	= $datas['discipline_id'];
+            $newUpd->promotion_id 	= $datas['promotion_id'];
+            $newUpd->annee_id 		= $datas['annee_id'];
+            $newUpd->prof_id 		= $datas['prof_id'];
             $newUpd->save();
 
             GiwuSaveTrace::enregistre("Modification emploitemp : " . GiwuService::DiffDetailModifier($dataInitiale, $newUpd->toArray()));
