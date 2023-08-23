@@ -32,7 +32,7 @@ Route::get('/clear', function(){
 
 Auth::routes();
 
-Route::get('/', function () {return redirect()->route('home');}); // redirection vers la page home si la ligne delete 
+Route::get('/', function () {return redirect()->route('home');}); // redirection vers la page home si la ligne delete
 
 // Route::get('/',[App\Http\Controllers\SiteController::class, 'index']);
 Route::get('weberror',[App\Http\Controllers\GiwuController::class, 'weberror']);
@@ -41,11 +41,11 @@ Route::match(['get','post'],'loginagent',[App\Http\Controllers\SiteController::c
 Route::match(['get','post'],'inscriagent',[App\Http\Controllers\SiteController::class, 'InscriptionAgent']);
 
 Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
-	
+
 	Route::get('mypage',[App\Http\Controllers\SiteController::class, 'espaceAgent']);
 	Route::get('createdoss/{id}/{type}',[App\Http\Controllers\SiteController::class, 'Aff_CreateDossier']);
 	Route::post('AddDossier',[App\Http\Controllers\SiteController::class, 'Aff_CreateAddDossier']);
-	
+
 	Route::get('ParcoursDossier/{id}',[App\Http\Controllers\SiteController::class, 'Aff_ParcoursDossier']);
 	Route::match(['get','post'],'dossierAgent',[App\Http\Controllers\SiteController::class, 'CreateDossierAgent']);
 
@@ -77,7 +77,7 @@ Route::group(['middleware' => 'auth'],function(){
     //Trace
     Route::get('trace/exporterExcel',[App\Http\Controllers\SaveTraceController::class, 'exporterExcel']);
 	Route::get('trace/exporterPdf',[App\Http\Controllers\SaveTraceController::class, 'exporterPdf']);
-    
+
 		/*
 	|--------------------------------------------------------------------------
 	|   ECOLE
@@ -150,7 +150,10 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('emploitemp/exporterExcel',[App\Http\Controllers\EmploitempController::class, 'exporterExcel']);
 	Route::get('emploitemp/exporterPdf',[App\Http\Controllers\EmploitempController::class, 'exporterPdf']);
 
+
+
 	//add-route-cms
+
 
     Route::resources([
         'users'=>App\Http\Controllers\UserController::class,
