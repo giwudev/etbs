@@ -156,6 +156,15 @@ return [
 	'prof_id'=>'Professeur',
 	'init_id'=>'Initiateur',
 
+	/*
+	|--------------------------------------------------------------------------
+	|   FREQUENTER
+	|--------------------------------------------------------------------------
+	*/
+	'id_freq'=>'Identifiant',
+	'eleve_id'=>'Eleve',
+	'promotion_id'=>'Promotion',
+
 	//data-giwu-cms
 
 	

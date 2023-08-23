@@ -71,7 +71,7 @@
                                 <div class="mb-3">
                                     <label for="jour_semaine" class="form-label">{!! trans('data.jour_semaine') !!} <strong
                                             style='color: red;'> *</strong></label>
-                                    {!! Form::select('jour_semaine', $jours_semaine, $jours_semaine[$item->jour_semaine], [
+                                    {!! Form::select('jour_semaine', trans('entite.semaine'), $item->jour_semaine, [
                                         'id' => 'jour_semaine',
                                         'class' => 'form-select allselect',
                                         'required' => 'required',

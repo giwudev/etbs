@@ -2,7 +2,7 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Models;
 
@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class Eleve extends Model {
 
@@ -41,7 +43,8 @@ class Eleve extends Model {
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->where('nom_el','like','%'.strtoupper(trim($recherche).'%'));
+				$query->where(function ($query) Use ($recherche){
+					$query->where('nom_el','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('prenom_el','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('matricule_el','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('tuteur_el','like','%'.strtoupper(trim($recherche).'%'));
@@ -64,9 +67,9 @@ class Eleve extends Model {
 	}
 
 	public static function sltListEleve(){
-		$query = self::all()->pluck('nom_el','id_el');
-		return $query;
-	}
+    $query = self::where('ecole_id', session('etablis_idSess'))->get(['id_el', DB::raw("CONCAT(nom_el, ' ', prenom_el) AS full_name")])->pluck('full_name', 'id_el');
+    return $query;
+}
 
 }
 

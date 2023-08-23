@@ -25,7 +25,7 @@
                 <div class="live-preview"><strong>
                         <div class="msgAjouter"></div>
                     </strong>
-                    <form action="{{ route('anneesco.store') }}" method="post" id="form"
+                    <form action="{{ route('frequenter.store') }}" method="post" id="form"
                         class="row g-3 needs-validation" novalidate>
                         @csrf()
                         <div class="row">
@@ -41,77 +41,39 @@
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="annee_debut" class="form-label">{!! trans('data.annee_debut') !!} <strong
+                                    <label for="eleve_id" class="form-label">{!! trans('data.eleve_id') !!} <strong
                                             style='color: red;'> *</strong></label>
-                                    {!! Form::number('annee_debut', '', [
-                                        'id' => 'annee_debut',
-                                        'class' => 'form-control',
+                                    {!! Form::select('eleve_id', $listeleve_id, null, [
+                                        'id' => 'eleve_id',
+                                        'class' => 'form-select allselect',
                                         'required' => 'required',
-                                        'autocomplete' => 'off',
-                                        'placeholder' => 'Entrer Annee debut',
                                     ]) !!}
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="annee_fin" class="form-label">{!! trans('data.annee_fin') !!} <strong
-                                            style='color: red;'> *</strong></label>
-                                    {!! Form::number('annee_fin', '', [
-                                        'id' => 'annee_fin',
-                                        'class' => 'form-control',
-                                        'required' => 'required',
-                                        'autocomplete' => 'off',
-                                        'placeholder' => 'Entrer Annee fin',
-                                    ]) !!}
-                                </div>
-                            </div>
-                            <div class="col-md-6" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
-                                <div class="mb-3">
-                                    <label for="statut_annee" class="form-label">{!! trans('data.statut_annee') !!} <strong
-                                            style='color: red;'> *</strong></label>
-                                    {!! Form::select('statut_annee', trans('entite.statutanne'), null, [
-                                        'id' => 'statut_annee',
-                                        'class' => 'form-select allselect',
-                                        'required' => 'required',
-                                    ]) !!}
-                                </div>
-                            </div>
-                            <div class="col-md-6" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
-                                <div class="mb-3">
-
-                                    <label for="etablis_id" class="form-label">{!! trans('data.etablis_id') !!} <strong
+                                    <label for="promotion_id" class="form-label">{!! trans('data.promotion_id') !!} <strong
                                             style='color: red;'> *</strong></label>
                                     <?php $addUse = ['' => 'S&eacute;lectionnez un &eacute;l&eacute;ment'];
-                                    $listetablis_id = $addUse + $listetablis_id->toArray(); ?>
-                                    {!! Form::select('etablis_id', $listetablis_id, session('etablis_idSess'), [
-                                        'id' => 'etablis_id',
+                                    $listpromotion_id = $addUse + $listpromotion_id->toArray(); ?>
+                                    {!! Form::select('promotion_id', $listpromotion_id, session('promotion_idSess'), [
+                                        'id' => 'promotion_id',
                                         'class' => 'form-select allselect',
                                         'required' => 'required',
                                     ]) !!}
                                 </div>
                             </div>
-
-                            <div class="col-md-6 mt-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="reconduire_annee"
-                                        id="SwitchCheck1">
-                                    <label class="form-check-label" for="SwitchCheck1">Reconduire l'année précédente</label>
-                                </div>
-                            </div>
-
-
                             <div class="col-12">
                                 <div class="text-end">
-                                    <a href="{{ route('anneesco.index') }}"
+                                    <a href="{{ route('frequenter.index') }}"
                                         class="btn btn-outline-dark waves-effect mr-10">Fermer</a>
-                                    @if (in_array('add_anneesco', session('InfosAction')))
+                                    @if (in_array('add_frequenter', session('InfosAction')))
                                         <button type="submit" class="btn btn-primary btn-label right"><i
                                                 class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Ajouter</button>
                                     @endif
                                 </div>
                             </div>
-
-
                         </div><!--end row-->
                     </form>
                 </div>

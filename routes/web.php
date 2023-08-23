@@ -150,7 +150,14 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('emploitemp/exporterExcel',[App\Http\Controllers\EmploitempController::class, 'exporterExcel']);
 	Route::get('emploitemp/exporterPdf',[App\Http\Controllers\EmploitempController::class, 'exporterPdf']);
 
-
+		/*
+	|--------------------------------------------------------------------------
+	|   FREQUENTER
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('frequenter/AffichePopDelete/{id}',[App\Http\Controllers\FrequenterController::class, 'AffichePopDelete']);
+	Route::get('frequenter/exporterExcel',[App\Http\Controllers\FrequenterController::class, 'exporterExcel']);
+	Route::get('frequenter/exporterPdf',[App\Http\Controllers\FrequenterController::class, 'exporterPdf']);
 
 	//add-route-cms
 
@@ -169,6 +176,7 @@ Route::group(['middleware' => 'auth'],function(){
 		'discipline'=>App\Http\Controllers\DisciplineController::class,
 		'eleve'=>App\Http\Controllers\EleveController::class,
 		'emploitemp'=>App\Http\Controllers\EmploitempController::class,
+		'frequenter'=>App\Http\Controllers\FrequenterController::class,
 		//resources-giwu
     ]);
 });

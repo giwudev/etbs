@@ -31,13 +31,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // if(session('InfosRole')->id_role == 6){
-		// 	return redirect()->route('materiel.index');
-		// }
-
+        if(session('InfosRole')->id_role == 16){
+			$giwu['pathMenu'] = "";
+		}
         $giwu['pathMenu'] = GiwuService::PathMenu('/');
         //Espace admin
-        
         $giwu['image'] = GiwuService::PhotoProfilUtilisateur();
         return view('home')->with($giwu);
     }
