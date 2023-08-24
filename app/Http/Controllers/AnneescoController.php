@@ -64,68 +64,65 @@ class AnneescoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-    try {
-        $datas = $request->all();
-        unset($datas['_token']);
+		try {
+			$datas = $request->all();
+			unset($datas['_token']);
 
-       $ann = Anneesco::where('etablis_id', $datas['etablis_id'])->where('statut_annee', 'a')->count();
-        if ($ann != 0) {
-            return Redirect::back()->withInput()->with('error', 'Une année est déjà en cours, impossible d\'ajouter une autre.');
-        }
-          $derniereAnnee = Anneesco::where('etablis_id', $datas['etablis_id'])
-        ->orderBy('annee_fin', 'desc')
-        ->first();
-        $newAdd = new Anneesco();
-        $newAdd->annee_debut = $datas['annee_debut'];
-        $newAdd->annee_fin = $datas['annee_fin'];
-        $newAdd->statut_annee = $datas['statut_annee'];
-        $newAdd->init_id = Auth::id();
-        $newAdd->etablis_id = $datas['etablis_id'];
-        $newAdd->save();
+		$ann = Anneesco::where('etablis_id', $datas['etablis_id'])->where('statut_annee', 'a')->count();
+			if ($ann != 0) {
+				return Redirect::back()->withInput()->with('error', 'Une année est déjà en cours, impossible d\'ajouter une autre.');
+			}
+			$derniereAnnee = Anneesco::where('etablis_id', $datas['etablis_id'])
+									->orderBy('annee_fin', 'desc')
+									->first();
+			$newAdd = new Anneesco();
+			$newAdd->annee_debut = $datas['annee_debut'];
+			$newAdd->annee_fin = $datas['annee_fin'];
+			$newAdd->statut_annee = $datas['statut_annee'];
+			$newAdd->init_id = Auth::id();
+			$newAdd->etablis_id = $datas['etablis_id'];
+			$newAdd->save();
 
-    if (isset($datas['reconduire_annee']) && $datas['reconduire_annee'] === "on") {
-        if ($derniereAnnee) {
-        $classesAnneePrecedente = Classe::where('annee_id', $derniereAnnee->id_annee)->get();
-        foreach ($classesAnneePrecedente as $classe) {
-            $nouvelleClasse = new Classe();
-            $nouvelleClasse->libelle_clas = $classe->libelle_clas;
-            $nouvelleClasse->annee_id = $newAdd->id_annee;
-            $nouvelleClasse->init_id = Auth::id();
-            $nouvelleClasse->save();
-        }
-        $periodesAnneePrecedente = TrimSem::where('annee_id', $derniereAnnee->id_annee)->get();
-        foreach ($periodesAnneePrecedente as $periode) {
-            $nouvellePeriode = new TrimSem();
-            $nouvellePeriode->libelle_trimSem = $periode->libelle_trimSem;
-            $nouvellePeriode->statut_trimSem = $periode->statut_trimSem;
-            $nouvellePeriode->annee_id = $newAdd->id_annee;
-            $nouvellePeriode->init_id = Auth::id();
-            $nouvellePeriode->save();
-        }
-        $emploisAnneePrecedente = Emploitemp::where('annee_id', $derniereAnnee->id_annee)->get();
-        foreach ($emploisAnneePrecedente as $emploi) {
-            $nouvelEmploi = new Emploitemp();
-            $nouvelEmploi->heure_debut = $emploi->heure_debut;
-            $nouvelEmploi->heure_fin = $emploi->heure_fin;
-            $nouvelEmploi->jour_semaine = $emploi->jour_semaine;
-            $nouvelEmploi->discipline_id = $emploi->discipline_id;
-            $nouvelEmploi->promotion_id = $emploi->promotion_id;
-            $nouvelEmploi->annee_id = $newAdd->id_annee;
-            $nouvelEmploi->prof_id = $emploi->prof_id;
-            $nouvelEmploi->init_id = Auth::id();
-            $nouvelEmploi->save();
-        }
-    }
-}
-
-
-        GiwuSaveTrace::enregistre('Ajout du nouveau anneesco : ' . GiwuService::DetailInfosInitial($newAdd->toArray()));
-
-        return Redirect::back()->with('success', trans('data.infos_add'));
-    } catch (\Illuminate\Database\QueryException $e) {
-        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
-    }
-}
+			if (isset($datas['reconduire_annee']) && $datas['reconduire_annee'] === "on") {
+				if ($derniereAnnee) {
+				$classesAnneePrecedente = Classe::where('annee_id', $derniereAnnee->id_annee)->get();
+				foreach ($classesAnneePrecedente as $classe) {
+					$nouvelleClasse = new Classe();
+					$nouvelleClasse->libelle_clas = $classe->libelle_clas;
+					$nouvelleClasse->annee_id = $newAdd->id_annee;
+					$nouvelleClasse->init_id = Auth::id();
+					$nouvelleClasse->save();
+				}
+				$periodesAnneePrecedente = TrimSem::where('annee_id', $derniereAnnee->id_annee)->get();
+				foreach ($periodesAnneePrecedente as $periode) {
+					$nouvellePeriode = new TrimSem();
+					$nouvellePeriode->libelle_trimSem = $periode->libelle_trimSem;
+					$nouvellePeriode->statut_trimSem = $periode->statut_trimSem;
+					$nouvellePeriode->annee_id = $newAdd->id_annee;
+					$nouvellePeriode->init_id = Auth::id();
+					$nouvellePeriode->save();
+				}
+				$emploisAnneePrecedente = Emploitemp::where('annee_id', $derniereAnnee->id_annee)->get();
+				foreach ($emploisAnneePrecedente as $emploi) {
+					$nouvelEmploi = new Emploitemp();
+					$nouvelEmploi->heure_debut = $emploi->heure_debut;
+					$nouvelEmploi->heure_fin = $emploi->heure_fin;
+					$nouvelEmploi->jour_semaine = $emploi->jour_semaine;
+					$nouvelEmploi->discipline_id = $emploi->discipline_id;
+					$nouvelEmploi->promotion_id = $emploi->promotion_id;
+					$nouvelEmploi->annee_id = $newAdd->id_annee;
+					$nouvelEmploi->prof_id = $emploi->prof_id;
+					$nouvelEmploi->init_id = Auth::id();
+					$nouvelEmploi->save();
+				}
+			}
+		}
+			GiwuSaveTrace::enregistre('Ajout du nouveau anneesco : ' . GiwuService::DetailInfosInitial($newAdd->toArray()));
+			return Redirect::back()->with('success', trans('data.infos_add'));
+		} catch (\Illuminate\Database\QueryException $e) {
+			return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+		}
+	}
 	/**
 	 * Display the specified resource.
 	 *
