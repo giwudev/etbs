@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 22 août 2023 à 20:27
+-- Généré le : jeu. 24 août 2023 à 16:04
 -- Version du serveur : 5.7.26
 -- Version de PHP : 8.0.13
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `etbs_action_acces` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_action`),
   KEY `matierefp_action_acces_id_menu_foreign` (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=303 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=304 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_action_acces`
@@ -95,7 +95,8 @@ INSERT INTO `etbs_action_acces` (`id_action`, `id_menu`, `libelle_action`, `dev_
 (299, 200, 'Ajouter frequenter', 'add_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30'),
 (300, 200, 'Modifier frequenter', 'update_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30'),
 (301, 200, 'Supprimer frequenter', 'delete_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30'),
-(302, 200, 'Exporter frequenter', 'exporter_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30');
+(302, 200, 'Exporter frequenter', 'exporter_frequenter', '2023-08-22 19:56:30', '2023-08-22 19:56:30'),
+(303, 203, 'Exporter appeler', 'exporter_appeler', '2023-08-24 15:52:34', '2023-08-24 15:52:34');
 
 -- --------------------------------------------------------
 
@@ -116,18 +117,18 @@ CREATE TABLE IF NOT EXISTS `etbs_action_menu_acces` (
   KEY `emp_action_menu_acces_id_menu_foreign` (`id_menu`),
   KEY `emp_action_menu_acces_action_id_foreign` (`action_id`),
   KEY `emp_action_menu_acces_role_id_foreign` (`role_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1122 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1123 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_action_menu_acces`
 --
 
 INSERT INTO `etbs_action_menu_acces` (`id_actionmenu`, `id_menu`, `action_id`, `statut_action`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
-(2, 3, 2, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
-(3, 3, 3, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
-(4, 3, 4, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
-(5, 3, 5, 1, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(1, 3, 1, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(2, 3, 2, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(3, 3, 3, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(4, 3, 4, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(5, 3, 5, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
 (6, 4, 6, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
 (7, 4, 7, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
 (8, 4, 8, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
@@ -274,7 +275,8 @@ INSERT INTO `etbs_action_menu_acces` (`id_actionmenu`, `id_menu`, `action_id`, `
 (1118, 200, 299, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
 (1119, 200, 300, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
 (1120, 200, 301, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
-(1121, 200, 302, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22');
+(1121, 200, 302, 1, 15, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1122, 203, 303, 1, 1, '2023-08-24 14:54:33', '2023-08-24 14:54:33');
 
 -- --------------------------------------------------------
 
@@ -308,205 +310,23 @@ INSERT INTO `etbs_annee_sco` (`id_annee`, `annee_debut`, `annee_fin`, `statut_an
 -- --------------------------------------------------------
 
 --
--- Structure de la table `etbs_classe`
+-- Structure de la table `etbs_appeler`
 --
 
-DROP TABLE IF EXISTS `etbs_classe`;
-CREATE TABLE IF NOT EXISTS `etbs_classe` (
-  `id_clas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle_clas` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `annee_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_clas`),
-  KEY `etbs_classe_annee_id_foreign` (`annee_id`),
-  KEY `etbs_classe_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_classe`
---
-
-INSERT INTO `etbs_classe` (`id_clas`, `libelle_clas`, `annee_id`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, '6ième', 1, 1, '2023-06-10 13:06:42', '2023-06-10 13:06:42'),
-(2, '5ieme', 1, 1, '2023-06-10 13:06:51', '2023-06-10 13:07:58'),
-(3, '4ieme', 1, 1, '2023-06-10 13:06:59', '2023-06-10 13:06:59'),
-(4, '3ieme', 1, 1, '2023-06-10 13:07:04', '2023-06-10 13:07:04');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_discipline`
---
-
-DROP TABLE IF EXISTS `etbs_discipline`;
-CREATE TABLE IF NOT EXISTS `etbs_discipline` (
-  `id_disci` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `code_disci` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `libelle_disci` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `ecole_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_disci`),
-  KEY `etbs_discipline_init_id_foreign` (`init_id`),
-  KEY `etbs_discipline_ecole_id_foreign` (`ecole_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_discipline`
---
-
-INSERT INTO `etbs_discipline` (`id_disci`, `code_disci`, `libelle_disci`, `init_id`, `ecole_id`, `created_at`, `updated_at`) VALUES
-(1, 'MATHS', 'Mathématique', 1, 1, '2023-08-20 18:12:51', '2023-08-20 18:12:51'),
-(2, 'HIST-GEO', 'Histoire Géographie', 1, 1, '2023-08-20 18:13:52', '2023-08-20 18:14:22');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_ecole`
---
-
-DROP TABLE IF EXISTS `etbs_ecole`;
-CREATE TABLE IF NOT EXISTS `etbs_ecole` (
-  `id_eco` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nom_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sigle_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `adres_eco` text COLLATE utf8mb4_unicode_ci,
-  `ville_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CodePos_eco` text COLLATE utf8mb4_unicode_ci,
-  `pays_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tel_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `directeur_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `niveau_educ_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
+DROP TABLE IF EXISTS `etbs_appeler`;
+CREATE TABLE IF NOT EXISTS `etbs_appeler` (
+  `id_appel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emploi_id` bigint(20) UNSIGNED NOT NULL,
+  `eleve_id` bigint(20) NOT NULL,
+  `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
   `init_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_eco`),
-  KEY `etbs_ecole_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_ecole`
---
-
-INSERT INTO `etbs_ecole` (`id_eco`, `nom_eco`, `sigle_eco`, `adres_eco`, `ville_eco`, `CodePos_eco`, `pays_eco`, `tel_eco`, `email_eco`, `directeur_eco`, `niveau_educ_eco`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, 'Complexe Scolaire Félix Houphouet Boigny', 'C.S.F.H.B.', 'Zogbohoue', 'Cotonou', NULL, 'Bénin', '98000000', 'houphouetboigny@gmail.com', 'ASSOGBA Jean Benoit', 's', 1, '2023-06-09 13:11:59', '2023-06-09 13:11:59'),
-(2, 'Complexe Scolaire Cours du soutient', 'C.S.S.', 'Akpakpa', 'Cotonou', 'ZE90909', 'Bénin', '98999009', 'courssoutient@gmail.com', 'Père YAROU Jean', 's', 1, '2023-06-10 09:18:00', '2023-06-10 09:18:00');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_eleve`
---
-
-DROP TABLE IF EXISTS `etbs_eleve`;
-CREATE TABLE IF NOT EXISTS `etbs_eleve` (
-  `id_el` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nom_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prenom_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `matricule_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date_nais_el` date DEFAULT NULL,
-  `sexe_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo_el` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tuteur_el` text COLLATE utf8mb4_unicode_ci,
-  `email_el` text COLLATE utf8mb4_unicode_ci,
-  `tel_el` text COLLATE utf8mb4_unicode_ci,
-  `ecole_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_el`),
-  KEY `etbs_eleve_ecole_id_foreign` (`ecole_id`),
-  KEY `etbs_eleve_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_eleve`
---
-
-INSERT INTO `etbs_eleve` (`id_el`, `nom_el`, `prenom_el`, `matricule_el`, `date_nais_el`, `sexe_el`, `photo_el`, `tuteur_el`, `email_el`, `tel_el`, `ecole_id`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, 'ALLADAYE', 'Eric', '233232', '2000-08-08', 'F', 'phpEB1A.tmp.jpeg', 'TOHON Richard', 'richardtohon@gmail.com', '89898989', 1, 1, '2023-08-22 19:13:17', '2023-08-22 19:13:17');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_emploi_temp`
---
-
-DROP TABLE IF EXISTS `etbs_emploi_temp`;
-CREATE TABLE IF NOT EXISTS `etbs_emploi_temp` (
-  `id_empl` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `heure_debut` time NOT NULL,
-  `heure_fin` time NOT NULL,
-  `jour_semaine` bigint(20) NOT NULL,
-  `discipline_id` bigint(20) UNSIGNED NOT NULL,
-  `promotion_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `annee_id` bigint(20) UNSIGNED NOT NULL,
-  `prof_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_empl`),
-  KEY `etbs_emploi_temp_discipline_id_foreign` (`discipline_id`),
-  KEY `etbs_emploi_temp_promotion_id_foreign` (`promotion_id`),
-  KEY `etbs_emploi_temp_init_id_foreign` (`init_id`),
-  KEY `etbs_emploi_temp_annee_id_foreign` (`annee_id`),
-  KEY `etbs_emploi_temp_prof_id_foreign` (`prof_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_emploi_temp`
---
-
-INSERT INTO `etbs_emploi_temp` (`id_empl`, `heure_debut`, `heure_fin`, `jour_semaine`, `discipline_id`, `promotion_id`, `init_id`, `annee_id`, `prof_id`, `created_at`, `updated_at`) VALUES
-(1, '12:00:00', '13:00:00', 5, 1, 1, 1, 1, 20, '2023-08-22 13:17:37', '2023-08-22 13:18:50'),
-(2, '17:00:00', '20:00:00', 2, 2, 2, 1, 1, 20, '2023-08-22 18:23:01', '2023-08-22 18:23:01');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_failed_jobs`
---
-
-DROP TABLE IF EXISTS `etbs_failed_jobs`;
-CREATE TABLE IF NOT EXISTS `etbs_failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id_appel`),
+  KEY `etbs_appeler_emploi_id_foreign` (`emploi_id`),
+  KEY `etbs_appeler_eleve_id_foreign` (`eleve_id`),
+  KEY `etbs_appeler_init_id_foreign` (`init_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_frequenter`
---
-
-DROP TABLE IF EXISTS `etbs_frequenter`;
-CREATE TABLE IF NOT EXISTS `etbs_frequenter` (
-  `id_freq` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `eleve_id` bigint(20) UNSIGNED NOT NULL,
-  `promotion_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_freq`),
-  KEY `etbs_frequenter_eleve_id_foreign` (`eleve_id`),
-  KEY `etbs_frequenter_promotion_id_foreign` (`promotion_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_frequenter`
---
-
-INSERT INTO `etbs_frequenter` (`id_freq`, `eleve_id`, `promotion_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2023-08-22 19:15:08', '2023-08-22 19:15:08');
 
 -- --------------------------------------------------------
 
@@ -533,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `etbs_menu` (
   PRIMARY KEY (`id_menu`),
   KEY `matierefp_menu_topmenu_id_foreign` (`topmenu_id`),
   KEY `matierefp_menu_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=203 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=204 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_menu`
@@ -583,7 +403,8 @@ INSERT INTO `etbs_menu` (`id_menu`, `libelle_menu`, `titre_page`, `controler`, `
 (199, 'Faire un appel', 'Faire un appel', NULL, 'appel', 0, 1, 'ri-file-list-2-line', 3, NULL, '/appel', 'oui', '2023-08-22 18:39:07', '2023-08-22 18:39:19'),
 (200, 'Elèves par promotion', 'Elèves par promotion', 'FrequenterController', 'frequenter', 24, 1, 'ri-bill-line', 10, NULL, '/cons/frequenter', 'oui', '2023-08-22 19:56:30', '2023-08-22 19:05:25'),
 (201, 'Ajouter', 'Ajout de Frequenter', 'FrequenterController', 'frequenter/create', 200, 1, 'ri-bill-line', 1, NULL, '/cons/frequenter/create', 'non', '2023-08-22 19:56:30', '2023-08-22 19:02:03'),
-(202, 'Modifier', 'Modification de Frequenter', 'FrequenterController', 'frequenter/edit', 200, 1, 'ri-bill-line', 1, NULL, '/cons/frequenter/edit', 'non', '2023-08-22 19:56:30', '2023-08-22 19:01:56');
+(202, 'Modifier', 'Modification de Frequenter', 'FrequenterController', 'frequenter/edit', 200, 1, 'ri-bill-line', 1, NULL, '/cons/frequenter/edit', 'non', '2023-08-22 19:56:30', '2023-08-22 19:01:56'),
+(203, 'Présence', 'Présence', 'AppelerController', 'appeler', 199, 1, 'ri-bill-line', 1, NULL, '/appel/appeler', 'oui', '2023-08-24 15:52:34', '2023-08-24 14:53:33');
 
 -- --------------------------------------------------------
 
@@ -597,7 +418,7 @@ CREATE TABLE IF NOT EXISTS `etbs_migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=132 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_migrations`
@@ -613,7 +434,8 @@ INSERT INTO `etbs_migrations` (`id`, `migration`, `batch`) VALUES
 (127, '2023_06_01_158_CreerEtbsdisciplineTable', 5),
 (128, '2023_06_01_159_CreerEtbseleveTable', 6),
 (129, '2023_06_01_160_CreerEtbsemploitempTable', 7),
-(130, '2023_06_01_162_CreerEtbsfrequenterTable', 8);
+(130, '2023_06_01_162_CreerEtbsfrequenterTable', 8),
+(131, '2023_06_01_163_CreerEtbsappelerTable', 9);
 
 -- --------------------------------------------------------
 
@@ -651,33 +473,6 @@ CREATE TABLE IF NOT EXISTS `etbs_personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `etbs_promotion`
---
-
-DROP TABLE IF EXISTS `etbs_promotion`;
-CREATE TABLE IF NOT EXISTS `etbs_promotion` (
-  `id_pro` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle_pro` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `class_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_pro`),
-  KEY `etbs_promotion_class_id_foreign` (`class_id`),
-  KEY `etbs_promotion_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_promotion`
---
-
-INSERT INTO `etbs_promotion` (`id_pro`, `libelle_pro`, `class_id`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, '6ieme - A1', 1, 1, '2023-06-10 14:00:49', '2023-06-10 14:00:49'),
-(2, '5ieme - A1', 2, 1, '2023-06-10 15:43:42', '2023-06-10 15:43:42');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `etbs_role`
 --
 
@@ -697,7 +492,7 @@ CREATE TABLE IF NOT EXISTS `etbs_role` (
 --
 
 INSERT INTO `etbs_role` (`id_role`, `libelle_role`, `user_save_id`, `created_at`, `updated_at`) VALUES
-(1, 'Administrateur inputer', 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(1, 'Administrateur inputer', 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
 (15, 'Administrateur', 1, '2023-06-10 14:12:41', '2023-08-22 19:19:21'),
 (16, 'Professeur', 1, '2023-08-22 18:20:28', '2023-08-22 18:20:28');
 
@@ -718,7 +513,7 @@ CREATE TABLE IF NOT EXISTS `etbs_role_acces` (
   PRIMARY KEY (`id_roleacces`),
   KEY `matierefp_role_acces_role_id_foreign` (`role_id`),
   KEY `matierefp_role_acces_id_menu_foreign` (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=787 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=788 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_role_acces`
@@ -729,7 +524,7 @@ INSERT INTO `etbs_role_acces` (`role_id`, `id_menu`, `id_roleacces`, `statut_rol
 (1, 2, 2, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 5, 3, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 6, 4, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
-(1, 3, 5, 1, '2022-06-20 14:10:01', '2023-08-22 18:58:00'),
+(1, 3, 5, 0, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
 (1, 4, 6, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 7, 7, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 8, 8, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
@@ -852,7 +647,8 @@ INSERT INTO `etbs_role_acces` (`role_id`, `id_menu`, `id_roleacces`, `statut_rol
 (15, 199, 783, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
 (15, 200, 784, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
 (15, 201, 785, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
-(15, 202, 786, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22');
+(15, 202, 786, 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(1, 203, 787, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -870,7 +666,7 @@ CREATE TABLE IF NOT EXISTS `etbs_save_trace` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_trace`),
   KEY `matierefp_save_trace_id_user_foreign` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_save_trace`
@@ -960,101 +756,9 @@ INSERT INTO `etbs_save_trace` (`id_trace`, `libelle_trace`, `naviguateur`, `id_u
 (123, 'Modification du menu : Old infos ((libelle_menu=>Liste des élèves par promotion) <br/>(titre_page=>Liste des élèves par promotion) <br/>)  New infos ((libelle_menu=>Elèves par promotion) <br/>(titre_page=>Elèves par promotion) <br/>) ', ' ', 1, '2023-08-22 19:05:25', '2023-08-22 19:05:25'),
 (124, 'Ajout du nouveau eleve : (nom_el=>ALLADAYE) <br/>(prenom_el=>Eric) <br/>(matricule_el=>233232) <br/>(date_nais_el=>2000-08-08) <br/>(sexe_el=>F) <br/>(photo_el=>phpEB1A.tmp.jpeg) <br/>(tuteur_el=>TOHON Richard) <br/>(email_el=>richardtohon@gmail.com) <br/>(tel_el=>89898989) <br/>(ecole_id=>1) <br/>(init_id=>1) <br/>(created_at=>2023-08-22T20:13:17.000000Z) <br/>(id_el=>1) <br/>', ' ', 1, '2023-08-22 19:13:17', '2023-08-22 19:13:17'),
 (125, 'Ajout du nouveau frequenter : (eleve_id=>1) <br/>(promotion_id=>1) <br/>(created_at=>2023-08-22T20:15:08.000000Z) <br/>(id_freq=>1) <br/>', ' ', 1, '2023-08-22 19:15:08', '2023-08-22 19:15:08'),
-(126, 'Modification du rôle : Old infos ((id_role=>15) <br/>(user_save_id=>1) <br/>(created_at=>2023-06-10T15:12:41.000000Z) <br/>)  New infos ((_token=>IoIyllMUAcfCdbsJlB2na9BRv4v5u49YzyhOjuBc) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action265=>265) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>) ', ' ', 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_societe`
---
-
-DROP TABLE IF EXISTS `etbs_societe`;
-CREATE TABLE IF NOT EXISTS `etbs_societe` (
-  `id_societe` int(2) NOT NULL,
-  `nom_soc` varchar(255) DEFAULT NULL,
-  `contact_soc` varchar(50) DEFAULT NULL,
-  `mail_soc` varchar(100) DEFAULT NULL,
-  `adres_soc` longtext,
-  `logo_soc` varchar(255) DEFAULT NULL,
-  `pdf_aide` varchar(255) DEFAULT NULL,
-  `pied_page_soc` longtext,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `etbs_societe`
---
-
-INSERT INTO `etbs_societe` (`id_societe`, `nom_soc`, `contact_soc`, `mail_soc`, `adres_soc`, `logo_soc`, `pdf_aide`, `pied_page_soc`, `created_at`, `updated_at`) VALUES
-(1, 'GIWU-SOFT', '(229) 95 xx xx xx', 'giwudev@gmail.com', 'Cotonou - Bénin', 'Logo-2022-12-30-075100.jpeg', 'Aide-2022-11-22-025901.pdf', NULL, NULL, '2022-12-30 18:51:00');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_trim_sem`
---
-
-DROP TABLE IF EXISTS `etbs_trim_sem`;
-CREATE TABLE IF NOT EXISTS `etbs_trim_sem` (
-  `id_trimSem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle_trimSem` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `statut_trimSem` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `annee_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_trimSem`),
-  KEY `etbs_trim_sem_annee_id_foreign` (`annee_id`),
-  KEY `etbs_trim_sem_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_trim_sem`
---
-
-INSERT INTO `etbs_trim_sem` (`id_trimSem`, `libelle_trimSem`, `statut_trimSem`, `annee_id`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, '1er Trimestre', 'a', 1, 1, '2023-06-10 08:10:03', '2023-06-10 08:10:03'),
-(2, '2iem Trimestre', 'a', 1, 1, '2023-06-10 08:10:27', '2023-06-10 08:10:27'),
-(3, '3iem Trimestre', 'a', 1, 1, '2023-06-10 08:10:42', '2023-06-10 08:10:42');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `etbs_users`
---
-
-DROP TABLE IF EXISTS `etbs_users`;
-CREATE TABLE IF NOT EXISTS `etbs_users` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prenom` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tel_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `other_infos_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_ini` int(11) NOT NULL,
-  `id_role` int(11) NOT NULL,
-  `etablis_id` int(11) NOT NULL,
-  `image_profil` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `init_id` bigint(20) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `users_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `etbs_users`
---
-
-INSERT INTO `etbs_users` (`id`, `code`, `name`, `prenom`, `email`, `email_verified_at`, `password`, `remember_token`, `tel_user`, `other_infos_user`, `id_ini`, `id_role`, `etablis_id`, `image_profil`, `is_active`, `created_at`, `updated_at`, `init_id`) VALUES
-(1, 'a40d4493-c471-462e-80ed-2bcdd2365c09', 'GIWU', 'Richard123', 'richardtohon@gmail.com', NULL, '$2y$10$6QUE1GIJXGAd1NmEZtXAie/zMMih2hdA1RSKLhVJ6W8kjs04LU5AW', NULL, '956617', 'test', 1, 1, 1, 'php1627.tmp.png', 1, '2022-06-20 14:06:09', '2022-12-30 18:51:25', NULL),
-(20, '07ee93c8-139c-46a5-abb5-553f1e6a5c73', 'test', 'test', 'test@gmail.com', NULL, '$2y$10$pi5KqYRhJuK4C8Emx5xu9.tEveBprhww2KDYA6kg.cbCO7eGdssvS', NULL, 'test', NULL, 1, 15, 1, 'defaut.jpg', 1, '2023-06-10 14:13:09', '2023-06-10 14:13:09', NULL);
+(126, 'Modification du rôle : Old infos ((id_role=>15) <br/>(user_save_id=>1) <br/>(created_at=>2023-06-10T15:12:41.000000Z) <br/>)  New infos ((_token=>IoIyllMUAcfCdbsJlB2na9BRv4v5u49YzyhOjuBc) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action265=>265) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>) ', ' ', 1, '2023-08-22 19:19:22', '2023-08-22 19:19:22'),
+(127, 'Modification du menu : Old infos ((libelle_menu=>Appeler) <br/>(titre_page=>Appeler) <br/>)  New infos ((libelle_menu=>Présence) <br/>(titre_page=>Présence) <br/>) ', ' ', 1, '2023-08-24 14:53:34', '2023-08-24 14:53:34'),
+(128, 'Modification du rôle : Old infos ((id_role=>1) <br/>(user_save_id=>1) <br/>(created_at=>2022-06-20T15:10:01.000000Z) <br/>)  New infos ((_token=>694L5V7olp5NDte1svgr3lnwIguHyMqeCnZZJ7xG) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher4=>4) <br/>(action6=>6) <br/>(action7=>7) <br/>(action8=>8) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(action23=>23) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action263=>263) <br/>(action264=>264) <br/>(action265=>265) <br/>(action266=>266) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>(cocher203=>203) <br/>(action303=>303) <br/>) ', ' ', 1, '2023-08-24 14:54:33', '2023-08-24 14:54:33');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -165,6 +165,17 @@ return [
 	'eleve_id'=>'Eleve',
 	'promotion_id'=>'Promotion',
 
+	/*
+	|--------------------------------------------------------------------------
+	|   APPELER
+	|--------------------------------------------------------------------------
+	*/
+	'id_appel'=>'Identifiant',
+	'emploi_id'=>'Emploi',
+	'eleve_id'=>'Eleve',
+	'init_id'=>'Initiateur',
+	'etat_appel'=>'Presence',
+
 	//data-giwu-cms
 
 	

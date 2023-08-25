@@ -159,6 +159,14 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('frequenter/exporterExcel',[App\Http\Controllers\FrequenterController::class, 'exporterExcel']);
 	Route::get('frequenter/exporterPdf',[App\Http\Controllers\FrequenterController::class, 'exporterPdf']);
 
+		/*
+	|--------------------------------------------------------------------------
+	|   APPELER
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('appeler/exporterExcel',[App\Http\Controllers\AppelerController::class, 'exporterExcel']);
+	Route::get('appeler/exporterPdf',[App\Http\Controllers\AppelerController::class, 'exporterPdf']);
+
 	//add-route-cms
 
 
@@ -177,6 +185,7 @@ Route::group(['middleware' => 'auth'],function(){
 		'eleve'=>App\Http\Controllers\EleveController::class,
 		'emploitemp'=>App\Http\Controllers\EmploitempController::class,
 		'frequenter'=>App\Http\Controllers\FrequenterController::class,
+		'appeler'=>App\Http\Controllers\AppelerController::class,
 		//resources-giwu
     ]);
 });
