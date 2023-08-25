@@ -51,7 +51,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:none">
                                 <div class="mb-3">
                                     <label for="promotion_id" class="form-label">{!! trans('data.promotion_id') !!} <strong
                                             style='color: red;'> *</strong></label>
@@ -80,4 +80,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('JS_content')
+    <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
 @endsection

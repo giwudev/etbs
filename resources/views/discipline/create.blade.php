@@ -57,3 +57,7 @@
 		</div>
 	</div>
 @endsection
+
+@section('JS_content')
+    <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
+@endsection

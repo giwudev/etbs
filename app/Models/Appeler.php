@@ -44,15 +44,15 @@ class Appeler extends Model {
 		if(isset($recherche)){
             // $query->where(function ($query) Use ($recherche){
             //     $query->where('etat_appel','like','%'.strtoupper(trim($recherche).'%'));
-            // });			//Recherche avancee sur emploitemp
+            // });
+			//Recherche avancee sur emploitemp
             // $query->orWhereHas('emploitemp', function ($q) use ($recherche) {
 			// });
 			// //Recherche avancee sur eleve
-			// $query->orWhereHas('eleve', function ($q) use ($recherche) {
-			// 	$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-			// 	$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-			// });
-
+			$query->WhereHas('eleve', function ($q) use ($recherche) {
+				$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+				$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+			});
 		}
 		return $query;
 	}

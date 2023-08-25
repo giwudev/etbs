@@ -11,12 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Models\GiwuSaveTrace;
 use App\Providers\GiwuService;
-use App\Http\Controllers\EmploitempController;
 use Auth;
 use App\Models\Frequenter;
+use App\Models\Emploitemp;
 use App\Models\Eleve;
 use App\Models\Ecole;
 use App\Models\Promotion;
+use App\Models\Appeler;
 use App\Models\Anneesco;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FrequenterExportExcel;
@@ -66,33 +67,40 @@ class FrequenterController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-    try {
-        $datas = $request->all();
-        unset($datas['_token']);
-        $existingFrequenter = Frequenter::where('eleve_id', $datas['eleve_id'])->first();
+		try{
+			$datas = $request->all();
+			unset($datas['_token']);
 
-        if ($existingFrequenter) {
-            return Redirect::back()->withInput()->with('error', "Cet élève fréquente déjà une autre promotion.");
-        }
+			//Important d'ajouter l'année
+			$existingFrequenter = Frequenter::where('eleve_id', $datas['eleve_id'])->first();
 
-        $newAdd = new Frequenter();
-        $newAdd->eleve_id = $datas['eleve_id'];
-        $newAdd->promotion_id = $datas['promotion_id'];
-        $newAdd->save();
-        //Charger les emploi du tempe en fonction de la promotion choisie
-        $emploi = Emploitemp::where('promotion_id',$newAdd->promotion_id)->get();
-        foreach ($emploi as  $emp) {
-            # code...
-        }
-        GiwuSaveTrace::enregistre('Ajout du nouveau frequenter : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
+			if ($existingFrequenter) {
+				return Redirect::back()->withInput()->with('error', "Cet élève fréquente déjà une autre promotion.");
+			}
 
-        return Redirect::back()->with('success', trans('data.infos_add'));
-    } catch (\Illuminate\Database\QueryException $e) {
-        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
-    }
-}
-    public function ChargerAppelEmploi(){
-
+			$newAdd = new Frequenter();
+			$newAdd->eleve_id = $datas['eleve_id'];
+			$newAdd->promotion_id = $datas['promotion_id'];
+			$newAdd->save();
+			//Charger les emploi du temps en fonction de la promotion choisie
+			self::ChargerAppelEmploi($newAdd->promotion_id, $newAdd->eleve_id);
+			GiwuSaveTrace::enregistre('Ajout du nouveau frequenter : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
+			return Redirect::back()->with('success', trans('data.infos_add'));
+		} catch (\Illuminate\Database\QueryException $e) {
+			return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+		}
+	}
+    public function ChargerAppelEmploi($idPromo, $idEleve){
+		//Charger les emploi du temps en fonction de la promotion choisie
+		$emploi = Emploitemp::where('promotion_id',$idPromo)->get();
+		foreach ($emploi as $emp){
+			$appel = new Appeler();
+			$appel->emploi_id = $emp->id_empl;
+			$appel->eleve_id = $idEleve;
+			$appel->etat_appel = false;
+			$appel->init_id = Auth::id();
+			$appel->save();
+		}
     }
 
 	/**
@@ -137,10 +145,18 @@ class FrequenterController extends Controller {
 			unset($datas['_token']);
 
 			$newUpd=Frequenter::where('id_freq',$id)->first();
-
+            if ($datas['eleve_id'] != $newUpd->eleve_id){
+				$emploi = Emploitemp::where('promotion_id',$newUpd->promotion_id)->get();
+				foreach ($emploi as $emp){
+					Appeler::where('eleve_id', $newUpd->eleve_id)
+							->where('emploi_id', $emp->id_empl)->delete();
+				}
+            }
 			$newUpd->eleve_id = $datas['eleve_id'];
 			$newUpd->promotion_id = $datas['promotion_id'];
 			$newUpd->save();
+			//Charger les emploi du temps en fonction de la promotion choisie
+			self::ChargerAppelEmploi($newAdd->promotion_id, $newAdd->eleve_id);
 
 			GiwuSaveTrace::enregistre("Modification frequenter : ".GiwuService::DiffDetailModifier($dataInitiale,$newUpd->toArray()));
 			return redirect()->route('frequenter.index')->with('success',trans('data.infos_update'));
