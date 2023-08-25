@@ -2,7 +2,7 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Models;
 
@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use Carbon\Carbon;
+
 
 class Emploitemp extends Model {
 
@@ -76,26 +78,30 @@ class Emploitemp extends Model {
 				$q->where('statut_annee', 'like', '%'.strtoupper(trim($recherche).'%'));
 			});
 
-			//Recherche avancee sur users
-			$query->orWhereHas('users_g', function ($q) use ($recherche) {
-				$q->where('name', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
-
-			//Recherche avancee sur users
-			$query->orWhereHas('users_g', function ($q) use ($recherche) {
-				$q->where('name', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
 
 		}
 		return $query;
 	}
 
-	public static function sltListEmploitemp(){
-		$query = self::all()->pluck('heure_debut','id_empl');
-		return $query;
-	}
+
+
+
+  public static function sltListAppel(){
+    $etablis_idSession = session('etablis_idSess');
+    $query = self::with(['discipline', 'promotion', 'anneesco'])
+        ->whereHas('anneesco', function ($query) use ($etablis_idSession) { $query->where('etablis_id', $etablis_idSession);})->get()->map(function ($item) {
+            $jour_semaine = trans('entite.semaine')[$item->jour_semaine];
+            return $jour_semaine . ' ' .$item->heure_debut . '-' .$item->heure_fin . ' : ' .$item->discipline->code_disci . ' ' .$item->promotion->libelle_pro;});
+         return $query;
+    }
+
+
+
+    public static function sltListEmploitemp(){
+        $query = self::all()->pluck('heure_debut','id_empl');
+        return $query;
+    }
+
 
 }
 

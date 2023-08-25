@@ -2,7 +2,7 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Http\Controllers;
 
@@ -33,7 +33,7 @@ class AppelerController extends Controller {
 		$array = GiwuService::Path_Image_menu("/appel/appeler");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Appeler::getListAppel($req)->paginate(20);
-		$giwu['listemploi_id'] = Emploitemp::sltListEmploitemp();
+		$giwu['listemploi_id'] = Emploitemp::sltListAppel();
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listetablis_id'] = Ecole::sltListEcole();
 		if($req->ajax()) {
@@ -127,7 +127,7 @@ class AppelerController extends Controller {
 		return $pdf->stream('appeler-'.date('Ymdhis').'.pdf');
 	}
 
-	
+
 
 
 }

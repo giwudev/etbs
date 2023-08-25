@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Models\GiwuSaveTrace;
 use App\Providers\GiwuService;
+use App\Http\Controllers\EmploitempController;
 use Auth;
 use App\Models\Frequenter;
 use App\Models\Eleve;
@@ -78,7 +79,11 @@ class FrequenterController extends Controller {
         $newAdd->eleve_id = $datas['eleve_id'];
         $newAdd->promotion_id = $datas['promotion_id'];
         $newAdd->save();
-
+        //Charger les emploi du tempe en fonction de la promotion choisie
+        $emploi = Emploitemp::where('promotion_id',$newAdd->promotion_id)->get();
+        foreach ($emploi as  $emp) {
+            # code...
+        }
         GiwuSaveTrace::enregistre('Ajout du nouveau frequenter : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 
         return Redirect::back()->with('success', trans('data.infos_add'));
@@ -86,7 +91,9 @@ class FrequenterController extends Controller {
         return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
     }
 }
+    public function ChargerAppelEmploi(){
 
+    }
 
 	/**
 	 * Display the specified resource.

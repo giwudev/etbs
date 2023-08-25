@@ -2,7 +2,7 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Models;
 
@@ -27,8 +27,7 @@ class Appeler extends Model {
 
 	public static function getListAppel(Request $req){
 
-		$query = Appeler::with(['emploitemp','eleve','users_g'])->orderBy('created_at','desc');
-
+		$query = Appeler::with(['emploitemp','eleve','users_g']);
 		$emploi_idv = $req->get('emploi_id');
 		if(isset($emploi_idv)){
 			if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
@@ -43,22 +42,16 @@ class Appeler extends Model {
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->where('etat_appel','like','%'.strtoupper(trim($recherche).'%'));
-				});			//Recherche avancee sur emploitemp
-			$query->orWhereHas('emploitemp', function ($q) use ($recherche) {
-			});
-
-			//Recherche avancee sur eleve
-			$query->orWhereHas('eleve', function ($q) use ($recherche) {
-				$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
-
-			//Recherche avancee sur users
-			$query->orWhereHas('users_g', function ($q) use ($recherche) {
-				$q->where('name', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
+            // $query->where(function ($query) Use ($recherche){
+            //     $query->where('etat_appel','like','%'.strtoupper(trim($recherche).'%'));
+            // });			//Recherche avancee sur emploitemp
+            // $query->orWhereHas('emploitemp', function ($q) use ($recherche) {
+			// });
+			// //Recherche avancee sur eleve
+			// $query->orWhereHas('eleve', function ($q) use ($recherche) {
+			// 	$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+			// 	$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+			// });
 
 		}
 		return $query;
@@ -67,7 +60,9 @@ class Appeler extends Model {
 	public static function sltListAppeler(){
 		$query = self::all()->pluck('etat_appel','id_appel');
 		return $query;
+        // session('etablis_idSess')
 	}
+
 
 }
 

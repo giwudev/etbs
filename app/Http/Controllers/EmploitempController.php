@@ -17,8 +17,10 @@ use App\Models\Discipline;
 use App\Models\Promotion;
 use App\Models\Anneesco;
 use App\Models\User;
-use App\Models\Ecole;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Ecole;
+use App\Models\Frequenter;
+use App\Models\Appeler;
 use App\Exports\EmploitempExportExcel;
 use PDF;
 
@@ -134,6 +136,8 @@ class EmploitempController extends Controller {
         $newAdd->prof_id = $datas['prof_id'];
         $newAdd->init_id = Auth::id();
         $newAdd->save();
+        //Creation des lignes dans la table Appeler
+        self::ChargerAppel($newAdd->promotion_id,$newAdd->id_empl);
 
         GiwuSaveTrace::enregistre('Ajout du nouveau emploi de temps : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 
@@ -143,7 +147,18 @@ class EmploitempController extends Controller {
     }
 }
 
+    public function ChargerAppel($idPromo,$idEmploi){
 
+        $eleve = Frequenter::where('promotion_id', $idPromo)->get();
+        foreach ($eleve as $el){
+            $appel = new Appeler();
+            $appel->emploi_id = $idEmploi;
+            $appel->eleve_id = $el->eleve_id;
+            $appel->etat_appel = false;
+            $appel->init_id = Auth::id();
+            $appel->save();
+        }
+    }
 
 	/**
 	 * Display the specified resource.
@@ -209,7 +224,13 @@ public function edit($id) {
             if ($existingEmploiTemp) {
                 return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
             }
+            //Faire une vérification sur la promotion avant la suppression
             $newUpd = Emploitemp::where('id_empl', $id)->first();
+
+            if ($datas['promotion_id'] != $newUpd->promotion_id) {
+                //Applique la suppression
+                Appeler::where('emploi_id', $id)->delete();
+            }
             $newUpd->heure_debut 	= $datas['heure_debut'];
             $newUpd->heure_fin 		= $datas['heure_fin'];
             $newUpd->jour_semaine 	= $datas['jour_semaine'];
@@ -218,6 +239,7 @@ public function edit($id) {
             $newUpd->annee_id 		= $datas['annee_id'];
             $newUpd->prof_id 		= $datas['prof_id'];
             $newUpd->save();
+            self::ChargerAppel($newUpd->promotion_id,$id);
 
             GiwuSaveTrace::enregistre("Modification emploitemp : " . GiwuService::DiffDetailModifier($dataInitiale, $newUpd->toArray()));
             return redirect()->route('emploitemp.index')->with('success', trans('data.infos_update'));
