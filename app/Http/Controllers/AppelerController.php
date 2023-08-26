@@ -34,6 +34,7 @@ class AppelerController extends Controller {
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Appeler::getListAppel($req)->paginate(20);
 		$giwu['listemploi_id'] = Emploitemp::sltListAppel();
+		// dd($giwu['listemploi_id']);
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listetablis_id'] = Ecole::sltListEcole();
 		if($req->ajax()) {
@@ -101,6 +102,22 @@ class AppelerController extends Controller {
 	 */
 	public function destroy($id) {
 		//
+	}
+
+	public function ConfirmerPresence($id) {
+		//
+		$appel = Appeler::where('id_appel',$id)->first();
+		if($appel){
+			if($appel->etat_appel == true){ //EN ATTENTE DE CONFIRMATION
+				$appel->etat_appel = false;
+			}else{ //PRESENCE CONFIRMEE
+				$appel->etat_appel = true;
+			}
+            $appel->init_id = Auth::id();
+			$appel->save();
+			return response()->json(['response'=>'1','etat'=>$appel->etat_appel]);
+		}
+		return response()->json(['response'=>'0','etat'=>'']);
 	}
 
 	public function exporterExcel(Request $req) {

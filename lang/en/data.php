@@ -86,9 +86,9 @@ return [
 	|--------------------------------------------------------------------------
 	*/
 	'id_trimSem'=>'Identifiant',
-	'libelle_trimSem'=>'Libelle',
+	'libelle_trimSem'=>'Libellé',
 	'statut_trimSem'=>'Statut',
-	'annee_id'=>'Annee',
+	'annee_id'=>'Année',
 	'init_id'=>'Initiateur',
 
 	/*
@@ -98,7 +98,7 @@ return [
 	*/
 	'id_clas'=>'Identifiant',
 	'libelle_clas'=>'Classe',
-	'annee_id'=>'Annee',
+	'annee_id'=>'Année',
 	'init_id'=>'Initiateur',
 
 	/*
@@ -152,7 +152,7 @@ return [
 	'jour_semaine'=>'Jour semaine',
 	'discipline_id'=>'Discipline',
 	'promotion_id'=>'Promotion',
-	'annee_id'=>'Annee',
+	'annee_id'=>'Année',
 	'prof_id'=>'Professeur',
 	'init_id'=>'Initiateur',
 

@@ -156,7 +156,7 @@ class FrequenterController extends Controller {
 			$newUpd->promotion_id = $datas['promotion_id'];
 			$newUpd->save();
 			//Charger les emploi du temps en fonction de la promotion choisie
-			self::ChargerAppelEmploi($newAdd->promotion_id, $newAdd->eleve_id);
+			self::ChargerAppelEmploi($newUpd->promotion_id, $newUpd->eleve_id);
 
 			GiwuSaveTrace::enregistre("Modification frequenter : ".GiwuService::DiffDetailModifier($dataInitiale,$newUpd->toArray()));
 			return redirect()->route('frequenter.index')->with('success',trans('data.infos_update'));

@@ -85,13 +85,16 @@ class Emploitemp extends Model {
 
 
 
-
   public static function sltListAppel(){
     $etablis_idSession = session('etablis_idSess');
     $query = self::with(['discipline', 'promotion', 'anneesco'])
-        ->whereHas('anneesco', function ($query) use ($etablis_idSession) { $query->where('etablis_id', $etablis_idSession);})->get()->map(function ($item) {
+        ->whereHas('anneesco', function ($query) use ($etablis_idSession) { $query->where('etablis_id', $etablis_idSession);})->get()
+		->map(function ($item) {
             $jour_semaine = trans('entite.semaine')[$item->jour_semaine];
-            return $jour_semaine . ' ' .$item->heure_debut . '-' .$item->heure_fin . ' : ' .$item->discipline->code_disci . ' ' .$item->promotion->libelle_pro;});
+			$address['id_empl']         = $item->id_empl;
+    		$address['vale'] = $jour_semaine . ' ' .$item->heure_debut . '-' .$item->heure_fin . ' : ' .$item->discipline->code_disci . ' ' .$item->promotion->libelle_pro;
+            return $address;
+		})->pluck('vale','id_empl');
          return $query;
     }
 

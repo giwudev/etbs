@@ -31,7 +31,7 @@
 									{!! Form::select('eleve_id',$listeleve_id ,$item->eleve_id,["id"=>"eleve_id","class"=>"form-select allselect" ,"required"=>"required"]) !!}
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6" style="display:none">
 								<div class="mb-3">
 									<label for="promotion_id" class="form-label">{!!trans('data.promotion_id')!!} <strong style='color: red;'> *</strong></label>
 									<?php $addUse = array(''=>'S&eacute;lectionnez un &eacute;l&eacute;ment'); $listpromotion_id = $addUse + $listpromotion_id->toArray();?>

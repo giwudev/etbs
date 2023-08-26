@@ -144,6 +144,30 @@
                 },
             });
         };
+        
+		$(document).on('click', '.btn-confirmer', function () {
+			id = $(this).data("id");
+            
+			let url_ = '{{url("appeler/confirmer")}}/'+id;
+			$.ajax({
+				url : url_,
+				type : 'GET', dataType : 'json',
+				success : function(code_html, statut){
+					if(code_html.response == '1'){ // Ok
+						if(code_html.etat == true){
+							$('#dochoix'+id).removeClass('btn-danger');
+							$('#dochoix'+id).addClass('btn-secondary');
+							$('#dochoix'+id).html('Présent');
+						}else if(code_html.etat == false){
+							$('#dochoix'+id).removeClass('btn-secondary');
+							$('#dochoix'+id).addClass('btn-danger');
+							$('#dochoix'+id).html('Absent');
+						}
+                        // alert(code_html.etat);
+					}
+				}
+			});
+		});
     </script>
 
 @endsection
