@@ -9,6 +9,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Promotion;
+
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -70,6 +72,9 @@ class Eleve extends Model {
     $query = self::where('ecole_id', session('etablis_idSess'))->get(['id_el', DB::raw("CONCAT(nom_el, ' ', prenom_el) AS full_name")])->pluck('full_name', 'id_el');
     return $query;
 }
+
+
+
 
 }
 

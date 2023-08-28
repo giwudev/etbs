@@ -70,7 +70,6 @@ class EmploitempController extends Controller {
 		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
 		$giwu['listprof_id'] = User::sltListUser();
 		$giwu['listinit_id'] = User::sltListUser();
-
         return view('emploitemp.create')->with($giwu);
 	}
 
@@ -127,8 +126,8 @@ class EmploitempController extends Controller {
         }
 
         $newAdd = new Emploitemp();
-        $newAdd->heure_debut = $datas['heure_debut'];
-        $newAdd->heure_fin = $datas['heure_fin'];
+        $newAdd->heure_debut = substr($datas['heure_debut'], 0, 5);
+        $newAdd->heure_fin = substr($datas['heure_fin'], 0, 5);
         $newAdd->jour_semaine = $datas['jour_semaine'];
         $newAdd->discipline_id = $datas['discipline_id'];
         $newAdd->promotion_id = $datas['promotion_id'];
@@ -177,26 +176,26 @@ class EmploitempController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-public function edit($id) {
-    $array = GiwuService::Path_Image_menu("/param/emploitemp/edit");
-    if ($array['titre'] == "") {
-        return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
-    } else {
-        foreach ($array as $name => $data) {
-            $giwu[$name] = $data;
+    public function edit($id) {
+        $array = GiwuService::Path_Image_menu("/param/emploitemp/edit");
+        if ($array['titre'] == "") {
+            return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
+        } else {
+            foreach ($array as $name => $data) {
+                $giwu[$name] = $data;
+            }
         }
-    }
 
-    $giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
-    $giwu['listpromotion_id'] = Promotion::sltListPromotion();
-    $giwu['listannee_id'] = Anneesco::sltListAnneesco();
-    $giwu['listprof_id'] = User::sltListUser();
-    $giwu['listinit_id'] = User::sltListUser();
+        $giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
+        $giwu['listpromotion_id'] = Promotion::sltListPromotion();
+        $giwu['listannee_id'] = Anneesco::sltListAnneesco();
+        $giwu['listprof_id'] = User::sltListUser();
+        $giwu['listinit_id'] = User::sltListUser();
 
-    // Fetch the item being edited
-    $giwu['item'] = Emploitemp::where('id_empl', $id)->first();
+        // Fetch the item being edited
+        $giwu['item'] = Emploitemp::where('id_empl', $id)->first();
 
-    return view('emploitemp.edit')->with($giwu);
+        return view('emploitemp.edit')->with($giwu);
 }
 
 

@@ -14,7 +14,7 @@ class CreerEtbsemploitempTable extends Migration {
 
 	public function up() {
 
-		Schema::create('etbs_emploi_temp', function (Blueprint $table) { 
+		Schema::create('etbs_emploi_temp', function (Blueprint $table) {
 
 			$table->bigIncrements('id_empl')->unsigned();
 			$table->time('heure_debut');

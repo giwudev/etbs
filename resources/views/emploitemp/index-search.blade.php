@@ -3,7 +3,7 @@
     <table class="table table-striped table-bordered table-nowrap">
         <thead>
             <tr>
-                <th scope="col">{!! trans('data.heure_debut').' - '.trans('data.heure_fin') !!}</th>
+                <th scope="col">{!! trans('data.heure_debut') . ' - ' . trans('data.heure_fin') !!}</th>
                 <!-- <th scope="col">{!! trans('data.heure_fin') !!}</th> -->
                 <th scope="col" class="text-center">{!! trans('data.jour_semaine') !!}</th>
                 <th scope="col" class="text-center">{!! trans('data.discipline_id') !!}</th>
@@ -19,15 +19,21 @@
         <tbody>
             @foreach ($list as $listgiwu)
                 <tr>
-                    <td>{!! $listgiwu->heure_debut.' - '.$listgiwu->heure_fin !!}</td>
+                    <td>{!! substr($listgiwu->heure_debut, 0, 5) . ' - ' . substr($listgiwu->heure_fin, 0, 5) !!}</td>
                     <!-- <td>{!! $listgiwu->heure_fin !!}</td> -->
                     <td style='text-align:right'>
                         {{ trans('entite.semaine')[$listgiwu->jour_semaine] }}</td>
                     <td>{!! isset($listgiwu->discipline) ? $listgiwu->discipline->code_disci : trans('data.not_found') !!}</td>
                     <td>{!! isset($listgiwu->promotion) ? $listgiwu->promotion->libelle_pro : trans('data.not_found') !!}</td>
-                    <td>{!! isset($listgiwu->anneesco) ? $listgiwu->anneesco->annee_debut.' '.$listgiwu->anneesco->annee_fin : trans('data.not_found') !!}</td>
-                    <td>{!! isset($listgiwu->users_g)? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom: trans('data.not_found') !!}</td>
-                    <!-- <td>{!! isset($listgiwu->users_g)? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom: trans('data.not_found') !!}</td> -->
+                    <td>{!! isset($listgiwu->anneesco)
+                        ? $listgiwu->anneesco->annee_debut . ' ' . $listgiwu->anneesco->annee_fin
+                        : trans('data.not_found') !!}</td>
+                    <td>{!! isset($listgiwu->users_g)
+                        ? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom
+                        : trans('data.not_found') !!}</td>
+                    <!-- <td>{!! isset($listgiwu->users_g)
+                        ? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom
+                        : trans('data.not_found') !!}</td> -->
                     @if (in_array('update_emploitemp', session('InfosAction')) || in_array('delete_emploitemp', session('InfosAction')))
                         <td class="text-center">
                             @if (in_array('update_emploitemp', session('InfosAction')))

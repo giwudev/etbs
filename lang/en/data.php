@@ -16,7 +16,7 @@ return [
     'id_ini'=>'Initiateur',
     'is_active'=>'Etat du compte',
     'entite_id'=>'Entité',
-    
+
     /*
     |--------------------------------------------------------------------------
     |   MENU
@@ -49,7 +49,7 @@ return [
     'libelle_trace'=>'Trace',
     'created_at'=>'Date opération',
 
-	
+
 	/*
 	|--------------------------------------------------------------------------
 	|   ECOLE
@@ -162,7 +162,7 @@ return [
 	|--------------------------------------------------------------------------
 	*/
 	'id_freq'=>'Identifiant',
-	'eleve_id'=>'Eleve',
+	'eleve_id'=>'Elève',
 	'promotion_id'=>'Promotion',
 
 	/*
@@ -172,18 +172,18 @@ return [
 	*/
 	'id_appel'=>'Identifiant',
 	'emploi_id'=>'Emploi',
-	'eleve_id'=>'Eleve',
+	'eleve_id'=>'Elève',
 	'init_id'=>'Initiateur',
-	'etat_appel'=>'Presence',
+	'etat_appel'=>'Présence',
 
 	//data-giwu-cms
 
-	
+
     'not_found_direc' => '--',
     'not_found' => 'Non trouvé',
     'img_defaut' => 'defaut.jpg',
 
-    // Message 
+    // Message
     'MsgCheckPage' => 'Vous n\'êtes pas autorisé <br/>à accéder à cette page.',
     'AucunInfosTrouve' => '&nbsp;Aucun enregistrement trouvé.',
     'titre_delete' => 'Suppression',
@@ -201,7 +201,7 @@ return [
     'MsgCheckApp' => 'Votre compte est désactivité. Veuillez contactez l\'administrateur.',
 
     //CSS
-    //#212529 : Noire 
+    //#212529 : Noire
     'colorTemplate' => '#113ac3',
     'bar_page_stylePdf' => ' <style>
         .footer {width: 100%; font-size:10px; text-align: center;position: fixed;}

@@ -64,5 +64,30 @@ class Appeler extends Model {
 	}
 
 
+        public static function getListAppelPDF(Request $req){
+            $query = Appeler::with(['emploitemp', 'eleve', 'users_g']);
+            $emploi_idv = $req->get('emploi_id');
+            if(isset($emploi_idv)){
+                if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
+                    Session()->put('emploi_idSess', intval($emploi_idv));
+                }
+                $query->where('emploi_id', $req->get('emploi_id'));
+            } else {
+                $query->where('emploi_id', session('emploi_idSess'));
+            }
+
+            $recherche = $req->get('query');
+            if(isset($recherche)){
+                $query->WhereHas('eleve', function ($q) use ($recherche) {
+                    $q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+                    $q->orWhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+                });
+            }
+
+            return $query;
+        }
+
+
+
 }
 

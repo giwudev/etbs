@@ -138,11 +138,21 @@ class AppelerController extends Controller {
 		return Excel::download(new AppelerExportExcel, 'AppelerExportExcel_'.date('Y-m-d-h-i-s').'.xls');
 	}
 
-	public function exporterPdf(Request $req) {
-		$Resultat = Appeler::getListAppel($req)->get();
-		$pdf = PDF::loadView('appeler.pdf',['list' => $Resultat])->setPaper('a4','landscape');
-		return $pdf->stream('appeler-'.date('Ymdhis').'.pdf');
-	}
+    public function exporterPdf(Request $req) {
+        $Resultat = Appeler::getListAppelPDF($req)->get();
+        $firstRecord = $Resultat->first();
+        if ($firstRecord) {
+            $date = $firstRecord->created_at->format('d/m/Y');
+            $heure =  $firstRecord->emploitemp->discipline->code_disci. ' ' .$firstRecord->emploitemp->promotion->libelle_pro . ' ' . substr($firstRecord->emploitemp->heure_debut,0,5) . ' à ' .substr( $firstRecord->emploitemp->heure_fin,0,5);
+            $title = $date . ' | ' . $heure;
+        }
+        $pdf = PDF::loadView('appeler.pdf', ['list' => $Resultat, 'title' => $title])->setPaper('a4', 'landscape');
+
+        return $pdf->stream('appeler-'. date('Ymdhis') . '.pdf');
+
+
+
+     }
 
 
 
