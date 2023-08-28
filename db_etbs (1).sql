@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 26 août 2023 à 07:36
+-- Généré le : lun. 28 août 2023 à 13:24
 -- Version du serveur : 5.7.26
 -- Version de PHP : 8.0.13
 
@@ -320,6 +320,7 @@ CREATE TABLE IF NOT EXISTS `etbs_appeler` (
   `emploi_id` bigint(20) UNSIGNED NOT NULL,
   `eleve_id` bigint(20) NOT NULL,
   `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
+  `date_presence` date DEFAULT NULL,
   `init_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -333,10 +334,10 @@ CREATE TABLE IF NOT EXISTS `etbs_appeler` (
 -- Déchargement des données de la table `etbs_appeler`
 --
 
-INSERT INTO `etbs_appeler` (`id_appel`, `emploi_id`, `eleve_id`, `etat_appel`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 1, 1, '2023-08-26 04:57:56', '2023-08-26 06:11:43'),
-(2, 2, 3, 1, 1, '2023-08-26 04:58:19', '2023-08-26 06:11:23'),
-(3, 1, 1, 0, 1, '2023-08-26 05:28:14', '2023-08-26 06:11:37');
+INSERT INTO `etbs_appeler` (`id_appel`, `emploi_id`, `eleve_id`, `etat_appel`, `date_presence`, `init_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 1, NULL, 1, '2023-08-26 04:57:56', '2023-08-26 06:11:43'),
+(2, 2, 3, 1, NULL, 1, '2023-08-26 04:58:19', '2023-08-26 06:11:23'),
+(3, 1, 1, 0, NULL, 1, '2023-08-26 05:28:14', '2023-08-26 06:11:37');
 
 -- --------------------------------------------------------
 
@@ -1051,6 +1052,8 @@ CREATE TABLE IF NOT EXISTS `etbs_trim_sem` (
   `id_trimSem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `libelle_trimSem` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `statut_trimSem` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_debut` date DEFAULT NULL,
+  `date_fin` date DEFAULT NULL,
   `annee_id` bigint(20) UNSIGNED NOT NULL,
   `init_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1064,10 +1067,10 @@ CREATE TABLE IF NOT EXISTS `etbs_trim_sem` (
 -- Déchargement des données de la table `etbs_trim_sem`
 --
 
-INSERT INTO `etbs_trim_sem` (`id_trimSem`, `libelle_trimSem`, `statut_trimSem`, `annee_id`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, '1er Trimestre', 'a', 1, 1, '2023-06-10 08:10:03', '2023-06-10 08:10:03'),
-(2, '2iem Trimestre', 'a', 1, 1, '2023-06-10 08:10:27', '2023-06-10 08:10:27'),
-(3, '3iem Trimestre', 'a', 1, 1, '2023-06-10 08:10:42', '2023-06-10 08:10:42');
+INSERT INTO `etbs_trim_sem` (`id_trimSem`, `libelle_trimSem`, `statut_trimSem`, `date_debut`, `date_fin`, `annee_id`, `init_id`, `created_at`, `updated_at`) VALUES
+(1, '1er Trimestre', 'a', NULL, NULL, 1, 1, '2023-06-10 08:10:03', '2023-06-10 08:10:03'),
+(2, '2iem Trimestre', 'a', NULL, NULL, 1, 1, '2023-06-10 08:10:27', '2023-06-10 08:10:27'),
+(3, '3iem Trimestre', 'a', NULL, NULL, 1, 1, '2023-06-10 08:10:42', '2023-06-10 08:10:42');
 
 -- --------------------------------------------------------
 
