@@ -116,7 +116,7 @@ class FrequenterController extends Controller {
 		//
 		$array = GiwuService::Path_Image_menu("/cons/frequenter/edit");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
-		$giwu['listeleve_id'] = Eleve::sltListEleve();
+		$giwu['listeleve_id'] = Eleve::getElevesAvecPromotion();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
 		$giwu['item'] = Frequenter::where('id_freq',$id)->first();
 		return view('frequenter.edit')->with($giwu);
