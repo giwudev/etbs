@@ -17,6 +17,7 @@ use App\Models\Frequenter;
 use App\Models\Eleve;
 use App\Models\Ecole;
 use App\Models\Promotion;
+use App\Models\Emploitemps;
 use App\Models\Anneesco;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FrequenterExportExcel;

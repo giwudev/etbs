@@ -75,7 +75,5 @@ class Eleve extends Model {
 
 
 
-
-
 }
 
