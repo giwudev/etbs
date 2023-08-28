@@ -2,13 +2,14 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Auth;
 
 class Trimsem extends Model {
@@ -17,6 +18,7 @@ class Trimsem extends Model {
 	protected $primaryKey = 'id_trimSem';
 	protected $guarded = array('*');
 	public $timestamps = true;
+    protected $dates = ['date_debut', 'date_fin'];
 
 
 	public function anneesco(){return $this->belongsTo('App\Models\Anneesco','annee_id','id_annee');}

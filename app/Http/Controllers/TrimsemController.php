@@ -2,7 +2,7 @@
 
 	/**
 	* Giwu Services (E-mail: giwudev@gmail.com)
-	* Code Generer by Giwu 
+	* Code Generer by Giwu
 	*/
 namespace App\Http\Controllers;
 
@@ -66,17 +66,23 @@ class TrimsemController extends Controller {
 	public function store(Request $request) {
 		//
 		try {
+
 			$datas = $request->all();
 			unset($datas['_token']);
+            if ($datas['date_debut'] >= $datas['date_fin']) {return Redirect::back()->withInput()->with('error', "La date de début doit être inférieure à la date  de fin.");}
+            $anneeScolaire = Anneesco::find($datas['annee_id']);
+            if ($datas['date_debut'] < $anneeScolaire->annee_debut || $datas['date_fin'] > $anneeScolaire->annee_fin) {return Redirect::back()->withInput()->with('error', "Les dates doivent être incluses dans l'année scolaire en cours.");}
 			$newAdd = new Trimsem();
 			$newAdd->libelle_trimSem = $datas['libelle_trimSem'];
 			$newAdd->statut_trimSem = $datas['statut_trimSem'];
 			$newAdd->annee_id = $datas['annee_id'];
+            $newAdd->date_debut = $datas['date_debut'];
+            $newAdd->date_fin = $datas['date_fin'];
 			$newAdd->init_id = Auth::id();
-			$newAdd->save(); 
+			$newAdd->save();
 
 			GiwuSaveTrace::enregistre('Ajout du nouveau trimsem : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
-			
+
 			return Redirect::back()->with('success',trans('data.infos_add'));
 		} catch (\Illuminate\Database\QueryException $e) {
 			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());
@@ -125,12 +131,15 @@ class TrimsemController extends Controller {
 			$dataInitiale = Trimsem::where('id_trimSem',$id)->first()->toArray();
 			$datas = $request->all();
 			unset($datas['_token']);
-
+             if ($datas['date_debut'] >= $datas['date_fin']) {return Redirect::back()->withInput()->with('error', "La date de début doit être inférieure à la date  de fin.");}
+            $anneeScolaire = Anneesco::find($datas['annee_id']);
+            if ($datas['date_debut'] < $anneeScolaire->annee_debut || $datas['date_fin'] > $anneeScolaire->annee_fin) {return Redirect::back()->withInput()->with('error', "Les dates doivent être incluses dans l'année scolaire en cours.");}
 			$newUpd=Trimsem::where('id_trimSem',$id)->first();
-
 			$newUpd->libelle_trimSem = $datas['libelle_trimSem'];
 			$newUpd->statut_trimSem = $datas['statut_trimSem'];
 			$newUpd->annee_id = $datas['annee_id'];
+            $newUpd->date_debut = $datas['date_debut'];
+            $newUpd->date_fin = $datas['date_fin'];
 			$newUpd->save();
 
 			GiwuSaveTrace::enregistre("Modification trimsem : ".GiwuService::DiffDetailModifier($dataInitiale,$newUpd->toArray()));
@@ -190,7 +199,7 @@ class TrimsemController extends Controller {
 		return $pdf->stream('trimsem-'.date('Ymdhis').'.pdf');
 	}
 
-	
+
 
 
 }
