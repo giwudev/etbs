@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <!--end col-->
-                    <div class="col-xxl-6 col-md-4">
+                    <div class="col-xxl-3 col-md-4">
                         <div><label for="labelInput" class="form-label">Liste vos programmes</label>
                             <?php $addUse = ['' => 'Selectionnez un element'];
                             $listemploi_id = $addUse + $listemploi_id->toArray(); ?>
@@ -58,6 +58,16 @@
                             ]) !!}
                         </div>
                     </div>
+                    <div class="col-xxl-3 col-md-2">
+                        <div>
+                            <label for="date_presence" class="form-label">Date de présence</label>
+                            <input type="date" id="date_presence" name="date_presence" class="form-control"
+                                value="{{ date('Y-m-d') }}">
+
+                        </div>
+                    </div>
+
+
                     <!--end Recherche par defaut col-->
                     <div class="col-xxl-3 col-md-2">
                         <div><label for="placeholderInput" class="form-label">Rechercher </label>
@@ -125,7 +135,6 @@
         //Fonction sur la recherche
         function funcRecher() {
             var filtreData = $("#formSearch").serialize();
-            console.log(filtreData);
             $(".exporterXls").attr('href', '{{ url('appeler/exporterExcel') }}?' + filtreData);
             $(".exporterPdf").attr('href', '{{ url('appeler/exporterPdf') }}?' + filtreData);
             $("div#dataRefresh").html('<h3 class="col-xs-12 text-center kt-subheader__title" style="padding-top: 3em;">' +
@@ -144,30 +153,31 @@
                 },
             });
         };
-        
-		$(document).on('click', '.btn-confirmer', function () {
-			id = $(this).data("id");
-            
-			let url_ = '{{url("appeler/confirmer")}}/'+id;
-			$.ajax({
-				url : url_,
-				type : 'GET', dataType : 'json',
-				success : function(code_html, statut){
-					if(code_html.response == '1'){ // Ok
-						if(code_html.etat == true){
-							$('#dochoix'+id).removeClass('btn-danger');
-							$('#dochoix'+id).addClass('btn-secondary');
-							$('#dochoix'+id).html('Présent');
-						}else if(code_html.etat == false){
-							$('#dochoix'+id).removeClass('btn-secondary');
-							$('#dochoix'+id).addClass('btn-danger');
-							$('#dochoix'+id).html('Absent');
-						}
+
+        $(document).on('click', '.btn-confirmer', function() {
+            id = $(this).data("id");
+
+            let url_ = '{{ url('appeler/confirmer') }}/' + id;
+            $.ajax({
+                url: url_,
+                type: 'GET',
+                dataType: 'json',
+                success: function(code_html, statut) {
+                    if (code_html.response == '1') { // Ok
+                        if (code_html.etat == true) {
+                            $('#dochoix' + id).removeClass('btn-danger');
+                            $('#dochoix' + id).addClass('btn-secondary');
+                            $('#dochoix' + id).html('Présent');
+                        } else if (code_html.etat == false) {
+                            $('#dochoix' + id).removeClass('btn-secondary');
+                            $('#dochoix' + id).addClass('btn-danger');
+                            $('#dochoix' + id).html('Absent');
+                        }
                         // alert(code_html.etat);
-					}
-				}
-			});
-		});
+                    }
+                }
+            });
+        });
     </script>
 
 @endsection

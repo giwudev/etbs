@@ -14,11 +14,14 @@ use App\Providers\GiwuService;
 use Auth;
 use App\Models\Trimsem;
 use App\Models\Anneesco;
+use App\Models\Appeler;
+use App\Models\Frequenter;
 use App\Models\User;
 use App\Models\Ecole;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TrimsemExportExcel;
 use PDF;
+use Carbon\Carbon;
 
 
 class TrimsemController extends Controller {
@@ -63,32 +66,72 @@ class TrimsemController extends Controller {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request) {
-		//
-		try {
 
-			$datas = $request->all();
-			unset($datas['_token']);
-            if ($datas['date_debut'] >= $datas['date_fin']) {return Redirect::back()->withInput()->with('error', "La date de début doit être inférieure à la date  de fin.");}
-            $anneeScolaire = Anneesco::find($datas['annee_id']);
-            if ($datas['date_debut'] < $anneeScolaire->annee_debut || $datas['date_fin'] > $anneeScolaire->annee_fin) {return Redirect::back()->withInput()->with('error', "Les dates doivent être incluses dans l'année scolaire en cours.");}
-			$newAdd = new Trimsem();
-			$newAdd->libelle_trimSem = $datas['libelle_trimSem'];
-			$newAdd->statut_trimSem = $datas['statut_trimSem'];
-			$newAdd->annee_id = $datas['annee_id'];
-            $newAdd->date_debut = $datas['date_debut'];
-            $newAdd->date_fin = $datas['date_fin'];
-			$newAdd->init_id = Auth::id();
-			$newAdd->save();
 
-			GiwuSaveTrace::enregistre('Ajout du nouveau trimsem : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
+  public function store(Request $request) {
+    try {
+        $datas = $request->all();
+        unset($datas['_token']);
 
-			return Redirect::back()->with('success',trans('data.infos_add'));
-		} catch (\Illuminate\Database\QueryException $e) {
-			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());
-		}
+        if ($datas['date_debut'] >= $datas['date_fin']) {
+            return Redirect::back()->withInput()->with('error', "La date de début doit être inférieure à la date de fin.");
+        }
 
-	}
+        $anneeScolaire = Anneesco::find($datas['annee_id']);
+        if ($datas['date_debut'] < $anneeScolaire->annee_debut || $datas['date_fin'] > $anneeScolaire->annee_fin) {
+            return Redirect::back()->withInput()->with('error', "Les dates doivent être incluses dans l'année scolaire en cours.");
+        }
+
+        $newAdd = new Trimsem();
+        $newAdd->libelle_trimSem = $datas['libelle_trimSem'];
+        $newAdd->statut_trimSem = $datas['statut_trimSem'];
+        $newAdd->annee_id = $datas['annee_id'];
+        $newAdd->date_debut = $datas['date_debut'];
+        $newAdd->date_fin = $datas['date_fin'];
+        $newAdd->init_id = Auth::id();
+
+        $dateDebut = Carbon::parse($datas['date_debut']);
+        $dateFin = Carbon::parse($datas['date_fin']);
+        $nombreJours = 0;
+        $currentDate = $dateDebut->copy();
+        $datesArray = [];
+        while ($currentDate->lte($dateFin)) {
+            if (!$currentDate->isSaturday() && !$currentDate->isSunday()) {
+                $nombreJours++;
+                $datesArray[] = $currentDate->toDateString();
+            }
+            $currentDate->addDay();
+        }
+        $eleves = Frequenter::select('eleve_id')->get();
+        $appel= [];
+        foreach ($eleves as $eleve) {
+            for ($i = 0; $i < $nombreJours; ) {
+                if (!$dateDebut->isSaturday() && !$dateDebut->isSunday()) {
+                    $newAppel = new Appeler();
+                    $newAppel->eleve_id = $eleve->eleve_id;
+                    $newAppel->init_id = Auth::id();
+                    $newAppel->date_presence = $datesArray[$i];
+                    $newAppel->save();
+                    $i++;
+                   // array_push($appel,$newAppel);
+                }
+                $dateDebut->addDay();
+               // dd($appel) ;
+            }
+
+        }
+        $newAdd->save();
+
+
+
+        GiwuSaveTrace::enregistre('Ajout du nouveau trimsem : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
+        return Redirect::back()->with('success', trans('data.infos_add'));
+    } catch (\Illuminate\Database\QueryException $e) {
+        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+    }
+}
+
+
 
 	/**
 	 * Display the specified resource.
@@ -98,7 +141,6 @@ class TrimsemController extends Controller {
 	 */
 	public function show($id) {
 		//
-
 	}
 
 	/**
@@ -108,7 +150,7 @@ class TrimsemController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		//
+
 		$array = GiwuService::Path_Image_menu("/param/trimsem/edit");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
@@ -131,7 +173,7 @@ class TrimsemController extends Controller {
 			$dataInitiale = Trimsem::where('id_trimSem',$id)->first()->toArray();
 			$datas = $request->all();
 			unset($datas['_token']);
-             if ($datas['date_debut'] >= $datas['date_fin']) {return Redirect::back()->withInput()->with('error', "La date de début doit être inférieure à la date  de fin.");}
+            if ($datas['date_debut'] >= $datas['date_fin']) {return Redirect::back()->withInput()->with('error', "La date de début doit être inférieure à la date  de fin.");}
             $anneeScolaire = Anneesco::find($datas['annee_id']);
             if ($datas['date_debut'] < $anneeScolaire->annee_debut || $datas['date_fin'] > $anneeScolaire->annee_fin) {return Redirect::back()->withInput()->with('error', "Les dates doivent être incluses dans l'année scolaire en cours.");}
 			$newUpd=Trimsem::where('id_trimSem',$id)->first();
@@ -198,9 +240,5 @@ class TrimsemController extends Controller {
 		$pdf = PDF::loadView('trimsem.pdf',['list' => $Resultat])->setPaper('a4','landscape');
 		return $pdf->stream('trimsem-'.date('Ymdhis').'.pdf');
 	}
-
-
-
-
 }
 

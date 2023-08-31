@@ -1,8 +1,9 @@
 @extends('layouts.general')
-
-@section('content') 
-
-    @if(session('InfosRole')->id_role == 16)
+@php
+    Carbon\Carbon::setLocale('fr');
+@endphp
+@section('content')
+    @if (session('InfosRole')->id_role == 16)
         <div class="col-xxl-12">
             <div class="row">
                 <div class="col-xl-4">
@@ -10,8 +11,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="avatar-sm flex-shrink-0">
-                                    <span
-                                        class="avatar-title bg-soft-primary text-primary rounded-2 fs-2">
+                                    <span class="avatar-title bg-soft-primary text-primary rounded-2 fs-2">
                                         <i data-feather="briefcase" class="text-primary"></i>
                                     </span>
                                 </div>
@@ -37,8 +37,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="avatar-sm flex-shrink-0">
-                                    <span
-                                        class="avatar-title bg-soft-warning text-warning rounded-2 fs-2">
+                                    <span class="avatar-title bg-soft-warning text-warning rounded-2 fs-2">
                                         <i data-feather="award" class="text-warning"></i>
                                     </span>
                                 </div>
@@ -87,86 +86,60 @@
             </div><!-- end row -->
         </div><!-- end col -->
     @endif
-    @if(session('InfosRole')->id_role != 16)
+    @if (session('InfosRole')->id_role != 16)
         <div class="col-xxl-12">
             <div class="card">
                 <div class="card-header border-0">
-                    <h4 class="card-title mb-0">Votre emploi du temps</h4>
+                    <h4 class="">Salut <b><?= auth()->user()->name . ' ' . auth()->user()->prenom ?> </b> </h4>
+                </div>
+            </div><!-- end card -->
+        </div><!-- end col -->
+        <div class="col-xxl-12">
+            <div class="card">
+                <div class="card-header border-0">
+                    <h4 class="card-title mb-0">Votre emploi du temps : </h4>
                 </div><!-- end cardheader -->
                 <div class="card-body pt-0">
                     <div class="upcoming-scheduled">
-                        <input type="text" class="form-control" data-provider="flatpickr"
-                            data-date-format="d M, Y" data-deafult-date="today" data-inline-date="true">
+                        <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y"
+                            data-deafult-date="today" data-inline-date="true">
                     </div>
-                    <h6 class="text-uppercase fw-semibold mt-4 mb-3 text-muted">Jours:</h6>
-                    <div class="mini-stats-wid d-flex align-items-center mt-3">
-                        <div class="flex-shrink-0 avatar-sm">
-                            <span
-                                class="mini-stat-icon avatar-title rounded-circle text-success bg-soft-success fs-4">
-                                1
-                            </span>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-1">Development planning</h6>
-                            <p class="text-muted mb-0">iTest Factory </p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <p class="text-muted mb-0">9:20 <span class="text-uppercase">am</span></p>
-                        </div>
-                    </div><!-- end -->
-                    <div class="mini-stats-wid d-flex align-items-center mt-3">
-                        <div class="flex-shrink-0 avatar-sm">
-                            <span
-                                class="mini-stat-icon avatar-title rounded-circle text-success bg-soft-success fs-4">
-                                12
-                            </span>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-1">Design new UI and check sales</h6>
-                            <p class="text-muted mb-0">Meta4Systems</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <p class="text-muted mb-0">11:30 <span class="text-uppercase">am</span></p>
-                        </div>
-                    </div><!-- end -->
-                    <div class="mini-stats-wid d-flex align-items-center mt-3">
-                        <div class="flex-shrink-0 avatar-sm">
-                            <span
-                                class="mini-stat-icon avatar-title rounded-circle text-success bg-soft-success fs-4">
-                                25
-                            </span>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-1">Weekly catch-up </h6>
-                            <p class="text-muted mb-0">Nesta Technologies</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <p class="text-muted mb-0">02:00 <span class="text-uppercase">pm</span></p>
-                        </div>
-                    </div><!-- end -->
-                    <div class="mini-stats-wid d-flex align-items-center mt-3">
-                        <div class="flex-shrink-0 avatar-sm">
-                            <span
-                                class="mini-stat-icon avatar-title rounded-circle text-success bg-soft-success fs-4">
-                                27
-                            </span>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-1">James Bangs (Client) Meeting</h6>
-                            <p class="text-muted mb-0">Nesta Technologies</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <p class="text-muted mb-0">03:45 <span class="text-uppercase">pm</span></p>
-                        </div>
-                    </div><!-- end -->
+                    @forelse ($emploiDuTemps as $item)
+                        <?php
+                        $dayOfWeek = $item->jour_semaine;
+                        $currentDate = now();
+                        $nextDate = $currentDate->copy()->addDays(($dayOfWeek - $currentDate->dayOfWeek + 7) % 7);
+                        $formattedDate = trans('entite.semaine')[$nextDate->dayOfWeek] . ' ' . $nextDate->format('d') . ' ' . trans('entite.mois')[$nextDate->month] . ' ' . $nextDate->format('Y');
+                        ?>
+                        <h6 class="text-uppercase fw-semibold mt-4 mb-3 text-muted">{{ $formattedDate }}</h6>
+                        <div class="mini-stats-wid d-flex align-items-center mt-3">
+                            <div class="flex-shrink-0 avatar-sm">
+                                <span class="mini-stat-icon avatar-title rounded-circle text-success bg-soft-success fs-4">
+                                    {{ $loop->iteration }}
+                                </span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">{{ $item->discipline->code_disci }}</h6>
+                                <p class="text-muted mb-0">{{ $item->promotion->libelle_pro }}</p>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <p class="text-muted mb-0">
+                                    {{ substr($item->heure_debut, 0, 5) . ' - ' . substr($item->heure_fin, 0, 5) }}<span
+                                        class="text-uppercase"></span></p>
+                            </div>
+                        </div><!-- end -->
+                    @empty
+                        <p class="d-flex justify-content-center text-primary">Aucun programme disponible pour le moment.</p>
+                    @endforelse
+
 
                     <div class="mt-3 text-center">
-                        <a href="javascript:void(0);" class="text-muted text-decoration-underline">View
-                            all Events</a>
+                        {{-- <a href="javascript:void(0);" class="text-muted text-decoration-underline">Voir tous mes
+                            Programmes</a> --}}
                     </div>
 
                 </div><!-- end cardbody -->
             </div><!-- end card -->
-        </div><!-- end col -->
+        </div>
     @endif
 @endsection

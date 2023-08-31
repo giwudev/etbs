@@ -14,7 +14,7 @@ class CreerEtbsappelerTable extends Migration {
 
 	public function up() {
 
-		Schema::create('etbs_appeler', function (Blueprint $table) { 
+		Schema::create('etbs_appeler', function (Blueprint $table) {
 
 			$table->bigIncrements('id_appel')->unsigned();
 			$table->bigInteger('emploi_id')->unsigned();

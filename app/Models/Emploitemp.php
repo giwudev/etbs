@@ -92,7 +92,7 @@ class Emploitemp extends Model {
 		->map(function ($item) {
             $jour_semaine = trans('entite.semaine')[$item->jour_semaine];
 			$address['id_empl']         = $item->id_empl;
-    		$address['vale'] = $jour_semaine . ' ' .$item->heure_debut . '-' .$item->heure_fin . ' : ' .$item->discipline->code_disci . ' ' .$item->promotion->libelle_pro;
+    		$address['vale'] = $jour_semaine . ' ' .substr($item->heure_debut,0,5 ). '-' .substr($item->heure_fin,0,5 ) . ' : ' .$item->discipline->code_disci . ' ' .$item->promotion->libelle_pro;
             return $address;
 		})->pluck('vale','id_empl');
          return $query;

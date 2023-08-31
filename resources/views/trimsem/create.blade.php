@@ -27,7 +27,7 @@
                     </strong>
                     <form action="{{ route('trimsem.store') }}" method="post" id="form"
                         class="row g-3 needs-validation" novalidate>
-                        @csrf()
+                                {!! csrf_field() !!}
                         <div class="row">
                             @if (session()->has('success') || session()->has('error'))
                                 <div class="col-md-12 mt-2">
