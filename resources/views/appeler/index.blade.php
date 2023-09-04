@@ -39,45 +39,32 @@
                         <div><label for="labelInput" class="form-label">Liste des écoles</label>
                             <?php $addUse = ['-1' => 'Sélectionnez un élément'];
                             $listetablis_id = $addUse + $listetablis_id->toArray(); ?>
-                            {!! Form::select('etablis_id', $listetablis_id, session('etablis_idSess'), [
-                                'id' => 'etablis_id',
-                                'onchange' => 'refreshEcole()',
-                                'class' => 'form-select allselect',
-                            ]) !!}
+                            {!! Form::select('etablis_id', $listetablis_id, session('etablis_idSess'), ['id' => 'etablis_id',
+                                'onchange' => 'refreshEcole()','class' => 'form-select allselect']) !!}
                         </div>
                     </div>
                     <!--end col-->
                     <div class="col-xxl-3 col-md-4">
                         <div><label for="labelInput" class="form-label">Liste vos programmes</label>
-                            <?php $addUse = ['' => 'Selectionnez un element'];
+                            <?php $addUse = ['' => 'Sélectionnez un élément'];
                             $listemploi_id = $addUse + $listemploi_id->toArray(); ?>
-                            {!! Form::select('emploi_id', $listemploi_id, session('emploi_idSess'), [
-                                'id' => 'emploi_id',
-                                'onchange' => 'funcRecher()',
-                                'class' => 'form-select allselect',
-                            ]) !!}
+                            {!! Form::select('emploi_id', $listemploi_id, session('emploi_idSess'), ['id' => 'emploi_id','onchange' => 'funcRecher()','class' => 'form-select allselect']) !!}
                         </div>
                     </div>
                     <div class="col-xxl-3 col-md-2">
                         <div>
                             <label for="date_presence" class="form-label">Date de présence</label>
-                            <input type="date" id="date_presence" name="date_presence" class="form-control"
-                                value="{{ date('Y-m-d') }}">
-
+                            <input type="date" id="date_presence" onchange='funcRecher()' name="date_presence" class="form-control"
+                                value="{{session('date_presenceSess')}}">
                         </div>
                     </div>
-
-
                     <!--end Recherche par defaut col-->
                     <div class="col-xxl-3 col-md-2">
                         <div><label for="placeholderInput" class="form-label">Rechercher </label>
                             {!! Form::text('query', '', [
-                                'id' => 'SearchUSer',
-                                'class' => 'form-control search ',
-                                'onkeyup' => 'funcRecher()',
-                                'autocomplete' => 'off',
-                                'placeholder' => 'Rechercher...',
-                            ]) !!}
+                                'id' => 'SearchUSer','class' => 'form-control search ',
+                                'onkeyup' => 'funcRecher()','autocomplete' => 'off',
+                                'placeholder' => 'Rechercher...']) !!}
                         </div>
                     </div>
                 </div>
@@ -157,7 +144,7 @@
         $(document).on('click', '.btn-confirmer', function() {
             id = $(this).data("id");
 
-            let url_ = '{{ url('appeler/confirmer') }}/' + id;
+            let url_ = "{{ url('appeler/confirmer') }}/" + id;
             $.ajax({
                 url: url_,
                 type: 'GET',

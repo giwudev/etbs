@@ -136,7 +136,7 @@ class EmploitempController extends Controller {
         $newAdd->init_id = Auth::id();
         $newAdd->save();
         //Creation des lignes dans la table Appeler
-        self::ChargerAppel($newAdd->promotion_id,$newAdd->id_empl);
+        // self::ChargerAppel($newAdd->promotion_id,$newAdd->id_empl);
 
         GiwuSaveTrace::enregistre('Ajout du nouveau emploi de temps : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 
@@ -148,15 +148,15 @@ class EmploitempController extends Controller {
 
     public function ChargerAppel($idPromo,$idEmploi){
 
-        $eleve = Frequenter::where('promotion_id', $idPromo)->get();
-        foreach ($eleve as $el){
-            $appel = new Appeler();
-            $appel->emploi_id = $idEmploi;
-            $appel->eleve_id = $el->eleve_id;
-            $appel->etat_appel = false;
-            $appel->init_id = Auth::id();
-            $appel->save();
-        }
+        // $eleve = Frequenter::where('promotion_id', $idPromo)->get();
+        // foreach ($eleve as $el){
+        //     $appel = new Appeler();
+        //     $appel->emploi_id = $idEmploi;
+        //     $appel->eleve_id = $el->eleve_id;
+        //     $appel->etat_appel = false;
+        //     $appel->init_id = Auth::id();
+        //     $appel->save();
+        // }
     }
 
 	/**
@@ -238,7 +238,7 @@ class EmploitempController extends Controller {
             $newUpd->annee_id 		= $datas['annee_id'];
             $newUpd->prof_id 		= $datas['prof_id'];
             $newUpd->save();
-            self::ChargerAppel($newUpd->promotion_id,$id);
+            // self::ChargerAppel($newUpd->promotion_id,$id);
 
             GiwuSaveTrace::enregistre("Modification emploitemp : " . GiwuService::DiffDetailModifier($dataInitiale, $newUpd->toArray()));
             return redirect()->route('emploitemp.index')->with('success', trans('data.infos_update'));

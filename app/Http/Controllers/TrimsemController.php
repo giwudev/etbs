@@ -89,41 +89,43 @@ class TrimsemController extends Controller {
         $newAdd->date_debut = $datas['date_debut'];
         $newAdd->date_fin = $datas['date_fin'];
         $newAdd->init_id = Auth::id();
+		$newAdd->save();
 
-        $dateDebut = Carbon::parse($datas['date_debut']);
-        $dateFin = Carbon::parse($datas['date_fin']);
-        $nombreJours = 0;
-        $currentDate = $dateDebut->copy();
-        $datesArray = [];
-        while ($currentDate->lte($dateFin)) {
-            if (!$currentDate->isSaturday() && !$currentDate->isSunday()) {
-                $nombreJours++;
-                $datesArray[] = $currentDate->toDateString();
-            }
-            $currentDate->addDay();
-        }
-        $eleves = Frequenter::select('eleve_id')->get();
-        $appel= [];
-        foreach ($eleves as $eleve) {
-            for ($i = 0; $i < $nombreJours; ) {
-                if (!$dateDebut->isSaturday() && !$dateDebut->isSunday()) {
-                    $newAppel = new Appeler();
-                    $newAppel->eleve_id = $eleve->eleve_id;
-                    $newAppel->init_id = Auth::id();
-                    $newAppel->date_presence = $datesArray[$i];
-                    $newAppel->save();
-                    $i++;
-                   // array_push($appel,$newAppel);
-                }
-                $dateDebut->addDay();
-               // dd($appel) ;
-            }
+        // $dateDebut = Carbon::parse($datas['date_debut']);
+        // $dateFin = Carbon::parse($datas['date_fin']);
+        // $nombreJours = 0;
+        // $currentDate = $dateDebut->copy();
+        // $datesArray = [];
+        // while ($currentDate->lte($dateFin)) {
+        //     if (!$currentDate->isSaturday() && !$currentDate->isSunday()) {
+        //         $nombreJours++;
+        //         $datesArray[] = $currentDate->toDateString();
+        //     }
+        //     $currentDate->addDay();
+        // }
+		// dd($nombreJours,$datesArray);
 
-        }
-        $newAdd->save();
-
-
-
+        // $eleves = Frequenter::with(['eleve','promotion','promotion.classe','promotion.classe.anneesco'])
+		// 						->select('eleve_id')->get();
+		// $CheckAppli = $CheckAppli->WhereHas('partappli', function ($q){
+		// 	$q->where('etat_appli','a');
+		// })->first();
+        // $appel= [];
+        // foreach ($eleves as $eleve) {
+        //     for ($i = 0; $i < $nombreJours; ) {
+        //         if (!$dateDebut->isSaturday() && !$dateDebut->isSunday()) {
+        //             $newAppel = new Appeler();
+        //             $newAppel->eleve_id = $eleve->eleve_id;
+        //             $newAppel->init_id = Auth::id();
+        //             $newAppel->date_presence = $datesArray[$i];
+        //             $newAppel->save();
+        //             $i++;
+        //            // array_push($appel,$newAppel);
+        //         }
+        //         $dateDebut->addDay();
+        //        // dd($appel) ;
+        //     }
+        // }
         GiwuSaveTrace::enregistre('Ajout du nouveau trimsem : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
         return Redirect::back()->with('success', trans('data.infos_add'));
     } catch (\Illuminate\Database\QueryException $e) {

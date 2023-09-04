@@ -175,6 +175,7 @@ return [
 	'eleve_id'=>'Elève',
 	'init_id'=>'Initiateur',
 	'etat_appel'=>'Présence',
+	// 'etat_appel'=>'Présence',
 
 	//data-giwu-cms
 

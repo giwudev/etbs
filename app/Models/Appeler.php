@@ -9,6 +9,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Emploitemp;
+use App\Models\Frequenter;
 use Auth;
 
 class Appeler extends Model {
@@ -27,32 +29,61 @@ class Appeler extends Model {
 
 	public static function getListAppel(Request $req){
 
-		$query = Appeler::with(['emploitemp','eleve','users_g']);
+
+		// $query = Appeler::with(['emploitemp','eleve','users_g']);
+
 		$emploi_idv = $req->get('emploi_id');
 		if(isset($emploi_idv)){
 			if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
 				Session()->put('emploi_idSess', intval($emploi_idv));
 			}
-			$query->where('emploi_id',$req->get('emploi_id'));
-		}else{
-			// User::whereId(Auth::id())->first()->id); -- Peux etre ajouter si cest la table user
-			//Session()->put('emploi_idSess', '')
-			$query->where('emploi_id',session('emploi_idSess'));
 		}
+
+		$date_presence = $req->get('date_presence');
+		if(isset($date_presence)){
+			Session()->put('date_presenceSess', $date_presence);
+		}else{
+			Session()->put('date_presenceSess', date('Y-m-d'));
+		}
+		//Récuperer la promotion suivant l'emploi du temps choisi 
+		$promotion = Emploitemp::where('id_empl',session('emploi_idSess'))->first();
+		$idPromo = '';
+		if($promotion){
+			$idPromo = $promotion->promotion_id;
+		}
+		$query = Frequenter::with(['eleve'])
+							->where('promotion_id',$idPromo);
+							// ->orderBy('nom_el','desc');
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-            // $query->where(function ($query) Use ($recherche){
-            //     $query->where('etat_appel','like','%'.strtoupper(trim($recherche).'%'));
-            // });
-			//Recherche avancee sur emploitemp
-            // $query->orWhereHas('emploitemp', function ($q) use ($recherche) {
-			// });
 			// //Recherche avancee sur eleve
-			$query->WhereHas('eleve', function ($q) use ($recherche) {
+			$query->orWhereHas('eleve', function ($q) use ($recherche) {
 				$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
 				$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
 			});
+		}
+		return $query;
+	}
+
+	public static function CheckElevePresence($eleve){
+		//Vérifier si la ligne existe dans Appeler
+
+		$query = Appeler::with(['emploitemp','eleve'])
+						->where('emploi_id', session('etablis_idSess'))
+						->where('eleve_id', $eleve)
+						->where('date_presence', session('date_presenceSess'))->first();
+		if(!$query){ //Si la ligne n'existe pas créer
+			$appel = new Appeler();
+			$appel->emploi_id = session('etablis_idSess');
+			$appel->eleve_id = $eleve;
+			$appel->etat_appel = false;
+			$appel->date_presence = session('date_presenceSess');
+			$appel->init_id = Auth::id();
+			$appel->save();
+
+			$query = Appeler::with(['emploitemp','eleve'])
+							->where('id_appel', $appel->id_appel)->first();
 		}
 		return $query;
 	}
