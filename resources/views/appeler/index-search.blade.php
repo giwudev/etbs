@@ -5,13 +5,15 @@
             <tr>
                 <!-- <th scope="col" class="text-center">{!! trans('data.emploi_id') !!}</th> -->
                 <th scope="col" class="text-center">{!! trans('data.eleve_id') !!}</th>
-                <!-- <th scope="col">{!! trans('data.etat_appel') !!}</th> -->
+                <th scope="col" class="text-center">{!! trans('data.justifier') !!}</th>
+                <th scope="col">{!! trans('data.motif_just') !!}</th>
+                <th scope="col">{!! trans('data.fichier_justif') !!}</th>
+                <th scope="col" class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($list as $listgiwu)
                 <tr>
-                    <!-- <td>{!! isset($listgiwu->emploitemp) ? $listgiwu->emploitemp->heure_debut : trans('data.not_found') !!}</td> -->
                     <?php $appel = \App\Models\Appeler::CheckElevePresence($listgiwu->eleve_id); ?>
                     <td>
                         <button id="dochoix{{$appel->id_appel}}" type="button" data-id="{{$appel->id_appel}}" 
@@ -19,6 +21,12 @@
                                 {{$appel->etat_appel==true ? 'Présent' : 'Absent' }}
                         </button>
                         {!! isset($appel->eleve) ? $appel->eleve->nom_el.' '.$appel->eleve->prenom_el : trans('data.not_found') !!}
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-center">
+                        <button type="button" title='Actions' data-id="{{$appel->id_appel}}" class="btn btn-sm btn-danger waves-effect waves-light btn-action"  data-toggle="modal">Motif</button>
                     </td>
                 </tr>
             @endforeach

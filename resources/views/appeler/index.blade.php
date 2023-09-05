@@ -87,7 +87,15 @@
             </div>
         </div><!--end card-->
     </div><!--end col-->
-
+    <!-- action -->
+    <div>
+        <div class="modal fade bs-example-modal-center" data-bs-backdrop="static" id="kt_action_4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog" >
+            <div class="modal-dialog modal-dialog-scrollable"> <!-- modal-dialog-scrollable -->
+                
+            </div>
+        </div>
+    </div>
+    <!-- action data-bs-backdrop="static" -->
 @endsection
 
 @section('JS_content')
@@ -165,6 +173,12 @@
                 }
             });
         });
+        $(document).on('click', '.btn-action', function () {
+			id = $(this).data("id");
+			$.ajax({url : '{{ url("appeler/AffichePopAction/") }}/'+id,type : 'GET',dataType : 'html',
+				success : function(code_html, statut){$("#kt_action_4 .modal-dialog").html(code_html);$("#kt_action_4").modal('show');}
+			});
+		});
     </script>
 
 @endsection

@@ -175,7 +175,9 @@ return [
 	'eleve_id'=>'Elève',
 	'init_id'=>'Initiateur',
 	'etat_appel'=>'Présence',
-	// 'etat_appel'=>'Présence',
+	'justifier'=>'Justifier (Oui / Non)',
+	'motif_just'=>'Motif',
+	'fichier_justif'=>'Pièce jointe justif',
 
 	//data-giwu-cms
 

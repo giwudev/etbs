@@ -167,7 +167,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('appeler/exporterExcel',[App\Http\Controllers\AppelerController::class, 'exporterExcel']);
 	Route::get('appeler/exporterPdf',[App\Http\Controllers\AppelerController::class, 'exporterPdf']);
 	Route::get('appeler/confirmer/{id}',[App\Http\Controllers\AppelerController::class, 'ConfirmerPresence']);
-
+	Route::get('appeler/AffichePopAction/{id}',[App\Http\Controllers\AppelerController::class, 'AffichePopAction']);
 	//add-route-cms
 
 

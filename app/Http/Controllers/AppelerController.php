@@ -120,6 +120,12 @@ class AppelerController extends Controller {
 		return response()->json(['response'=>'0','etat'=>'']);
 	}
 
+    public static function AffichePopAction($id)
+    {
+        $giwu['item'] = 2;
+		return view('appeler.action')->with($giwu);
+    }
+
 	public function exporterExcel(Request $req) {
 		$Resultat = Appeler::getListAppel($req)->get();
 		if(sizeof($Resultat) != 0){
