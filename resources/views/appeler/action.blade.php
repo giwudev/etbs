@@ -14,7 +14,6 @@
 			
 			<div class="modal-footer">
 				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Femer</button>
-				
 					<button id="valider" type="button"  class="btn btn-danger btn-load" onclick="addAction();"> 
 						<span class="d-flex align-items-center">
 							<span class="flex-grow-1 me-2">Ajouter</span>

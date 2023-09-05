@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 28 août 2023 à 13:24
+-- Généré le : mar. 05 sep. 2023 à 08:21
 -- Version du serveur : 5.7.26
 -- Version de PHP : 8.0.13
 
@@ -124,11 +124,11 @@ CREATE TABLE IF NOT EXISTS `etbs_action_menu_acces` (
 --
 
 INSERT INTO `etbs_action_menu_acces` (`id_actionmenu`, `id_menu`, `action_id`, `statut_action`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
-(2, 3, 2, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
-(3, 3, 3, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
-(4, 3, 4, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
-(5, 3, 5, 0, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(1, 3, 1, 1, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(2, 3, 2, 1, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(3, 3, 3, 1, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(4, 3, 4, 1, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(5, 3, 5, 1, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
 (6, 4, 6, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
 (7, 4, 7, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
 (8, 4, 8, 1, 1, '2022-06-20 14:10:01', '2022-07-22 21:47:14'),
@@ -321,6 +321,9 @@ CREATE TABLE IF NOT EXISTS `etbs_appeler` (
   `eleve_id` bigint(20) NOT NULL,
   `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
   `date_presence` date DEFAULT NULL,
+  `justifier` bigint(20) DEFAULT NULL,
+  `motif_just` longtext COLLATE utf8mb4_unicode_ci,
+  `fichier_justif` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `init_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -328,16 +331,21 @@ CREATE TABLE IF NOT EXISTS `etbs_appeler` (
   KEY `etbs_appeler_emploi_id_foreign` (`emploi_id`),
   KEY `etbs_appeler_eleve_id_foreign` (`eleve_id`),
   KEY `etbs_appeler_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_appeler`
 --
 
-INSERT INTO `etbs_appeler` (`id_appel`, `emploi_id`, `eleve_id`, `etat_appel`, `date_presence`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 1, NULL, 1, '2023-08-26 04:57:56', '2023-08-26 06:11:43'),
-(2, 2, 3, 1, NULL, 1, '2023-08-26 04:58:19', '2023-08-26 06:11:23'),
-(3, 1, 1, 0, NULL, 1, '2023-08-26 05:28:14', '2023-08-26 06:11:37');
+INSERT INTO `etbs_appeler` (`id_appel`, `emploi_id`, `eleve_id`, `etat_appel`, `date_presence`, `justifier`, `motif_just`, `fichier_justif`, `init_id`, `created_at`, `updated_at`) VALUES
+(6, 1, 1, 1, '2023-09-03', NULL, NULL, NULL, 1, '2023-09-02 18:52:04', '2023-09-02 19:03:06'),
+(5, 1, 2, 1, '2023-09-02', NULL, NULL, NULL, 1, '2023-09-02 18:50:50', '2023-09-02 19:02:37'),
+(4, 1, 1, 1, '2023-09-02', NULL, NULL, NULL, 1, '2023-09-02 18:50:50', '2023-09-02 19:02:05'),
+(7, 1, 2, 1, '2023-09-03', NULL, NULL, NULL, 1, '2023-09-02 18:52:04', '2023-09-02 19:03:08'),
+(8, 1, 1, 0, '2023-09-04', NULL, NULL, NULL, 1, '2023-09-02 19:03:18', '2023-09-02 19:03:18'),
+(9, 1, 2, 0, '2023-09-04', NULL, NULL, NULL, 1, '2023-09-02 19:03:18', '2023-09-02 19:03:18'),
+(10, 1, 1, 0, '2023-09-05', NULL, NULL, NULL, 1, '2023-09-05 06:59:14', '2023-09-05 06:59:14'),
+(11, 1, 2, 0, '2023-09-05', NULL, NULL, NULL, 1, '2023-09-05 06:59:14', '2023-09-05 06:59:14');
 
 -- --------------------------------------------------------
 
@@ -769,7 +777,7 @@ INSERT INTO `etbs_role_acces` (`role_id`, `id_menu`, `id_roleacces`, `statut_rol
 (1, 2, 2, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 5, 3, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 6, 4, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
-(1, 3, 5, 0, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
+(1, 3, 5, 1, '2022-06-20 14:10:01', '2023-08-24 14:54:32'),
 (1, 4, 6, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 7, 7, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
 (1, 8, 8, 1, '2022-06-20 14:10:01', '2022-07-22 21:30:34'),
@@ -912,7 +920,7 @@ CREATE TABLE IF NOT EXISTS `etbs_save_trace` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_trace`),
   KEY `matierefp_save_trace_id_user_foreign` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=137 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etbs_save_trace`
@@ -1012,7 +1020,8 @@ INSERT INTO `etbs_save_trace` (`id_trace`, `libelle_trace`, `naviguateur`, `id_u
 (133, 'Modification frequenter : ', ' ', 1, '2023-08-26 05:28:14', '2023-08-26 05:28:14'),
 (134, 'Modification du rôle : Old infos ((id_role=>15) <br/>(user_save_id=>1) <br/>(created_at=>2023-06-10T15:12:41.000000Z) <br/>)  New infos ((_token=>mhTqvRbzuapAzEvQa7VYK6awhwB81F6Fj6pxCHXl) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action263=>263) <br/>(action264=>264) <br/>(action266=>266) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>(cocher203=>203) <br/>(action303=>303) <br/>) ', ' ', 1, '2023-08-26 05:53:59', '2023-08-26 05:53:59'),
 (135, 'Modification du rôle : Old infos ((id_role=>15) <br/>(user_save_id=>1) <br/>(created_at=>2023-06-10T15:12:41.000000Z) <br/>)  New infos ((_token=>mhTqvRbzuapAzEvQa7VYK6awhwB81F6Fj6pxCHXl) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action263=>263) <br/>(action264=>264) <br/>(action266=>266) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>(cocher203=>203) <br/>) ', ' ', 1, '2023-08-26 05:54:24', '2023-08-26 05:54:24'),
-(136, 'Modification des infos sociétés : Old infos ((logo_soc=>Logo-2022-12-30-075100.jpeg) <br/>)  New infos ((logo_soc=>Logo-2023-08-26-070956.jpeg) <br/>) ', ' ', 1, '2023-08-26 06:09:56', '2023-08-26 06:09:56');
+(136, 'Modification des infos sociétés : Old infos ((logo_soc=>Logo-2022-12-30-075100.jpeg) <br/>)  New infos ((logo_soc=>Logo-2023-08-26-070956.jpeg) <br/>) ', ' ', 1, '2023-08-26 06:09:56', '2023-08-26 06:09:56'),
+(137, 'Modification trimsem : Old infos ((date_debut=>) <br/>(date_fin=>) <br/>)  New infos ((date_debut=>2021-02-10T00:00:00.000000Z) <br/>(date_fin=>2021-04-12T00:00:00.000000Z) <br/>) ', ' ', 1, '2023-08-29 06:45:48', '2023-08-29 06:45:48');
 
 -- --------------------------------------------------------
 
@@ -1070,7 +1079,7 @@ CREATE TABLE IF NOT EXISTS `etbs_trim_sem` (
 INSERT INTO `etbs_trim_sem` (`id_trimSem`, `libelle_trimSem`, `statut_trimSem`, `date_debut`, `date_fin`, `annee_id`, `init_id`, `created_at`, `updated_at`) VALUES
 (1, '1er Trimestre', 'a', NULL, NULL, 1, 1, '2023-06-10 08:10:03', '2023-06-10 08:10:03'),
 (2, '2iem Trimestre', 'a', NULL, NULL, 1, 1, '2023-06-10 08:10:27', '2023-06-10 08:10:27'),
-(3, '3iem Trimestre', 'a', NULL, NULL, 1, 1, '2023-06-10 08:10:42', '2023-06-10 08:10:42');
+(3, '3iem Trimestre', 'a', '2021-02-10', '2021-04-12', 1, 1, '2023-06-10 08:10:42', '2023-08-29 06:45:48');
 
 -- --------------------------------------------------------
 
