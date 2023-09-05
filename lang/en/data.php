@@ -177,7 +177,7 @@ return [
 	'etat_appel'=>'Présence',
 	'justifier'=>'Justifier (Oui / Non)',
 	'motif_just'=>'Motif',
-	'fichier_justif'=>'Pièce jointe justif',
+	'fichier_justif'=>'Pièce jointe justificative',
 
 	//data-giwu-cms
 
