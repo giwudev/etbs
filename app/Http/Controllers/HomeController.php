@@ -6,12 +6,7 @@ use Illuminate\Http\Request;
 use App\Providers\GiwuService;
 use Auth;
 use App\Models\GiwuSociete;
-use App\Models\Dossier;
 use App\Models\EmploiTemp;
-use App\Models\Entite;
-use App\Models\Planformation;
-use App\Models\Associeragent;
-use App\Models\Structureformatrice;
 
 class HomeController extends Controller
 {
