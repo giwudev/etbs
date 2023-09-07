@@ -168,10 +168,10 @@ class GiwuController extends Controller
 			if($etablis_idv != null && $etablis_idv != '' && $etablis_idv != '-1'){
                 Session()->put('etablis_idSess', intval($etablis_idv));
                 //Récuperer l'année l'active
-                Session()->put('annee_active', '');
+                Session()->put('annee_idSess', '');
                 $ann = Anneesco::where('etablis_id',session('etablis_idSess'))->where('statut_annee','a')->first();
                 if($ann){
-                    Session()->put('annee_active', $ann->id_annee);
+                    Session()->put('annee_idSess', $ann->id_annee);
                 }
 			}
 		}

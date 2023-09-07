@@ -84,7 +84,7 @@
                                             style='color: red;'> *</strong></label>
                                     <?php $addUse = ['' => 'S&eacute;lectionnez un &eacute;l&eacute;ment'];
                                     $listannee_id = $addUse + $listannee_id->toArray(); ?>
-                                    {!! Form::select('annee_id', $listannee_id, null, [
+                                    {!! Form::select('annee_id', $listannee_id, session('annee_idSess'), [
                                         'id' => 'annee_id',
                                         'class' => 'form-select allselect',
                                         'required' => 'required',

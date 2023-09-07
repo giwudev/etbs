@@ -147,7 +147,7 @@ return [
 	|--------------------------------------------------------------------------
 	*/
 	'id_empl'=>'Identifiant',
-	'heure_debut'=>'Heure debut',
+	'heure_debut'=>'Heure début',
 	'heure_fin'=>'Heure fin',
 	'jour_semaine'=>'Jour semaine',
 	'discipline_id'=>'Discipline',

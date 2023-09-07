@@ -100,7 +100,6 @@ class UserController extends Controller
     {
         $array = GiwuService::Path_Image_menu("/admin/user");
         if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
-
         $giwu['sltRole'] = GiwuRole::sltListRole();
         $giwu['user'] = User::whereCode($code)->first();
         $giwu['listEcole_id'] = Ecole::sltListEcole();

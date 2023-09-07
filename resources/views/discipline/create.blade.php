@@ -39,7 +39,7 @@
 								<div class="mb-3">
 									<label for="ecole_id" class="form-label">{!!trans('data.ecole_id')!!} <strong style='color: red;'> *</strong></label>
 									<?php $addUse = array(''=>'S&eacute;lectionnez un &eacute;l&eacute;ment'); $listecole_id = $addUse + $listecole_id->toArray();?>
-									{!! Form::select('ecole_id',$listecole_id ,session('ecole_idSess'),["id"=>"ecole_id","class"=>"form-select allselect" ,"required"=>"required"]) !!}
+									{!! Form::select('ecole_id',$listecole_id ,session('etablis_idSess'),["id"=>"ecole_id","class"=>"form-select allselect" ,"required"=>"required"]) !!}
 								</div>
 							</div>
 							<div class="col-12">

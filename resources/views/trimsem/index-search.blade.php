@@ -27,8 +27,8 @@
                                 class="badge bg-danger">{{ trans('entite.statutanne')[$listgiwu->statut_trimSem] }}</span>
                         @endif
                     </td>
-                    <td>{!! $listgiwu->date_debut ? $listgiwu->date_debut->format('d M Y') : ' ' !!} </td>
-                    <td>{!! $listgiwu->date_fin ? $listgiwu->date_fin->format('d M Y') : ' ' !!} </td>
+                    <td>{!! $listgiwu->date_debut ? date('d/m/Y',strtotime($listgiwu->date_debut)) : ' ' !!} </td>
+                    <td>{!! $listgiwu->date_fin ? date('d/m/Y',strtotime($listgiwu->date_fin)) : ' ' !!} </td>
 
                     <td>{!! isset($listgiwu->anneesco)
                         ? $listgiwu->anneesco->annee_debut . ' - ' . $listgiwu->anneesco->annee_fin

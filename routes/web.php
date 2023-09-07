@@ -168,6 +168,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('appeler/exporterPdf',[App\Http\Controllers\AppelerController::class, 'exporterPdf']);
 	Route::get('appeler/confirmer/{id}',[App\Http\Controllers\AppelerController::class, 'ConfirmerPresence']);
 	Route::get('appeler/AffichePopAction/{id}',[App\Http\Controllers\AppelerController::class, 'AffichePopAction']);
+	Route::post('appeler/actionAddJust',[App\Http\Controllers\AppelerController::class, 'AddJustif']);
 	//add-route-cms
 
 

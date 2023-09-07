@@ -32,11 +32,11 @@
 				{!! Form::open(array('id' => 'formSearch','class' => '', 'method' => 'GET')) !!}
 					<div class="row gy-4">
 						<!--end col-->
-						<div class="col-xxl-3 col-md-4"> <!--Code en commentaire a remplacer display:none si l'element est parametre -->
-							<?php // echo ((!in_array('combo_discipline,session('InfosAction'))) ? "style='display:none;'" : '')?>
+						<div class="col-xxl-6 col-md-4" <?php echo ((!in_array('combo_ecole',session('InfosAction'))) ? "style='display:none;'" : '')?>> 
+							
 							<div><label for="labelInput" class="form-label">Liste des écoles</label>
 								<?php $addUse = array(''=>'Sélectionnez un élément'); $listecole_id = $addUse + $listecole_id->toArray();?>
-								{!! Form::select('ecole_id',$listecole_id ,session('ecole_idSess'),["id"=>"ecole_id","onchange"=>"funcRecher()","class"=>"form-select allselect"]) !!}
+								{!! Form::select('ecole_id',$listecole_id ,session('etablis_idSess'),["id"=>"ecole_id","onchange"=>"funcRecher()","class"=>"form-select allselect"]) !!}
 							</div>
 						</div>
 						<!--end Recherche par defaut col-->

@@ -151,7 +151,6 @@
 
         $(document).on('click', '.btn-confirmer', function() {
             id = $(this).data("id");
-
             let url_ = "{{ url('appeler/confirmer') }}/" + id;
             $.ajax({
                 url: url_,

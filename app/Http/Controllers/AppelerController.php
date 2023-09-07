@@ -17,8 +17,10 @@ use App\Models\Ecole;
 use App\Models\Emploitemp;
 use App\Models\Eleve;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Utilities\FileStorage;
 use App\Exports\AppelerExportExcel;
 use PDF;
+use Validator;
 
 
 class AppelerController extends Controller {
@@ -122,8 +124,50 @@ class AppelerController extends Controller {
 
     public static function AffichePopAction($id)
     {
-        $giwu['item'] = 2;
+        $giwu['item'] = Appeler::find($id);
 		return view('appeler.action')->with($giwu);
+    }
+
+    public static function AddJustif(Request $request)
+    {
+		$validator = Validator::make($request->all(), [
+			'justifier' => 'required',
+			'motif_just' => 'required',
+		]);
+
+		if($validator->fails()){
+			return response()->json(['response' => $validator->errors()]);
+		}else{
+			$datas = $request->all();
+
+			if(!isset($datas['fichier_justif'])){
+				return response()->json(['response' => array('fichier_justif' => 'Le champs est obligatoire.')]);
+			}
+
+			unset($datas['_token']);
+			//Condition sur fichier
+			$datas['fichier_justif']="";
+			$file1 = $request->file('fichier_justif');
+			if($file1){
+				$extension = strtolower($file1->getClientOriginalExtension());
+				if($extension != 'pdf'){
+					return response()->json(['response' => array('fichier_justif'=>'Le fichier doit &ecirc;tre de type PDF.')]);
+				}
+				$filename=FileStorage::setFile('avatar',$file1,"","");
+				$pathName = "assets/docs/";
+				$file1->move($pathName, $filename);
+				$datas['fichier_justif']=$filename;
+			}
+			$id = $datas['id_appel'];
+			$newUpd=Appeler::where('id_appel',$id)->first();
+
+			$newUpd->justifier = $datas['justifier'];
+			$newUpd->motif_just = $datas['motif_just'];
+			$newUpd->fichier_justif = $datas['fichier_justif'];
+			$newUpd->save();
+			return response()->json(['response' => 1]);
+		}
+
     }
 
 	public function exporterExcel(Request $req) {
@@ -158,7 +202,7 @@ class AppelerController extends Controller {
 
 
 
-     }
+    }
 
 
 

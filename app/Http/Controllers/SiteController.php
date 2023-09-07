@@ -40,7 +40,7 @@ class SiteController extends Controller
     }
     
     public function connexionAgent(Request $request){
-        
+
         try {
             // $datas = $request->all();
             // if($datas['matricule'] == ""){

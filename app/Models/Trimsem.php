@@ -27,7 +27,7 @@ class Trimsem extends Model {
 
 	public static function getListTrimSemestre(Request $req){
 
-		$query = Trimsem::with(['anneesco','users_g'])->orderBy('created_at','desc');
+		$query = Trimsem::with(['anneesco','users_g'])->orderBy('id_trimSem','asc');
 
 		$annee_idv = $req->get('annee_id');
 		if(isset($annee_idv)){
@@ -38,11 +38,17 @@ class Trimsem extends Model {
 		}else{
 			$query->where('annee_id',session('annee_idSess'));
 		}
+		//Controle sur l'etablissement connecte
+		$sessionAnne = session('etablis_idSess');
+		$query->WhereHas('anneesco', function ($q) use ($sessionAnne) {
+			$q->where('etablis_id', $sessionAnne);
+		});
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->orwhere('libelle_trimSem','like','%'.strtoupper(trim($recherche).'%'));
-				});			//Recherche avancee sur anneesco
+			$query->where(function ($query) Use ($recherche){					
+				$query->orwhere('libelle_trimSem','like','%'.strtoupper(trim($recherche).'%'));
+			});			//Recherche avancee sur anneesco
 			$query->orWhereHas('anneesco', function ($q) use ($recherche) {
 				$q->where('statut_annee', 'like', '%'.strtoupper(trim($recherche).'%'));
 			});

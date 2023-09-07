@@ -68,7 +68,7 @@ class EmploitempController extends Controller {
 		$giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
 		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
-		$giwu['listprof_id'] = User::sltListUser();
+		$giwu['listprof_id'] = User::sltListProf();
 		$giwu['listinit_id'] = User::sltListUser();
         return view('emploitemp.create')->with($giwu);
 	}
@@ -81,14 +81,29 @@ class EmploitempController extends Controller {
 	 */
 
 
-    /* public function store(Request $request) {
-		//
+    public function store(Request $request) {
 		try {
 			$datas = $request->all();
 			unset($datas['_token']);
+
+			if ($datas['heure_debut'] >= $datas['heure_fin']) {
+				return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
+			}
+
+			$existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
+				->where(function ($query) use ($datas) {
+					$query->where('heure_debut', '<=', $datas['heure_fin'])
+						->where('heure_fin', '>=', $datas['heure_debut']);
+				})
+				->first();
+
+			if ($existingEmploiTemp) {
+				return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
+			}
+
 			$newAdd = new Emploitemp();
-			$newAdd->heure_debut = $datas['heure_debut'];
-			$newAdd->heure_fin = $datas['heure_fin'];
+			$newAdd->heure_debut = substr($datas['heure_debut'], 0, 5);
+			$newAdd->heure_fin = substr($datas['heure_fin'], 0, 5);
 			$newAdd->jour_semaine = $datas['jour_semaine'];
 			$newAdd->discipline_id = $datas['discipline_id'];
 			$newAdd->promotion_id = $datas['promotion_id'];
@@ -96,55 +111,16 @@ class EmploitempController extends Controller {
 			$newAdd->prof_id = $datas['prof_id'];
 			$newAdd->init_id = Auth::id();
 			$newAdd->save();
+			//Creation des lignes dans la table Appeler
+			// self::ChargerAppel($newAdd->promotion_id,$newAdd->id_empl);
 
-			GiwuSaveTrace::enregistre('Ajout du nouveau emploitemp : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
+			GiwuSaveTrace::enregistre('Ajout du nouveau emploi de temps : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 
-			return Redirect::back()->with('success',trans('data.infos_add'));
+			return Redirect::back()->with('success', trans('data.infos_add'));
 		} catch (\Illuminate\Database\QueryException $e) {
-			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());
+			return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
 		}
-
-	}*/
-    public function store(Request $request) {
-    try {
-        $datas = $request->all();
-        unset($datas['_token']);
-
-        if ($datas['heure_debut'] >= $datas['heure_fin']) {
-            return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
-        }
-
-        $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
-            ->where(function ($query) use ($datas) {
-                $query->where('heure_debut', '<=', $datas['heure_fin'])
-                      ->where('heure_fin', '>=', $datas['heure_debut']);
-            })
-            ->first();
-
-        if ($existingEmploiTemp) {
-            return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
-        }
-
-        $newAdd = new Emploitemp();
-        $newAdd->heure_debut = substr($datas['heure_debut'], 0, 5);
-        $newAdd->heure_fin = substr($datas['heure_fin'], 0, 5);
-        $newAdd->jour_semaine = $datas['jour_semaine'];
-        $newAdd->discipline_id = $datas['discipline_id'];
-        $newAdd->promotion_id = $datas['promotion_id'];
-        $newAdd->annee_id = $datas['annee_id'];
-        $newAdd->prof_id = $datas['prof_id'];
-        $newAdd->init_id = Auth::id();
-        $newAdd->save();
-        //Creation des lignes dans la table Appeler
-        // self::ChargerAppel($newAdd->promotion_id,$newAdd->id_empl);
-
-        GiwuSaveTrace::enregistre('Ajout du nouveau emploi de temps : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
-
-        return Redirect::back()->with('success', trans('data.infos_add'));
-    } catch (\Illuminate\Database\QueryException $e) {
-        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
-    }
-}
+	}
 
     public function ChargerAppel($idPromo,$idEmploi){
 

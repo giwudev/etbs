@@ -33,7 +33,7 @@ class HomeController extends Controller
     public function index()
 {
     if (session('InfosRole')->id_role == 16) {
-        $giwu['pathMenu'] = "";
+        // $giwu['pathMenu'] = "";
     }
     $giwu['pathMenu'] = GiwuService::PathMenu('/');
     // Récupérer l'emploi du temps du professeur connecté

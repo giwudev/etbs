@@ -77,7 +77,7 @@ class Appeler extends Model {
 			$appel = new Appeler();
 			$appel->emploi_id = session('etablis_idSess');
 			$appel->eleve_id = $eleve;
-			$appel->etat_appel = false;
+			$appel->etat_appel = true;
 			$appel->date_presence = session('date_presenceSess');
 			$appel->init_id = Auth::id();
 			$appel->save();

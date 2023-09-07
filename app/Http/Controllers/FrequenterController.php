@@ -17,7 +17,7 @@ use App\Models\Frequenter;
 use App\Models\Eleve;
 use App\Models\Ecole;
 use App\Models\Promotion;
-use App\Models\Emploitemps;
+use App\Models\Emploitemp;
 use App\Models\Anneesco;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FrequenterExportExcel;
@@ -33,7 +33,7 @@ class FrequenterController extends Controller {
 	 */
 	public function index(Request $req) {
 
-		$array = GiwuService::Path_Image_menu("/cons/frequenter");
+		$array = GiwuService::Path_Image_menu("/param/frequenter");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Frequenter::getListEleveFrequente($req)->paginate(20);
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
@@ -53,7 +53,7 @@ class FrequenterController extends Controller {
 	 */
 	public function create() {
 		//
-		$array = GiwuService::Path_Image_menu("/cons/frequenter/create");
+		$array = GiwuService::Path_Image_menu("/param/frequenter/create");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
@@ -81,10 +81,10 @@ class FrequenterController extends Controller {
         $newAdd->promotion_id = $datas['promotion_id'];
         $newAdd->save();
         //Charger les emploi du tempe en fonction de la promotion choisie
-        $emploi = Emploitemp::where('promotion_id',$newAdd->promotion_id)->get();
-        foreach ($emploi as  $emp) {
-            # code...
-        }
+        // $emploi = Emploitemp::where('promotion_id',$newAdd->promotion_id)->get();
+        // foreach ($emploi as  $emp) {
+        //     # code...
+        // }
         GiwuSaveTrace::enregistre('Ajout du nouveau frequenter : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 
         return Redirect::back()->with('success', trans('data.infos_add'));
@@ -115,7 +115,7 @@ class FrequenterController extends Controller {
 	 */
 	public function edit($id) {
 		//
-		$array = GiwuService::Path_Image_menu("/cons/frequenter/edit");
+		$array = GiwuService::Path_Image_menu("/param/frequenter/edit");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listeleve_id'] = Eleve::getElevesAvecPromotion();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
@@ -198,9 +198,6 @@ class FrequenterController extends Controller {
 		$pdf = PDF::loadView('frequenter.pdf',['list' => $Resultat])->setPaper('a4','landscape');
 		return $pdf->stream('frequenter-'.date('Ymdhis').'.pdf');
 	}
-
-
-
-
+	
 }
 

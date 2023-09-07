@@ -22,11 +22,25 @@
                         </button>
                         {!! isset($appel->eleve) ? $appel->eleve->nom_el.' '.$appel->eleve->prenom_el : trans('data.not_found') !!}
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class='text-center'>
+						@if($appel->justifier == 'non') <span class='badge bg-danger'>Non</a>
+						@elseif($appel->justifier == 'oui') <span class='badge bg-secondary'>Oui</a>
+						@endif
+					</td>
+                    <td> @if(strlen($appel->motif_just) > 30)
+						{!! substr($appel->motif_just, 0, 30) !!}...
+						@else  {!! $appel->motif_just !!} 
+						@endif 
+                    </td>
                     <td class="text-center">
-                        <button type="button" title='Actions' data-id="{{$appel->id_appel}}" class="btn btn-sm btn-danger waves-effect waves-light btn-action"  data-toggle="modal">Motif</button>
+						@if($appel->fichier_justif)
+                            <span class="badge bg-success">
+                                <a  style='color:white' href='{{"assets/docs/".$appel->fichier_justif}}' target="_blank" rel="noopener noreferrer">Fichier</a>
+                            </span>
+						@else <span class="badge bg-danger">Aucun</span>  @endif
+					</td>
+                    <td class="text-center">
+                        <button type="button" title='Actions' data-id="{{$appel->id_appel}}" class="btn btn-sm btn-secondary waves-effect waves-light btn-action"  data-toggle="modal">Motif</button>
                     </td>
                 </tr>
             @endforeach

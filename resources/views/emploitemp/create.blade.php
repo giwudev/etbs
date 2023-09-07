@@ -76,8 +76,6 @@
                                     ]) !!}
                                 </div>
                             </div>
-
-
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="discipline_id" class="form-label">{!! trans('data.discipline_id') !!} <strong

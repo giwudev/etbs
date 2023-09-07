@@ -39,27 +39,21 @@ class Classe extends Model {
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->orwhere('libelle_clas','like','%'.strtoupper(trim($recherche).'%'));
-				});			//Recherche avancee sur anneesco
+			$query->where(function ($query) Use ($recherche){					
+				$query->orwhere('libelle_clas','like','%'.strtoupper(trim($recherche).'%'));
+			});			//Recherche avancee sur anneesco
 			$query->orWhereHas('anneesco', function ($q) use ($recherche) {
 				$q->where('statut_annee', 'like', '%'.strtoupper(trim($recherche).'%'));
 			});
-
-			//Recherche avancee sur users
-			$query->orWhereHas('users_g', function ($q) use ($recherche) {
-				$q->where('name', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
-
 		}
 		return $query;
 	}
 
 	public static function sltListClasse(){
-		
+
 		return self::join('etbs_annee_sco','etbs_annee_sco.id_annee','etbs_classe.annee_id')
 							->where('etbs_annee_sco.etablis_id',session('etablis_idSess'))
-							->where('etbs_annee_sco.id_annee',session('annee_active'))
+							->where('etbs_annee_sco.id_annee',session('annee_idSess'))
 							->select('etbs_classe.*')
 							->distinct()
 							->get()->pluck('libelle_clas','id_clas');

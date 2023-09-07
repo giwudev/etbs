@@ -41,24 +41,23 @@ class Promotion extends Model {
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->orwhere('libelle_pro','like','%'.strtoupper(trim($recherche).'%'));
-				});			//Recherche avancee sur classe
+			$query->where(function ($query) Use ($recherche){					
+				$query->orwhere('libelle_pro','like','%'.strtoupper(trim($recherche).'%'));
+			});			//Recherche avancee sur classe
 			$query->orWhereHas('classe', function ($q) use ($recherche) {
 				$q->where('libelle_clas', 'like', '%'.strtoupper(trim($recherche).'%'));
 			});
-
-			//Recherche avancee sur users
-			$query->orWhereHas('users_g', function ($q) use ($recherche) {
-				$q->where('name', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
-
 		}
 		return $query;
 	}
 
 	public static function sltListPromotion(){
-		$query = self::all()->pluck('libelle_pro','id_pro');
+		$query = self::with(['classe','classe.anneesco']);
+		
+		$sessionEcole = session('etablis_idSess');
+		$query = $query->WhereHas('classe.anneesco', function ($q) use ($sessionEcole) {
+			$q->where('etablis_id', $sessionEcole);
+		})->pluck('libelle_pro','id_pro');
 		return $query;
 	}
 

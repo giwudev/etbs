@@ -51,8 +51,7 @@
 							<div class="col-md-6">
 								<div class="mb-3">
 									<label for="sexe_el" class="form-label">{!!trans('data.sexe_el')!!} <strong style='color: red;'> *</strong></label>
-									<?php $addsexe_el = array('' => 'Choisir', 'M' => 'Masculin', 'F' => 'Femnini');?>
-									{!! Form::select('sexe_el',$addsexe_el ,$item->sexe_el,["id"=>"sexe_el","class"=>"form-select allselect" ,"required"=>"required"]) !!}
+									{!! Form::select('sexe_el',trans('entite.sexe') ,$item->sexe_el,["id"=>"sexe_el","class"=>"form-select allselect" ,"required"=>"required"]) !!}
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -79,7 +78,7 @@
 									{!! Form::text('tel_el',$item->tel_el,["id"=>"tel_el","class"=>"form-control"  ,'autocomplete'=>'off' ,'placeholder'=>"Entrer Contact" ]) !!}
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6" <?php echo ((!in_array('combo_ecole',session('InfosAction'))) ? "style='display:none;'" : '')?>>
 								<div class="mb-3">
 									<label for="ecole_id" class="form-label">{!!trans('data.ecole_id')!!} <strong style='color: red;'> *</strong></label>
 									<?php $addUse = array(''=>'S&eacute;lectionnez un &eacute;l&eacute;ment'); $listecole_id = $addUse + $listecole_id->toArray();?>

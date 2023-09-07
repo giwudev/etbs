@@ -24,7 +24,7 @@
                     <td>{!! $listgiwu->prenom_el !!}</td>
                     <td>{!! $listgiwu->matricule_el !!}</td>
                     <td class="text-center">{{ date('d/m/Y', strtotime($listgiwu->date_nais_el)) }}</td>
-                    <td>{!! $listgiwu->sexe_el === 'F' ? 'Féminin' : 'Masculin' !!}</td>
+                    <td>{!! $listgiwu->sexe_el === 'f' ? 'Féminin' : 'Masculin' !!}</td>
                     <td class="text-center">
                         @if ($listgiwu->photo_el)
                             <a href='{{ 'assets/docs/' . $listgiwu->photo_el }}' title="{!! $listgiwu->photo_el !!}"

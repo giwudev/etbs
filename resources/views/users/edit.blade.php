@@ -69,9 +69,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="id_role" class="form-label">{{trans('data.etablis_id')}}<strong style='color: red;'> *</strong></label>
+                                    <label for="etablis_id" class="form-label">{{trans('data.etablis_id')}}<strong style='color: red;'> *</strong></label>
                                     <?php $addUse = array(''=>'Sélectionner un élément'); $listEcole_id = $addUse + $listEcole_id->toArray(); ?>
-						            {!! Form::select('etablis_id',$user->etablis_id,session('etablis_idSess'),["id"=>"etablis_id","class"=>"form-select allselect",'required'=>'required']) !!} 
+						            {!! Form::select('etablis_id',$listEcole_id,$user->etablis_id,["id"=>"etablis_id","class"=>"form-select allselect",'required'=>'required']) !!} 
                                 </div>
                             </div>
                             <div class="col-md-6">
