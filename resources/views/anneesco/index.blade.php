@@ -32,7 +32,7 @@
 				{!! Form::open(array('id' => 'formSearch','class' => '', 'method' => 'GET')) !!}
 					<div class="row gy-4">
 						<!--end col-->
-						<div class="col-xxl-6 col-md-4">
+						<div class="col-xxl-6 col-md-4" <?php echo ((!in_array('combo_ecole',session('InfosAction'))) ? "style='display:none;'" : '')?>>
 							<div><label for="labelInput" class="form-label">Liste des écoles</label>
 								<?php $addUse = array(''=>'Sélectionnez un élément'); $listetablis_id = $addUse + $listetablis_id->toArray();?>
 								{!! Form::select('etablis_id',$listetablis_id ,session('etablis_idSess'),["id"=>"etablis_id","onchange"=>"funcRecher()","class"=>"form-select allselect"]) !!}
