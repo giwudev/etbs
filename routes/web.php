@@ -158,6 +158,8 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('frequenter/AffichePopDelete/{id}',[App\Http\Controllers\FrequenterController::class, 'AffichePopDelete']);
 	Route::get('frequenter/exporterExcel',[App\Http\Controllers\FrequenterController::class, 'exporterExcel']);
 	Route::get('frequenter/exporterPdf',[App\Http\Controllers\FrequenterController::class, 'exporterPdf']);
+	Route::get('appeler/AffichePopAction/{id}',[App\Http\Controllers\AppelerController::class, 'AffichePopAction']);
+
 
 		/*
 	|--------------------------------------------------------------------------

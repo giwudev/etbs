@@ -14,8 +14,16 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">{{ $titre }}</h4>
+                <h4 class="card-title mb-0 flex-grow-1">{{ $titre . ' ' . $promotion->libelle_pro }}</h4>
                 <div class="flex-shrink-0">
+                    <a class="btn btn-primary btn-label right" href="{{ route('frequenter.create') }}"><i
+                            class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Importer par un fichier excel</a>
+
+                    <button type="button" title='Actions' data-id="{{ $promotion->id_pro }}"
+                        class="btn btn-sm btn-secondary waves-effect waves-light btn-action"
+                        data-toggle="modal">Motif</button>
+
+
                     <div class="form-check form-switch form-switch-right form-switch-md"><i class="{{ $icone }}"></i>
                     </div>
                 </div>
@@ -78,11 +86,34 @@
                     </form>
                 </div>
             </div>
+            <div>
+                <div class="modal fade bs-example-modal-center" data-bs-backdrop="static" id="kt_action_4" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-scrollable"> <!-- modal-dialog-scrollable -->
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
 @endsection
 
 
 @section('JS_content')
     <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).on('click', '.btn-action', function() {
+            id = $(this).data("id");
+            $.ajax({
+                url: '{{ url('appeler/AffichePopAction/') }}/' + id,
+                type: 'GET',
+                dataType: 'html',
+                success: function(code_html, statut) {
+                    $("#kt_action_4 .modal-dialog").html(code_html);
+                    $("#kt_action_4").modal('show');
+                }
+            });
+        });
+    </script>
 @endsection

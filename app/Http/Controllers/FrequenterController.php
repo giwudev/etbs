@@ -33,7 +33,8 @@ class FrequenterController extends Controller {
 	 */
 	public function index(Request $req) {
 
-		$array = GiwuService::Path_Image_menu("/param/frequenter");
+		$array = GiwuService::Path_Image_menu("/cons/frequenter");
+       // dd($array);
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Frequenter::getListEleveFrequente($req)->paginate(20);
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
@@ -53,10 +54,11 @@ class FrequenterController extends Controller {
 	 */
 	public function create() {
 		//
-		$array = GiwuService::Path_Image_menu("/param/frequenter/create");
+		$array = GiwuService::Path_Image_menu("/cons/frequenter/create");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
+		$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
 		return view('frequenter.create')->with($giwu);
 	}
 
@@ -115,7 +117,7 @@ class FrequenterController extends Controller {
 	 */
 	public function edit($id) {
 		//
-		$array = GiwuService::Path_Image_menu("/param/frequenter/edit");
+		$array = GiwuService::Path_Image_menu("/cons/frequenter/edit");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listeleve_id'] = Eleve::getElevesAvecPromotion();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
@@ -198,6 +200,6 @@ class FrequenterController extends Controller {
 		$pdf = PDF::loadView('frequenter.pdf',['list' => $Resultat])->setPaper('a4','landscape');
 		return $pdf->stream('frequenter-'.date('Ymdhis').'.pdf');
 	}
-	
+
 }
 
