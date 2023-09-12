@@ -17,6 +17,11 @@ class Frequenter extends Model {
 	protected $primaryKey = 'id_freq';
 	protected $guarded = array('*');
 	public $timestamps = true;
+	protected $fillable = [
+		
+		'eleve_id',
+        'promotion_id',
+	    ];
 
 
 	public function eleve(){return $this->belongsTo('App\Models\Eleve','eleve_id','id_el');}

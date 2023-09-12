@@ -22,7 +22,19 @@ class Eleve extends Model {
 	protected $primaryKey = 'id_el';
 	protected $guarded = array('*');
 	public $timestamps = true;
-
+	protected $fillable = [
+        'nom_el',
+        'prenom_el',
+        'matricule_el',
+        'date_nais_el',
+        'sexe_el',
+        'photo_el',
+        'tuteur_el',
+        'email_el',
+        'tel_el',
+        'ecole_id',
+        'init_id',
+	    ];
 
 	public function ecole(){return $this->belongsTo('App\Models\Ecole','ecole_id','id_eco');}
 

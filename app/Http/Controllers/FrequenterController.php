@@ -6,6 +6,7 @@
 	*/
 namespace App\Http\Controllers;
 
+use App\Imports\ElevesImport;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -200,6 +201,45 @@ class FrequenterController extends Controller {
 		$pdf = PDF::loadView('frequenter.pdf',['list' => $Resultat])->setPaper('a4','landscape');
 		return $pdf->stream('frequenter-'.date('Ymdhis').'.pdf');
 	}
+
+	public static function AffichePopAction($id)
+    {
+        $giwu['item'] = Frequenter::find($id);
+		$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
+		return view('frequenter.action')->with($giwu);
+    }
+
+/*	public static function importEleve(Request $req){
+    try {
+        $import = Excel::import(new ElevesImport, $req->fichier_excel);
+        if ($import) {
+            return Redirect::back()->with('success', 'Fichier importé avec succès ... !');
+        } else {
+            return Redirect::back()->with('error', 'Une erreur s\'est produite lors de l\'importation.');
+        }
+    } catch (\Illuminate\Database\QueryException $e) {
+        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+    }
+}*/
+
+public function importEleve(Request $req){
+    try {
+        $import = new ElevesImport();
+        Excel::import($import, $req->file('fichier_excel'));
+		 $importErrors = $import->getImportErrors();
+        if (!empty($importErrors)) {
+            foreach ($importErrors as $error) {
+				return Redirect::back()->with('error',  $error );
+            }
+        } else {
+            return Redirect::back()->with('success', 'Fichier importé avec succès ... !');
+        }
+    } catch (\Illuminate\Database\QueryException $e) {
+        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+    }
+}
+
+
 
 }
 
