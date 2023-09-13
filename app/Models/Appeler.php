@@ -14,8 +14,11 @@ use App\Models\Frequenter;
 use Auth;
 
 class Appeler extends Model {
-
-	protected $table = 'etbs_appeler';
+	protected $table;
+    public function __construct() {
+        parent::__construct();
+        $this->table = 'etbs_appeler_' . session('etablis_idSess');
+    }
 	protected $primaryKey = 'id_appel';
 	protected $guarded = array('*');
 	public $timestamps = true;
@@ -28,10 +31,7 @@ class Appeler extends Model {
 	public function users_g(){return $this->belongsTo('App\Models\User','init_id','id');}
 
 	public static function getListAppel(Request $req){
-
-
 		// $query = Appeler::with(['emploitemp','eleve','users_g']);
-
 		$emploi_idv = $req->get('emploi_id');
 		if(isset($emploi_idv)){
 			if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
@@ -70,12 +70,12 @@ class Appeler extends Model {
 		//Vérifier si la ligne existe dans Appeler
 
 		$query = Appeler::with(['emploitemp','eleve'])
-						->where('emploi_id', session('etablis_idSess'))
+						->where('emploi_id', session('emploi_idSess'))
 						->where('eleve_id', $eleve)
 						->where('date_presence', session('date_presenceSess'))->first();
 		if(!$query){ //Si la ligne n'existe pas créer
 			$appel = new Appeler();
-			$appel->emploi_id = session('etablis_idSess');
+			$appel->emploi_id = session('emploi_idSess');
 			$appel->eleve_id = $eleve;
 			$appel->etat_appel = true;
 			$appel->date_presence = session('date_presenceSess');

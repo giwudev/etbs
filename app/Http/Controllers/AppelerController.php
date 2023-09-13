@@ -36,7 +36,6 @@ class AppelerController extends Controller {
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Appeler::getListAppel($req)->paginate(20);
 		$giwu['listemploi_id'] = Emploitemp::sltListAppel();
-		// dd($giwu['listemploi_id']);
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listetablis_id'] = Ecole::sltListEcole();
 		if($req->ajax()) {

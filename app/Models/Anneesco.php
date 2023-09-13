@@ -12,7 +12,6 @@ use App\Models\User;
 use Auth,DB;
 
 class Anneesco extends Model {
-
 	protected $table = 'etbs_annee_sco';
 	protected $primaryKey = 'id_annee';
 	protected $guarded = array('*');
