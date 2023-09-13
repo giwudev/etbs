@@ -164,6 +164,10 @@ return [
 	'id_freq'=>'Identifiant',
 	'eleve_id'=>'Elève',
 	'promotion_id'=>'Promotion',
+	'nbre_heure_abs'=>'Nbre d\'heures d\'ABS',
+	'nbre_heure_justifie'=>'Nbre d\'heures justifiée',
+	'nbre_heure_non_justifie'=>'Nbre d\'heures non justifiée',
+	'conduite'=>'Conduite',
 
 	/*
 	|--------------------------------------------------------------------------

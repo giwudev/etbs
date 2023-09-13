@@ -39,20 +39,7 @@
                 {!! Form::open(['id' => 'formSearch', 'class' => '', 'method' => 'GET']) !!}
                 <div class="row gy-4">
                     <!--end col-->
-                    <div class="col-xxl-3 col-md-4" style='display:none;'>
-                        <!--Code en commentaire a remplacer display:none si l'element est parametre -->
-                        <?php // echo ((!in_array('combo_frequenter,session('InfosAction'))) ? "style='display:none;'" : '')
-                        ?>
-                        <div><label for="labelInput" class="form-label">Liste des élèves</label>
-                            <?php $addUse = ['' => 'Selectionnez un element'];
-                            $listeleve_id = $addUse + $listeleve_id->toArray(); ?>
-                            {!! Form::select('eleve_id', $listeleve_id, session('eleve_idSess'), [
-                                'id' => 'eleve_id',
-                                'onchange' => 'funcRecher()',
-                                'class' => 'form-select allselect',
-                            ]) !!}
-                        </div>
-                    </div>
+                    
                     <div class="col-xxl-3 col-md-3" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
                         <div><label for="labelInput" class="form-label">Liste des écoles</label>
                             <?php $addUse = ['-1' => 'Sélectionnez un élément'];
@@ -78,9 +65,6 @@
                     </div>
                     <!--end col-->
                     <div class="col-xxl-3 col-md-4">
-                        <!--Code en commentaire a remplacer display:none si l'element est parametre -->
-                        <?php // echo ((!in_array('combo_frequenter,session('InfosAction'))) ? "style='display:none;'" : '')
-                        ?>
                         <div><label for="labelInput" class="form-label">Liste des Promotions</label>
                             <?php $addUse = ['' => 'Selectionnez un element'];
                             $listpromotion_id = $addUse + $listpromotion_id->toArray(); ?>
