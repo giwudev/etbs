@@ -23,7 +23,6 @@ class Appeler extends Model {
 	protected $guarded = array('*');
 	public $timestamps = true;
 
-
 	public function emploitemp(){return $this->belongsTo('App\Models\Emploitemp','emploi_id','id_empl');}
 
 	public function eleve(){return $this->belongsTo('App\Models\Eleve','eleve_id','id_el');}
@@ -38,7 +37,6 @@ class Appeler extends Model {
 				Session()->put('emploi_idSess', intval($emploi_idv));
 			}
 		}
-
 		$date_presence = $req->get('date_presence');
 		if(isset($date_presence)){
 			Session()->put('date_presenceSess', $date_presence);
