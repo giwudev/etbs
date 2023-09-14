@@ -175,6 +175,15 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('appeler/confirmer/{id}',[App\Http\Controllers\AppelerController::class, 'ConfirmerPresence']);
 	Route::get('appeler/AffichePopAction/{id}',[App\Http\Controllers\AppelerController::class, 'AffichePopAction']);
 	Route::post('appeler/actionAddJust',[App\Http\Controllers\AppelerController::class, 'AddJustif']);
+	/*
+	|--------------------------------------------------------------------------
+	|   LISTNOTECONDUITE
+	|--------------------------------------------------------------------------
+	*/
+	Route::match(['get','post'],'listnoteconduite',[App\Http\Controllers\Cons\ConslistnoteconduiteController::class, 'listnoteconduiteCons']);
+	Route::get('listnoteconduite/exporterExcel',[App\Http\Controllers\Cons\ConslistnoteconduiteController::class, 'exporterExcel']);
+	Route::get('listnoteconduite/exporterPdf',[App\Http\Controllers\Cons\ConslistnoteconduiteController::class, 'exporterPdf']);
+
 	//add-route-cms
 
 

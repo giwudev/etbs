@@ -92,12 +92,21 @@ class EmploitempController extends Controller {
 			}
 
 			$existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
+<<<<<<< Updated upstream
 					->where('promotion_id',$datas['promotion_id'])
 					->where(function ($query) use ($datas) {
 						$query->where('heure_debut', '<=', $datas['heure_fin'])
 							->where('heure_fin', '>=', $datas['heure_debut']);
 					})
 					->first();
+=======
+				->where('promotion_id',$datas['promotion_id'])
+				->where(function ($query) use ($datas) {
+					$query->where('heure_debut', '<=', $datas['heure_fin'])
+						->where('heure_fin', '>=', $datas['heure_debut']);
+				})
+				->first();
+>>>>>>> Stashed changes
 
 			if ($existingEmploiTemp) {
 				return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
@@ -111,6 +120,7 @@ class EmploitempController extends Controller {
 			$newAdd->promotion_id = $datas['promotion_id'];
 			$newAdd->annee_id = $datas['annee_id'];
 			$newAdd->prof_id = $datas['prof_id'];
+			$newAdd->nbreheure = Emploitemp::DifferenceTime($newAdd->heure_debut,$newAdd->heure_fin);
 			$newAdd->init_id = Auth::id();
 			$newAdd->save();
 			//Creation des lignes dans la table Appeler
@@ -194,13 +204,14 @@ class EmploitempController extends Controller {
                 return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
             }
 
-            $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
-                ->where(function ($query) use ($datas) {
-                    $query->where('heure_debut', '<=', $datas['heure_fin'])->where('heure_fin', '>=', $datas['heure_debut']);
-                })->first();
-            if ($existingEmploiTemp) {
-                return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
-            }
+            // $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
+			// 	->where('promotion_id',$datas['promotion_id'])
+            //     ->where(function ($query) use ($datas) {
+            //         $query->where('heure_debut', '<=', $datas['heure_fin'])->where('heure_fin', '>=', $datas['heure_debut']);
+            //     })->first();
+            // if ($existingEmploiTemp) {
+            //     return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
+            // }
             //Faire une vérification sur la promotion avant la suppression
             $newUpd = Emploitemp::where('id_empl', $id)->first();
 
@@ -215,6 +226,7 @@ class EmploitempController extends Controller {
             $newUpd->promotion_id 	= $datas['promotion_id'];
             $newUpd->annee_id 		= $datas['annee_id'];
             $newUpd->prof_id 		= $datas['prof_id'];
+			$newUpd->nbreheure = Emploitemp::DifferenceTime($newUpd->heure_debut,$newUpd->heure_fin);
             $newUpd->save();
             // self::ChargerAppel($newUpd->promotion_id,$id);
 

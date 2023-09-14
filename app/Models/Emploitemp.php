@@ -21,6 +21,7 @@ class Emploitemp extends Model {
 	public $timestamps = true;
 
 
+	
 	public function discipline(){return $this->belongsTo('App\Models\Discipline','discipline_id','id_disci');}
 
 	public function promotion(){return $this->belongsTo('App\Models\Promotion','promotion_id','id_pro');}
@@ -29,6 +30,17 @@ class Emploitemp extends Model {
 
 	public function users_g(){return $this->belongsTo('App\Models\User','prof_id','id');}
 
+
+	public static function DifferenceTime($heureD, $HeureF) {	
+
+		$heureDebut = Carbon::parse($heureD); // Heure de début au format "HH:MM:SS"
+        $heureFin = Carbon::parse($HeureF);  // Heure de fin au format "HH:MM:SS"
+        // Calculer la différence en minutes
+        $differenceEnMinutes = $heureFin->diffInMinutes($heureDebut);
+        // Convertir la différence en heures décimales
+		$dif = $differenceEnMinutes / 60;
+		return $dif;
+    }
 
 	public static function getListEmploieTemps(Request $req){
 
@@ -83,22 +95,19 @@ class Emploitemp extends Model {
 		return $query;
 	}
 
+	public static function sltListAppel(){
 
-
-  public static function sltListAppel(){
-    $etablis_idSession = session('etablis_idSess');
-    $query = self::with(['discipline', 'promotion', 'anneesco'])
-        ->whereHas('anneesco', function ($query) use ($etablis_idSession) { $query->where('etablis_id', $etablis_idSession);})->get()
-		->map(function ($item) {
-            $jour_semaine = trans('entite.semaine')[$item->jour_semaine];
-			$address['id_empl']         = $item->id_empl;
-    		$address['vale'] = $jour_semaine . ' ' .substr($item->heure_debut,0,5 ). '-' .substr($item->heure_fin,0,5 ) . ' : ' .$item->discipline->code_disci . ' ' .$item->promotion->libelle_pro;
-            return $address;
-		})->pluck('vale','id_empl');
-         return $query;
-    }
-
-
+		$etablis_idSession = session('etablis_idSess');
+		$query = self::with(['discipline', 'promotion', 'anneesco'])
+			->whereHas('anneesco', function ($query) use ($etablis_idSession) { $query->where('etablis_id', $etablis_idSession);})->get()
+			->map(function ($item) {
+				$jour_semaine = trans('entite.semaine')[$item->jour_semaine];
+				$address['id_empl']         = $item->id_empl;
+				$address['vale'] = $jour_semaine . ' ' .substr($item->heure_debut,0,5 ). '-' .substr($item->heure_fin,0,5 ) . ' : ' .$item->discipline->code_disci . ' ' .$item->promotion->libelle_pro;
+				return $address;
+			})->pluck('vale','id_empl');
+		return $query;
+	}
 
     public static function sltListEmploitemp(){
         $query = self::all()->pluck('heure_debut','id_empl');

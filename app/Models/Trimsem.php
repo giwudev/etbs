@@ -64,7 +64,8 @@ class Trimsem extends Model {
 	}
 
 	public static function sltListTrimsem(){
-		$query = self::all()->pluck('libelle_trimsem','id_trimSem');
+		$query = self::where('annee_id',session('annee_idSess'))
+					->pluck('libelle_trimsem','id_trimSem');
 		return $query;
 	}
 

@@ -8,6 +8,7 @@ use Auth;
 use App\Models\GiwuSociete;
 use App\Models\EmploiTemp;
 
+
 class HomeController extends Controller
 {
     /**
@@ -25,21 +26,21 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-{
-    if (session('InfosRole')->id_role == 16) {
-        // $giwu['pathMenu'] = "";
-    }
-    $giwu['pathMenu'] = GiwuService::PathMenu('/');
-    // Récupérer l'emploi du temps du professeur connecté
-    $emploiDuTemps = EmploiTemp::where('prof_id', auth()->user()->id)->get();
+    public function index() {
 
-    // Espace admin
-    $giwu['image'] = GiwuService::PhotoProfilUtilisateur();
-    // Passer les données de l'emploi du temps à la vue
-    $giwu['emploiDuTemps'] = $emploiDuTemps;
-    return view('home')->with($giwu);
-}
+        if (session('InfosRole')->id_role == 16) {
+            // $giwu['pathMenu'] = "";
+        }
+        $giwu['pathMenu'] = GiwuService::PathMenu('/');
+        // Récupérer l'emploi du temps du professeur connecté
+        $emploiDuTemps = EmploiTemp::where('prof_id', auth()->user()->id)->get();
+
+        // Espace admin
+        $giwu['image'] = GiwuService::PhotoProfilUtilisateur();
+        // Passer les données de l'emploi du temps à la vue
+        $giwu['emploiDuTemps'] = $emploiDuTemps;
+        return view('home')->with($giwu);
+    }
 
 
 }
