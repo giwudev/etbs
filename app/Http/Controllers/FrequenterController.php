@@ -34,7 +34,7 @@ class FrequenterController extends Controller {
 	 */
 	public function index(Request $req) {
 
-		$array = GiwuService::Path_Image_menu("/cons/frequenter");
+		$array = GiwuService::Path_Image_menu("/param/frequenter");
        // dd($array);
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Frequenter::getListEleveFrequente($req)->paginate(20);
@@ -55,7 +55,7 @@ class FrequenterController extends Controller {
 	 */
 	public function create() {
 		//
-		$array = GiwuService::Path_Image_menu("/cons/frequenter/create");
+		$array = GiwuService::Path_Image_menu("/param/frequenter/create");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
@@ -118,7 +118,7 @@ class FrequenterController extends Controller {
 	 */
 	public function edit($id) {
 		//
-		$array = GiwuService::Path_Image_menu("/cons/frequenter/edit");
+		$array = GiwuService::Path_Image_menu("/param/frequenter/edit");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listeleve_id'] = Eleve::getElevesAvecPromotion();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
@@ -202,11 +202,14 @@ class FrequenterController extends Controller {
 		return $pdf->stream('frequenter-'.date('Ymdhis').'.pdf');
 	}
 
-	public static function AffichePopAction($id)
-    {
+	public static function AffichePopAction($id){
         $giwu['item'] = Frequenter::find($id);
 		$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
 		return view('frequenter.action')->with($giwu);
+    }
+	public static function AffichePopUp(){
+		//$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
+		return view('frequenter.pop-up');
     }
 
 /*	public static function importEleve(Request $req){
@@ -222,23 +225,23 @@ class FrequenterController extends Controller {
     }
 }*/
 
-public function importEleve(Request $req){
-    try {
-        $import = new ElevesImport();
-        Excel::import($import, $req->file('fichier_excel'));
-		 $importErrors = $import->getImportErrors();
-        if (!empty($importErrors)) {
-            foreach ($importErrors as $error) {
-				return Redirect::back()->with('error',  $error );
-            }
-        } else {
-            return Redirect::back()->with('success', 'Fichier importé avec succès ... !');
-        }
-    } catch (\Illuminate\Database\QueryException $e) {
-        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
-    }
-}
-
+	public function importEleve(Request $req){
+		try {
+			$import = new ElevesImport();
+			Excel::import($import, $req->file('fichier_excel'));
+			$importErrors = $import->getImportErrors();
+			if (!empty($importErrors)) {
+				foreach ($importErrors as $error) {
+					return Redirect::back()->with('error',  $error );
+				}
+			} else {
+				return Redirect::back()->with('success', 'Fichier importé avec succès ... !');
+			}
+		} catch (\Illuminate\Database\QueryException $e) {
+			return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+		}
+	}
+	
 
 
 }

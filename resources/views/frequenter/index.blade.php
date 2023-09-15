@@ -11,6 +11,8 @@
 
 @section('content')
 
+
+
     <div class="col-lg-12">
         <div class="card" id="ticketsList">
             <div class="card-header border-0">
@@ -18,7 +20,7 @@
                     <h5 class="card-title mb-0 flex-grow-1"><i class="{{ $icone }} m-2"></i>{{ $titre }}</h5>
                     <div class="flex-shrink-0">
                         @if (in_array('add_frequenter', session('InfosAction')))
-                            <a class="btn btn-primary btn-label right" href="{{ route('frequenter.create') }}"><i
+                            <a href="{{ route('frequenter.create') }}"  class="btn btn-primary btn-label right" onclick="f(event)" ><i
                                     class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Ajouter</a>
                         @endif
                         @if (in_array('exporter_frequenter', session('InfosAction')))
@@ -115,6 +117,16 @@
             <div class="modal-dialog modal-dialog-centered"></div>
         </div>
     </div>
+    <div>
+        <div class="modal fade bs-example-modal-center" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered"></div>
+        </div>
+    </div>
+
+
+
+
 
 @endsection
 
@@ -180,6 +192,70 @@
                 }
             });
         });
+
+
+       function f(e){
+            var ecoleSelected = $('#etablis_id').val();
+            var anneeSelected = $('#annee_id').val();
+            var promotionSelected = $('#promotion_id').val();
+            if (ecoleSelected==-1 || !anneeSelected || !promotionSelected) {
+                e.preventDefault(); 
+             //   window.location.href = "{{ url('frequenter/pop-up') }}";
+             console.log('annee',anneeSelected) ;
+                return    $.ajax({
+                            url: "{{ url('frequenter/pop-up') }}", 
+                            type: 'GET',
+                            dataType: 'html',
+                            success: function(code_html, statut) {
+                                console.log("Succès AJAX", code_html  );
+                                $("#confirmationModal .modal-dialog").html(code_html);
+                                $("#confirmationModal").modal('show');
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                    console.error("Erreur AJAX : " + textStatus, errorThrown);
+                                }
+
+                        });
+                        }
+                    }
     </script>
+    <script>/*
+$(document).ready(function() {
+    $('#ajouterEleveLink').on('click', function(e) {
+    var ecoleSelected = $('#etablis_id').val();
+    var anneeSelected = $('#annee_id').val();
+    var promotionSelected = $('#promotion_id').val();
+    console.log(ecoleSelected)
+            console.log(anneeSelected)
+            console.log(promotionSelected)
+
+    if ( ecoleSelected == -1 || !anneeSelected || !promotionSelected) {
+            console.log(ecoleSelected)
+            console.log(anneeSelected)
+            console.log(promotionSelected)
+        console.log('OKI');
+        $.ajax({
+                url: {{ url('frequenter/pop-up') }}, 
+                type: 'GET',
+                dataType: 'html',
+                success: function(code_html, statut, data) {
+                    $("#confirmationModal .modal-dialog").html(code_html);
+                    $("#confirmationModal").modal('show'); 
+                },
+                error: function(xhr, status, error) {
+
+                    console.error(status);
+                    console.error(error);
+                }
+            });
+
+    }
+});
+});
+*/
+</script>
+
+
+
 
 @endsection

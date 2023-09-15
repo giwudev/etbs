@@ -34,7 +34,6 @@ class EmploitempController extends Controller {
 	 */
 	public function index(Request $req) {
     $array = GiwuService::Path_Image_menu("/param/emploitemp");
-     dd($array);
     if ($array['titre'] == "") {
         return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
     } else {
@@ -92,21 +91,12 @@ class EmploitempController extends Controller {
 			}
 
 			$existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
-<<<<<<< Updated upstream
-					->where('promotion_id',$datas['promotion_id'])
-					->where(function ($query) use ($datas) {
-						$query->where('heure_debut', '<=', $datas['heure_fin'])
-							->where('heure_fin', '>=', $datas['heure_debut']);
-					})
-					->first();
-=======
 				->where('promotion_id',$datas['promotion_id'])
 				->where(function ($query) use ($datas) {
 					$query->where('heure_debut', '<=', $datas['heure_fin'])
 						->where('heure_fin', '>=', $datas['heure_debut']);
 				})
 				->first();
->>>>>>> Stashed changes
 
 			if ($existingEmploiTemp) {
 				return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
