@@ -92,21 +92,12 @@ class EmploitempController extends Controller {
 			}
 
 			$existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
-<<<<<<< Updated upstream
-					->where('promotion_id',$datas['promotion_id'])
-					->where(function ($query) use ($datas) {
-						$query->where('heure_debut', '<=', $datas['heure_fin'])
-							->where('heure_fin', '>=', $datas['heure_debut']);
-					})
-					->first();
-=======
 				->where('promotion_id',$datas['promotion_id'])
 				->where(function ($query) use ($datas) {
 					$query->where('heure_debut', '<=', $datas['heure_fin'])
 						->where('heure_fin', '>=', $datas['heure_debut']);
 				})
 				->first();
->>>>>>> Stashed changes
 
 			if ($existingEmploiTemp) {
 				return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
