@@ -25,7 +25,7 @@
                 <div class="live-preview"><strong>
                         <div class="msgAjouter"></div>
                     </strong>
-                    <form action="{{ route('emploitemp.update', $item->id_empl) }}" method="post" id="form"
+                    <form action="{{url($link_update)}}" method="post" id="form"
                         class="row g-3 needs-validation" novalidate>
                         @csrf()
                         @method('PATCH')
@@ -133,7 +133,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="text-end">
-                                    <a href="{{ route('emploitemp.index') }}"
+                                    <a href="{{url($link_store)}}"
                                         class="btn btn-outline-dark waves-effect mr-10">Fermer</a>
                                     @if (in_array('update_emploitemp', session('InfosAction')))
                                         <button type="submit" class="btn btn-success btn-label right"><i

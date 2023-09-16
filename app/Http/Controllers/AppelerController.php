@@ -35,7 +35,7 @@ class AppelerController extends Controller {
 		$array = GiwuService::Path_Image_menu("/appel/appeler");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Appeler::getListAppel($req)->paginate(20);
-		$giwu['listemploi_id'] = Emploitemp::sltListAppel();
+		$giwu['listemploi_id'] = Emploitemp::sltListAppelProfesseur();
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listetablis_id'] = Ecole::sltListEcole();
 		if($req->ajax()) {

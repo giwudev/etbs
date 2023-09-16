@@ -146,9 +146,9 @@ Route::group(['middleware' => 'auth'],function(){
 	|   EMPLOITEMP
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('emploitemp/AffichePopDelete/{id}',[App\Http\Controllers\EmploitempController::class, 'AffichePopDelete']);
-	Route::get('emploitemp/exporterExcel',[App\Http\Controllers\EmploitempController::class, 'exporterExcel']);
-	Route::get('emploitemp/exporterPdf',[App\Http\Controllers\EmploitempController::class, 'exporterPdf']);
+	Route::get('emploitemp{type}/AffichePopDelete/{id}',[App\Http\Controllers\EmploitempController::class, 'AffichePopDelete']);
+	Route::get('emploitemp{type}/exporterExcel',[App\Http\Controllers\EmploitempController::class, 'exporterExcel']);
+	Route::get('emploitemp{type}/exporterPdf',[App\Http\Controllers\EmploitempController::class, 'exporterPdf']);
 
 		/*
 	|--------------------------------------------------------------------------
@@ -185,9 +185,18 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('listnoteconduite/exporterExcel',[App\Http\Controllers\Cons\ConslistnoteconduiteController::class, 'exporterExcel']);
 	Route::get('listnoteconduite/exporterPdf',[App\Http\Controllers\Cons\ConslistnoteconduiteController::class, 'exporterPdf']);
 
+		/*
+	|--------------------------------------------------------------------------
+	|   DEFINIPROMOTION
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('definipromotion/AffichePopDelete/{id}',[App\Http\Controllers\DefinipromotionController::class, 'AffichePopDelete']);
+	Route::get('definipromotion/exporterExcel',[App\Http\Controllers\DefinipromotionController::class, 'exporterExcel']);
+	Route::get('definipromotion/exporterPdf',[App\Http\Controllers\DefinipromotionController::class, 'exporterPdf']);
+
 	//add-route-cms
 
-
+	Route::resource('emploitemp{type}', App\Http\Controllers\EmploitempController::class, ['parameters' => ['emploitemp{type}' => 'id']]);
     Route::resources([
         'users'=>App\Http\Controllers\UserController::class,
         'menu'=>App\Http\Controllers\MenuController::class,
@@ -201,9 +210,10 @@ Route::group(['middleware' => 'auth'],function(){
 		'promotion'=>App\Http\Controllers\PromotionController::class,
 		'discipline'=>App\Http\Controllers\DisciplineController::class,
 		'eleve'=>App\Http\Controllers\EleveController::class,
-		'emploitemp'=>App\Http\Controllers\EmploitempController::class,
 		'frequenter'=>App\Http\Controllers\FrequenterController::class,
 		'appeler'=>App\Http\Controllers\AppelerController::class,
+		// 'emploitemp{type}'=>App\Http\Controllers\EmploitempController::class,
+		'definipromotion'=>App\Http\Controllers\DefinipromotionController::class,
 		//resources-giwu
     ]);
 });

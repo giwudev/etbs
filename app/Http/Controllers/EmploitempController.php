@@ -32,28 +32,35 @@ class EmploitempController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(Request $req) {
-    $array = GiwuService::Path_Image_menu("/param/emploitemp");
-    if ($array['titre'] == "") {
-        return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
-    } else {
-        foreach ($array as $name => $data) {
-            $giwu[$name] = $data;
-        }
-    }
+	public function index(Request $req, $type) {
+		
+		$array = GiwuService::Path_Image_menu("/emplo/emploitemp". $type);
+		if ($array['titre'] == "") {
+			return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
+		} else {
+			foreach ($array as $name => $data) {
+				$giwu[$name] = $data;
+			}
+		}
 
-    $giwu['list'] = Emploitemp::getListEmploieTemps($req)->paginate(20);
-    $giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
-    $giwu['listpromotion_id'] = Promotion::sltListPromotion();
-    $giwu['listannee_id'] = Anneesco::sltListAnneesco();
-    $giwu['listprof_id'] = User::sltListUser();
-    $giwu['listinit_id'] = User::sltListUser();
-    $giwu['listetablis_id'] = Ecole::sltListEcole();
-    if ($req->ajax()) {
-        return view('emploitemp.index-search')->with($giwu);
-    }
-    return view('emploitemp.index')->with($giwu);
-}
+		$giwu['type'] = $type;
+		$giwu['link_create'] = "emploitemp".$type."/create";
+		$giwu['list'] = Emploitemp::getListEmploieTemps($req)->paginate(20);
+		$giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
+		if($type =='e'){
+			$giwu['listpromotion_id'] = Promotion::sltListPromotionEcole();
+		}else{
+			$giwu['listpromotion_id'] = Promotion::sltListPromotionProfesseur();
+		}
+		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
+		$giwu['listprof_id'] = User::sltListUser();
+		$giwu['listinit_id'] = User::sltListUser();
+		$giwu['listetablis_id'] = Ecole::sltListEcole();
+		if ($req->ajax()) {
+			return view('emploitemp.index-search')->with($giwu);
+		}
+		return view('emploitemp.index')->with($giwu);
+	}
 
 
 	/**
@@ -61,15 +68,18 @@ class EmploitempController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create() {
+	public function create($type) {
 		//
-		$array = GiwuService::Path_Image_menu("/param/emploitemp/create");
+		$array = GiwuService::Path_Image_menu("/emplo/emploitemp". $type."/create");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
 		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
 		$giwu['listprof_id'] = User::sltListProf();
 		$giwu['listinit_id'] = User::sltListUser();
+		$giwu['link_store'] = "emploitemp".$type;
+		$giwu['type'] = $type;
+
         return view('emploitemp.create')->with($giwu);
 	}
 
@@ -81,7 +91,7 @@ class EmploitempController extends Controller {
 	 */
 
 
-    public function store(Request $request) {
+	public function store(Request $request,$type) {
 		try {
 			$datas = $request->all();
 			unset($datas['_token']);
@@ -95,8 +105,7 @@ class EmploitempController extends Controller {
 				->where(function ($query) use ($datas) {
 					$query->where('heure_debut', '<=', $datas['heure_fin'])
 						->where('heure_fin', '>=', $datas['heure_debut']);
-				})
-				->first();
+					})->first();
 
 			if ($existingEmploiTemp) {
 				return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
@@ -113,8 +122,6 @@ class EmploitempController extends Controller {
 			$newAdd->nbreheure = Emploitemp::DifferenceTime($newAdd->heure_debut,$newAdd->heure_fin);
 			$newAdd->init_id = Auth::id();
 			$newAdd->save();
-			//Creation des lignes dans la table Appeler
-			// self::ChargerAppel($newAdd->promotion_id,$newAdd->id_empl);
 
 			GiwuSaveTrace::enregistre('Ajout du nouveau emploi de temps : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 
@@ -154,8 +161,9 @@ class EmploitempController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-    public function edit($id) {
-        $array = GiwuService::Path_Image_menu("/param/emploitemp/edit");
+    public function edit($type, $id) {
+
+        $array = GiwuService::Path_Image_menu("/emplo/emploitemp". $type."/edit");
         if ($array['titre'] == "") {
             return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
         } else {
@@ -163,6 +171,10 @@ class EmploitempController extends Controller {
                 $giwu[$name] = $data;
             }
         }
+
+		$giwu['type'] = $type;
+		$giwu['link_store'] = "emploitemp".$type;
+		$giwu['link_update'] = "emploitemp".$type."/".$id;
 
         $giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
         $giwu['listpromotion_id'] = Promotion::sltListPromotion();
@@ -184,7 +196,8 @@ class EmploitempController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id) {
+	public function update(Request $request,$type,$id) {
+		
         try {
             $dataInitiale = Emploitemp::where('id_empl', $id)->first()->toArray();
 
@@ -221,7 +234,7 @@ class EmploitempController extends Controller {
             // self::ChargerAppel($newUpd->promotion_id,$id);
 
             GiwuSaveTrace::enregistre("Modification emploitemp : " . GiwuService::DiffDetailModifier($dataInitiale, $newUpd->toArray()));
-            return redirect()->route('emploitemp.index')->with('success', trans('data.infos_update'));
+            return redirect('/emploitemp'.$type)->with('success', trans('data.infos_update'));
         } catch (\Illuminate\Database\QueryException $e) {
             return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
         }
@@ -234,27 +247,28 @@ class EmploitempController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function AffichePopDelete($id) {
+	public function AffichePopDelete($type,$id) {
 		$giwu['item'] = Emploitemp::where('id_empl',$id)->first();
+		$giwu['link_delete'] = "emploitemp".$type."/".$id;
 		return view('emploitemp.delete')->with($giwu);
 	}
 
-	public function destroy($id) {
-		//
+	public function destroy($type,$id) {
+
 		try {
 			$dataInitiale = Emploitemp::find($id)->toArray();
 			$affectedRows = Emploitemp::find($id)->delete();
 			if ($affectedRows) {
 				$dataSupp = GiwuService::DetailInfosInitial($dataInitiale);
 				GiwuSaveTrace::enregistre("Suppression du emploitemp : ".$dataSupp);
-				return redirect()->route('emploitemp.index')->with('success',trans('data.infos_delete'));
+				return redirect('/emploitemp'.$type)->with('success',trans('data.infos_delete'));
 			}
 		} catch (\Illuminate\Database\QueryException $e) {
 			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());
 		}
 	}
 
-	public function exporterExcel(Request $req) {
+	public function exporterExcel(Request $req,$type) {
 		$Resultat = Emploitemp::getListEmploieTemps($req)->get();
 		if(sizeof($Resultat) != 0){
 			$i = 0;
@@ -276,9 +290,15 @@ class EmploitempController extends Controller {
 		return Excel::download(new EmploitempExportExcel, 'EmploitempExportExcel_'.date('Y-m-d-h-i-s').'.xls');
 	}
 
-	public function exporterPdf(Request $req) {
+	public function exporterPdf(Request $req,$type) {
+
 		$Resultat = Emploitemp::getListEmploieTemps($req)->get();
-		$pdf = PDF::loadView('emploitemp.pdf',['list' => $Resultat])->setPaper('a4','landscape');
+		if($type == 'e'){
+			$type = 'de l\'école';
+		}else{			
+			$type = 'du professeur';
+		}
+		$pdf = PDF::loadView('emploitemp.pdf',['list' => $Resultat,'type' => $type])->setPaper('a4','landscape');
 		return $pdf->stream('emploitemp-'.date('Ymdhis').'.pdf');
 	}
 

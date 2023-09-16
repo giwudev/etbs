@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <!--end col-->
-                    <div class="col-xxl-3 col-md-4">
+                    <div class="col-xxl-3 col-md-3">
                         <div><label for="labelInput" class="form-label">Liste des Promotions</label>
                             <?php $addUse = ['' => 'Selectionnez un element'];
                             $listpromotion_id = $addUse + $listpromotion_id->toArray(); ?>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <!--end Recherche par defaut col-->
-                    <div class="col-xxl-3 col-md-4">
+                    <div class="col-xxl-3 col-md-3">
                         <div><label for="placeholderInput" class="form-label">Rechercher </label>
                             {!! Form::text('query', '', [
                                 'id' => 'SearchUSer',

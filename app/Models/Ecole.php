@@ -56,7 +56,7 @@ class Ecole extends Model {
 	
     public function createAppelerTable(){
 		$table_name = 'etbs_appeler_' . $this->id_eco;
-        DB::statement("DROP TABLE IF EXISTS `$table_name`;");
+        // DB::statement("DROP TABLE IF EXISTS `$table_name`;");
         DB::statement("CREATE TABLE IF NOT EXISTS `$table_name` (
             `id_appel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             `emploi_id` bigint(20) UNSIGNED NOT NULL,

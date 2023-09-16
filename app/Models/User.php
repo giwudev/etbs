@@ -82,6 +82,7 @@ class User extends Authenticatable
 		// $query = self::all()->pluck('name','id');
         $query =  self::select(DB::raw("CONCAT(name,' ',prenom) AS nomprenom"),'etbs_users.id')
                             ->whereNotIn('etbs_users.id',[1])
+                            ->where('etbs_users.etablis_id',session('etablis_idSess'))
                             ->distinct()->get()->pluck('nomprenom','id');
 		return $query;
 	}

@@ -30,37 +30,40 @@ class Appeler extends Model {
 	public function users_g(){return $this->belongsTo('App\Models\User','init_id','id');}
 
 	public static function getListAppel(Request $req){
-		// $query = Appeler::with(['emploitemp','eleve','users_g']);
-		$emploi_idv = $req->get('emploi_id');
-		if(isset($emploi_idv)){
-			if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
-				Session()->put('emploi_idSess', intval($emploi_idv));
-			}
-		}
+		$query = Frequenter::where('promotion_id',-1);
+		
 		$date_presence = $req->get('date_presence');
 		if(isset($date_presence)){
 			Session()->put('date_presenceSess', $date_presence);
 		}else{
 			Session()->put('date_presenceSess', date('Y-m-d'));
 		}
-		//Récuperer la promotion suivant l'emploi du temps choisi 
-		$promotion = Emploitemp::where('id_empl',session('emploi_idSess'))->first();
-		$idPromo = '';
-		if($promotion){
-			$idPromo = $promotion->promotion_id;
-		}
-		$query = Frequenter::with(['eleve'])
-							->where('promotion_id',$idPromo);
-							// ->orderBy('nom_el','desc');
+		$emploi_idv = $req->get('emploi_id');
+		if(isset($emploi_idv)){
+			if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
+				Session()->put('emploi_idSess', intval($emploi_idv));
 
-		$recherche = $req->get('query');
-		if(isset($recherche)){
-			// //Recherche avancee sur eleve
-			$query->orWhereHas('eleve', function ($q) use ($recherche) {
-				$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
+				//Récuperer la promotion suivant l'emploi du temps choisi 
+				$promotion = Emploitemp::where('id_empl',session('emploi_idSess'))->first();
+				$idPromo = '';
+				if($promotion){
+					$idPromo = $promotion->promotion_id;
+				}
+				$query = Frequenter::with(['eleve'])
+									->where('promotion_id',$idPromo);
+									// ->orderBy('nom_el','desc');
+
+				$recherche = $req->get('query');
+				if(isset($recherche)){
+					// //Recherche avancee sur eleve
+					$query->orWhereHas('eleve', function ($q) use ($recherche) {
+						$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+						$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+					});
+				}
+			}
 		}
+		
 		return $query;
 	}
 

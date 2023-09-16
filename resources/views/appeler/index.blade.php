@@ -35,7 +35,7 @@
                 {!! Form::open(['id' => 'formSearch', 'class' => '', 'method' => 'GET']) !!}
                 <div class="row gy-4">
                     <!--end col-->
-                    <div class="col-xxl-3 col-md-2" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
+                    <div class="col-xxl-3 col-md-3" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
                         <div><label for="labelInput" class="form-label">Liste des écoles</label>
                             <?php $addUse = ['-1' => 'Sélectionnez un élément'];
                             $listetablis_id = $addUse + $listetablis_id->toArray(); ?>
@@ -44,14 +44,14 @@
                         </div>
                     </div>
                     <!--end col-->
-                    <div class="col-xxl-3 col-md-4">
+                    <div class="col-xxl-3 col-md-3">
                         <div><label for="labelInput" class="form-label">Liste vos programmes</label>
                             <?php $addUse = ['' => 'Sélectionnez un élément'];
                             $listemploi_id = $addUse + $listemploi_id->toArray(); ?>
                             {!! Form::select('emploi_id', $listemploi_id, session('emploi_idSess'), ['id' => 'emploi_id','onchange' => 'funcRecher()','class' => 'form-select allselect']) !!}
                         </div>
                     </div>
-                    <div class="col-xxl-3 col-md-2">
+                    <div class="col-xxl-3 col-md-3">
                         <div>
                             <label for="date_presence" class="form-label">Date de présence</label>
                             <input type="date" id="date_presence" onchange='funcRecher()' name="date_presence" class="form-control"
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <!--end Recherche par defaut col-->
-                    <div class="col-xxl-3 col-md-2">
+                    <div class="col-xxl-3 col-md-3">
                         <div><label for="placeholderInput" class="form-label">Rechercher </label>
                             {!! Form::text('query', '', [
                                 'id' => 'SearchUSer','class' => 'form-control search ',

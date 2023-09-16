@@ -183,6 +183,15 @@ return [
 	'motif_just'=>'Motif',
 	'fichier_justif'=>'Pièce jointe justificative',
 
+	/*
+	|--------------------------------------------------------------------------
+	|   DEFINIPROMOTION
+	|--------------------------------------------------------------------------
+	*/
+	'id_def'=>'Identifiant',
+	'prof_id'=>'Professeur',
+	'promo_id'=>'Promotion',
+
 	//data-giwu-cms
 
 

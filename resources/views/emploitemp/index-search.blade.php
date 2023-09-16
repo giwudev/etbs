@@ -37,7 +37,7 @@
                     @if (in_array('update_emploitemp', session('InfosAction')) || in_array('delete_emploitemp', session('InfosAction')))
                         <td class="text-center">
                             @if (in_array('update_emploitemp', session('InfosAction')))
-                                <a href="{{ route('emploitemp.edit', $listgiwu->id_empl) }}" title='Modifier'
+                                <a href="{{url('emploitemp'.$type.'/'.$listgiwu->id_empl.'/edit')}}" title='Modifier'
                                     class="btn btn-success btn-sm  waves-effect waves-light"><i
                                         class="ri-edit-2-line"></i></a>
                             @endif

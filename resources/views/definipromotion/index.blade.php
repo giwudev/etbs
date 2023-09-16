@@ -15,7 +15,10 @@
 			<div class="card-header border-0">
 				<div class="d-flex align-items-center"><h5 class="card-title mb-0 flex-grow-1"><i class="{{$icone}} m-2"></i>{{$titre}}</h5>
 					<div class="flex-shrink-0">
-						@if(in_array('exporter_frequenter',session('InfosAction')))
+						@if(in_array('add_definipromotion',session('InfosAction')))
+							<a class="btn btn-primary btn-label right" href="{{route('definipromotion.create')}}"><i class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Ajouter</a>
+						@endif
+						@if(in_array('exporter_definipromotion',session('InfosAction')))
 							<div class="btn-group"><button type="button" class="btn btn-primary">Exporter</button>
 								<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent"><span class="visually-hidden">Toggle Dropdown</span></button>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuReference">
@@ -27,10 +30,9 @@
 					</div></div></div>
 			<div class="card-body border border-dashed border-end-0 border-start-0">
 				{!! Form::open(array('id' => 'formSearch','class' => '', 'method' => 'GET')) !!}
-					{!! Form::hidden('id_giwu','4ver') !!}
-						<div class="row gy-4">
-							<!--end col-->
-							<div class="col-xxl-3 col-md-3" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
+					<div class="row gy-4">
+						<!--end col-->
+						<div class="col-xxl-3 col-md-4" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
 							<div><label for="labelInput" class="form-label">Liste des écoles</label>
 								<?php $addUse = ['-1' => 'Sélectionnez un élément'];
 								$listetablis_id = $addUse + $listetablis_id->toArray(); ?>
@@ -42,7 +44,7 @@
 							</div>
 						</div>
 						<!--end col-->
-						<div class="col-xxl-3 col-md-3">
+						<div class="col-xxl-3 col-md-4">
 							<div><label for="labelInput" class="form-label">Liste des Années</label>
 								<?php $addUse = ['' => 'Selectionnez un element'];
 								$listannee_id = $addUse + $listannee_id->toArray(); ?>
@@ -53,20 +55,14 @@
 								]) !!}
 							</div>
 						</div>
-						<div class="col-xxl-3 col-md-3"> 
-							<div><label for="labelInput" class="form-label"> Liste des Promotions</label>
-								<?php $addUse = array(''=>'Selectionnez un element'); $listpromotion_id = $addUse + $listpromotion_id->toArray();?>
-								{!! Form::select('promotion_id',$listpromotion_id ,session('promotion_idSess'),["id"=>"promotion_id","onchange"=>"funcRecher()","class"=>"form-select allselect"]) !!}
+						<!-- <div class="col-xxl-3 col-md-3"<?php // echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
+							<div><label for="labelInput" class="form-label">Liste des Professeurs</label>
+								<?php //$addUse = array(''=>'Selectionnez un element'); $listprof_id = $addUse + $listprof_id->toArray();?>
+								{!! Form::select('prof_id',$listprof_id ,session('prof_idSess'),["id"=>"prof_id","onchange"=>"funcRecher()","class"=>"form-select allselect"]) !!}
 							</div>
-						</div>
-						<div class="col-xxl-3 col-md-3"> 
-							<div><label for="labelInput" class="form-label"> Liste des Périodes</label>
-								<?php $addUse = array(''=>'Selectionnez un element'); $listPeriode = $addUse + $listPeriode->toArray();?>
-								{!! Form::select('periode_id',$listPeriode ,session('periode_id'),["id"=>"periode_id","onchange"=>"funcRecher()","class"=>"form-select allselect"]) !!}
-							</div>
-						</div>
+						</div> -->
 						<!--end Recherche par defaut col-->
-						<div class="col-xxl-3 col-md-3">
+						<div class="col-xxl-3 col-md-4">
 							<div><label for="placeholderInput" class="form-label">Rechercher </label>
 								{!! Form::text('query','',["id"=>"SearchUSer","class"=>"form-control search ",'onkeyup'=>"funcRecher()",'autocomplete'=>'off','placeholder'=>"Rechercher..."]) !!}
 							</div>
@@ -77,9 +73,14 @@
 
 			</div>
 
-			<div class="card-body"><div id='dataRefresh' class="table-responsive table-card mb-4 m-2 giwuRefresh">@include('cons.listnoteconduite.index-search')</div></div>
+			<div class="card-body"><div id='dataRefresh' class="table-responsive table-card mb-4 m-2 giwuRefresh">@include('definipromotion.index-search')</div></div>
 		</div><!--end card-->
 	</div><!--end col-->
+
+	<!--begin::delete-->
+	<div><div class="modal fade bs-example-modal-center" id="kt_delete_4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog" >
+		<div class="modal-dialog modal-dialog-centered"></div>
+	</div></div>
 
 @endsection
 
@@ -87,15 +88,15 @@
 	<script src="{{url('assets/js/jquery.min.js')}}" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$(".exporterXls").attr('href','{{url("listnoteconduite/exporterExcel")}}');
-			$(".exporterPdf").attr('href','{{url("listnoteconduite/exporterPdf")}}');
+			$(".exporterXls").attr('href','{{url("definipromotion/exporterExcel")}}');
+			$(".exporterPdf").attr('href','{{url("definipromotion/exporterPdf")}}');
 			// Pagination
 			$(document).on("click",".pagination a",function(event){
 				event.preventDefault(); var page = $(this).attr('href').split('page=')[1]; fetch_page(page);
 			});
 			function fetch_page(page){
 				var dr = $("#formSearch").serialize();
-				$.ajax({ url:"listnoteconduite?page="+page, data: dr, type: 'GET',
+				$.ajax({ url:"definipromotion?page="+page, data: dr, type: 'GET',
 					success:function (data) { $('#dataRefresh').html(data); $("html, body").animate({ scrollTop: 0 }, "fast"); }
 				});
 			}
@@ -103,19 +104,23 @@
 
 		//Fonction sur la recherche
 		function funcRecher(){
-			window.idVar = '';
 			var filtreData = $("#formSearch").serialize();
-			$(".exporterXls").attr('href','{{url("listnoteconduite/exporterExcel")}}?'+filtreData);
-			$(".exporterPdf").attr('href','{{url("listnoteconduite/exporterPdf")}}?'+filtreData);
+			$(".exporterXls").attr('href','{{url("definipromotion/exporterExcel")}}?'+filtreData);
+			$(".exporterPdf").attr('href','{{url("definipromotion/exporterPdf")}}?'+filtreData);
 			$("div#dataRefresh").html('<h3 class="col-xs-12 text-center kt-subheader__title" style="padding-top: 3em;">' +
 										'<span class="spinner-border flex-shrink-0" role="status"> <span class="visually-hidden"></span></span></h3>');
 			return $.ajax({
-				url: '{{ url("/listnoteconduite/")}}',data: filtreData,type: 'GET',
+				url: '{{ url("/definipromotion/")}}',data: filtreData,type: 'GET',
 				success: function (e) {$('#dataRefresh').html(e);},
 				error: function (data) {$('#dataRefresh').html('<div class="alert alert-danger" role="alert">Erreur dans la recherche!</div>');},
 			});
 		};
-
+		$(document).on('click', '.btn-delete', function () {
+			id = $(this).data("id");
+			$.ajax({url : '{{ url("definipromotion/AffichePopDelete/") }}/'+id,type : 'GET',dataType : 'html',
+				success : function(code_html, statut){$("#kt_delete_4 .modal-dialog").html(code_html);$("#kt_delete_4").modal('show');}
+			});
+		});
 	</script>
 
 @endsection

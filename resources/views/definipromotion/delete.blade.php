@@ -2,8 +2,8 @@
 	<div class="modal-body text-center p-4">
 		<div class="mt-2">
 			<h4 class="mb-3 red-g" > {{trans('data.titre_delete')}} <i class="bx bxs-trash"></i></h4>
-			<p class="text-muted mb-4"> Voulez-vous vraiment supprimer {{$item->heure_debut}} ? </p>
-			<form  action="{{url($link_delete)}}" method="POST">
+			<p class="text-muted mb-4"> Voulez-vous vraiment supprimer {{$item->promo_id}} ? </p>
+			<form  action="{{route('definipromotion.destroy',$item->id_def)}}" method="POST">
 					@method('DELETE')
 					@csrf()
 				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>

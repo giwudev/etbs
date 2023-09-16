@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder {
 
 	public function run() {
 
-		$this->call(listnoteconduiteSeeder::class);
+		$this->call(DefinipromotionSeeder::class);
 
 	}
 

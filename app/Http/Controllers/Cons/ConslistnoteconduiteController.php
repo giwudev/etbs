@@ -27,22 +27,10 @@ class ConslistnoteconduiteController extends Controller {
 
 	public static function getListEleveFrequente(Request $req){
 
-		$query = Frequenter::with(['eleve','promotion'])->orderBy('created_at','desc');
-
+		$query = Frequenter::where('created_at','-1');
+		
 		$checkAction = $req->get('id_giwu');
 		if(isset($checkAction)){
-			//recherche simple
-			$recherche = $req->get('query');
-			if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					
-					$query->where('eleve_id','like','%'.strtoupper(trim($recherche).'%'));
-				});
-				//Recherche avancee sur eleve
-				$query->orWhereHas('eleve', function ($q) use ($recherche) {
-					$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-					$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-				});
-			}
 			$trimSem = $req->get('periode_id');
 			if(isset($trimSem)){
 				Session()->put('periode_id', $trimSem);
@@ -57,7 +45,22 @@ class ConslistnoteconduiteController extends Controller {
 			}else{
 				Session()->put('promotion_idSess','');
 			}
-			$query->where('promotion_id',$promotion_idr);
+			if(isset($promotion_idr) && isset($trimSem)){
+				$query = Frequenter::with(['eleve','promotion'])->orderBy('created_at','desc');
+				//recherche simple
+				$recherche = $req->get('query');
+				if(isset($recherche)){
+					$query->where(function ($query) Use ($recherche){					
+						// $query->where('eleve_id','like','%'.strtoupper(trim($recherche).'%'));
+					});
+					//Recherche avancee sur eleve
+					$query->orWhereHas('eleve', function ($q) use ($recherche) {
+						$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+						$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+					});
+				}
+				$query->where('promotion_id',$promotion_idr);
+			}
 		}
 		return $query;
 	}

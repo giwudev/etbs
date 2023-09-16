@@ -25,8 +25,9 @@
                 <div class="live-preview"><strong>
                         <div class="msgAjouter"></div>
                     </strong>
-                    <form action="{{ route('emploitemp.store') }}" method="post" id="form"
+                    <form action="{{url($link_store)}}" method="post" id="form"
                         class="row g-3 needs-validation" novalidate>
+                        {!! Form::hidden('idType',$type,["id"=>"idType"]) !!}
                         @csrf()
                         <div class="row">
                             @if (session()->has('success') || session()->has('error'))
@@ -130,7 +131,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="text-end">
-                                    <a href="{{ route('emploitemp.index') }}"
+                                    <a href="{{url($link_store)}}"
                                         class="btn btn-outline-dark waves-effect mr-10">Fermer</a>
                                     @if (in_array('add_emploitemp', session('InfosAction')))
                                         <button type="submit" class="btn btn-primary btn-label right"><i

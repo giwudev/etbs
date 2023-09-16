@@ -9,6 +9,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Definipromotion;
 use Auth;
 
 class Promotion extends Model {
@@ -58,6 +59,29 @@ class Promotion extends Model {
 		$query = $query->WhereHas('classe.anneesco', function ($q) use ($sessionEcole) {
 			$q->where('etablis_id', $sessionEcole);
 		})->pluck('libelle_pro','id_pro');
+		return $query;
+	}
+
+	public static function sltListPromotionEcole(){
+		$query = self::with(['classe','classe.anneesco']);
+		
+		$sessionEcole = session('etablis_idSess');
+		$query = $query->WhereHas('classe.anneesco', function ($q) use ($sessionEcole) {
+			$q->where('etablis_id', $sessionEcole);
+		})->pluck('libelle_pro','id_pro');
+		return $query;
+	}
+
+	public static function sltListPromotionProfesseur(){
+		$PromoOccup = Definipromotion::where('prof_id',Auth::id())
+								->select('promo_id')->pluck('promo_id','promo_id')->toArray();
+
+		$query = self::with(['classe','classe.anneesco']);
+		$sessionEcole = session('etablis_idSess');
+
+		$query = $query->WhereHas('classe.anneesco', function ($q) use ($sessionEcole) {
+			$q->where('etablis_id', $sessionEcole);
+		})->whereIn('id_pro', $PromoOccup)->pluck('libelle_pro','id_pro');
 		return $query;
 	}
 

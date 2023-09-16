@@ -4,7 +4,7 @@
 <div class="footer"><i>{!!trans('data.signaturePdf')!!} <span class="pagenum"></span> </i></div>
 
 @if(count($list) != 0)
-	<div><h3 style="text-align:center;">Emploi du temps<br>
+	<div><h3 style="text-align:center;">Emploi du temps {{$type}}<br>
 		@if(!empty($_GET['query']))
 			Recherche : {{$_GET['query']}}<br>
 		@endif
