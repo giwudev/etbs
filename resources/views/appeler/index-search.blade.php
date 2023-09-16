@@ -16,7 +16,7 @@
                 <tr>
                     <?php $appel = \App\Models\Appeler::CheckElevePresence($listgiwu->eleve_id); ?>
                     <td>
-                        <button id="dochoix{{ $appel->id_appel }}" type="button" data-id="{{ $appel->id_appel }}"
+                        <button id="dochoix{{ $appel->id_appel }}" type="button" data-id="{{$appel->id_appel }}"
                             class="btn {{ $appel->etat_appel == true ? 'btn-secondary' : 'btn-danger' }} btn-sm bg-gradient waves-effect waves-light btn-confirmer">
                             {{ $appel->etat_appel == true ? 'Présent' : 'Absent' }}
                         </button>

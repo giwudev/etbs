@@ -34,7 +34,6 @@ class EmploitempController extends Controller {
 	 */
 	public function index(Request $req) {
     $array = GiwuService::Path_Image_menu("/param/emploitemp");
-     dd($array);
     if ($array['titre'] == "") {
         return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);
     } else {

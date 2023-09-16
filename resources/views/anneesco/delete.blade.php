@@ -7,7 +7,7 @@
 					@method('DELETE')
 					@csrf()
 				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
-				<button id="submit" class="btn btn-danger">Oui</button>
+				<button id="submit" cleass="btn btn-danger">Oui</button>
 			</form>
 			<div class="hstack gap-2 justify-content-center"></div>
 		</div>

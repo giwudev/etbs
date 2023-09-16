@@ -23,7 +23,6 @@ class Appeler extends Model {
 	protected $guarded = array('*');
 	public $timestamps = true;
 
-
 	public function emploitemp(){return $this->belongsTo('App\Models\Emploitemp','emploi_id','id_empl');}
 
 	public function eleve(){return $this->belongsTo('App\Models\Eleve','eleve_id','id_el');}
@@ -38,7 +37,6 @@ class Appeler extends Model {
 				Session()->put('emploi_idSess', intval($emploi_idv));
 			}
 		}
-
 		$date_presence = $req->get('date_presence');
 		if(isset($date_presence)){
 			Session()->put('date_presenceSess', $date_presence);
@@ -53,6 +51,7 @@ class Appeler extends Model {
 		}
 		$query = Frequenter::with(['eleve'])
 							->where('promotion_id',$idPromo);
+							// ->orderBy('nom_el','desc');
 
 		$recherche = $req->get('query');
 		if(isset($recherche)){
@@ -93,57 +92,53 @@ class Appeler extends Model {
         // session('etablis_idSess')
 	}
 
-	public static function getListAppelPDF(Request $req){
-		$query = Appeler::with(['emploitemp', 'eleve', 'users_g']);
-		$emploi_idv = $req->get('emploi_id');
-		if(isset($emploi_idv)){
-			if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
-				Session()->put('emploi_idSess', intval($emploi_idv));
+
+        public static function getListAppelPDF(Request $req){
+            $query = Appeler::with(['emploitemp', 'eleve', 'users_g']);
+            $emploi_idv = $req->get('emploi_id');
+            if(isset($emploi_idv)){
+                if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
+                    Session()->put('emploi_idSess', intval($emploi_idv));
+                }
+                $query->where('emploi_id', $req->get('emploi_id'));
+            } else {
+                $query->where('emploi_id', session('emploi_idSess'));
+            }
+
+            $recherche = $req->get('query');
+            if(isset($recherche)){
+                $query->WhereHas('eleve', function ($q) use ($recherche) {
+                    $q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+                    $q->orWhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+                });
+            }
+
+            return $query;
+        }
+
+		public static function nbre_heure_abs($eleve_id,$promotion_id){
+			$trimSem = Trimsem::find(session('periode_id'));
+			if($trimSem){
+				$dateDebut 	= $trimSem->date_debut;
+				$dateFin 	= $trimSem->date_fin;
+			}else{
+				$dateDebut 	= '1970-01-01';
+				$dateFin 	= '1970-01-01';
 			}
-			$query->where('emploi_id', $req->get('emploi_id'));
-		} else {
-			$query->where('emploi_id', session('emploi_idSess'));
+			$allApp = Appeler::where('eleve_id',$eleve_id)
+								->where('date_presence','>=',$dateDebut)
+								->where('date_presence','<=',$dateFin)
+								->where('etat_appel',false)
+								->select('emploi_id')
+								->get()
+					->toArray();
+				$emploiTempTotal = 0; 
+				foreach ($allApp as $app) {
+					$emploi_id = $app['emploi_id'];
+					$emploiTemp = Emploitemp::where('promotion_id', $promotion_id)->where('id_empl', $emploi_id)->sum('nbreheure');
+					$emploiTempTotal += $emploiTemp;
+				}
+				return $emploiTempTotal;
 		}
-
-		$recherche = $req->get('query');
-		if(isset($recherche)){
-			$query->WhereHas('eleve', function ($q) use ($recherche) {
-				$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orWhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
-		}
-
-		return $query;
-	}
-
-	public static function nbre_heure_abs($eleve_id,$promotion_id){
-
-		$trimSem = Trimsem::find(session('periode_id'));
-		if($trimSem){
-			$dateDebut 	= $trimSem->date_debut;
-			$dateFin 	= $trimSem->date_fin;
-		}else{
-			$dateDebut 	= '1970-01-01';
-			$dateFin 	= '1970-01-01';
-		}
-		$allApp = Appeler::where('eleve_id',$eleve_id)
-							->where('date_presence','>=',$dateDebut)
-							->where('date_presence','<=',$dateFin)
-							->where('etat_appel',false)
-							->select('emploi_id')
-							->get()
-				->toArray();
-
-		//Récuperer les emplois de temps de cette promotion sous forme d'un tableau
-		$emploiTemp = Emploitemp::where('promotion_id',$promotion_id)
-								->whereIn('id_empl',$allApp)
-								->get();
-								// ->sum('nbreheure');
-		
-		// dd($emploiTemp,$allApp,session('periode_id'));
-		return $emploiTemp;
-
-	}
-
 }
 

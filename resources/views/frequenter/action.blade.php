@@ -2,7 +2,7 @@
 
 <div class="modal-content">
     <div class="modal-header card-header">
-        <h5 class="modal-title d-flex justify-content-center" id="varyingcontentModalLabel"> Importer les élèves :</h5>
+        <h5 class="modal-title d-flex justify-content-center" id="varyingcontentModalLabel"> Importer les élèves via un ficher excel:</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
@@ -11,9 +11,8 @@
         </strong>
         <form id="formAction" action="{{ route('frequenter.importEleve') }}" class="needs-validation" method="post"  novalidate enctype='multipart/form-data'>
             @csrf()
-            <!-- {!! Form::hidden('id_appel', $item->id_appel, ['id' => 'id_appel']) !!} -->
             <div class="col-md-12">
-                <div class="mb-3">
+                <div class="mb-5">
                     <label for="justifier" class="form-label">Sélectionnez un fichier Excel :</label>
                     <input type="file" class="form-control" id="fichier_excel" name="fichier_excel" accept=".xls, .xlsx">
                     <span class="text-danger" id="justifierError"></span>
@@ -22,12 +21,6 @@
                 <b class="text-danger"> <u>NB </u>: Ce fichier doit contenir exclusivement la listes des élèves à ajouter à la promotion {{$promotion->libelle_pro}} .</b>
             </div>
             <div class="modal-footer d-flex justify-content-between">
-                <!-- <button id="valider" type="button" class="btn btn-secondary btn-load" onclick="addAction();">
-                    <span class="d-flex align-items-center">
-                        <span class="flex-grow-1 me-2">Ajouter</span>
-                        <span class="flex-shrink-0" role="status"></span>
-                    </span>
-                </button> -->
                 <div>
                     <a target="_blank" href="{{ asset('document/testimport.xlsx') }}"  class="btn btn-warning">Telecharger un exemplaire &nbsp; <i class="ri-download-2-fill"></i></span> </a>
                 </div>

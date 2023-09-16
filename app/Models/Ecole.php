@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class Ecole extends Model {
 
@@ -51,6 +52,29 @@ class Ecole extends Model {
 		$query = self::all()->pluck('nom_eco','id_eco');
 		return $query;
 	}
+
+	
+    public function createAppelerTable(){
+		$table_name = 'etbs_appeler_' . $this->id_eco;
+        DB::statement("DROP TABLE IF EXISTS `$table_name`;");
+        DB::statement("CREATE TABLE IF NOT EXISTS `$table_name` (
+            `id_appel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            `emploi_id` bigint(20) UNSIGNED NOT NULL,
+            `eleve_id` bigint(20) NOT NULL,
+            `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
+            `date_presence` date DEFAULT NULL,
+            `justifier` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+            `motif_just` longtext COLLATE utf8mb4_unicode_ci,
+            `fichier_justif` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+            `init_id` bigint(20) UNSIGNED NOT NULL,
+            `created_at` timestamp NULL DEFAULT NULL,
+            `updated_at` timestamp NULL DEFAULT NULL,
+            PRIMARY KEY (`id_appel`),
+            KEY `etbs_appeler_emploi_id_foreign` (`emploi_id`),
+            KEY `etbs_appeler_eleve_id_foreign` (`eleve_id`),
+            KEY `etbs_appeler_init_id_foreign` (`init_id`)
+        ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+    }
 
 }
 

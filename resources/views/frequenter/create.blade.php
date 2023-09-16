@@ -14,7 +14,7 @@
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">{{ $titre . ' ' . $promotion->libelle_pro }}</h4>
                 <div class="flex-shrink-0">
-                    <button type="button" class="btn btn-secondary btn-label right btn-action waves-effect waves-light btn-action"data-toggle="modal"  data-id="{{ $promotion->id_pro }}"   ><i class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Importer plutôt un fichier excel</button>
+                    <button type="button" class="btn btn-secondary btn-label right btn-action waves-effect waves-light btn-action"data-toggle="modal"  data-id="{{ $promotion->id_pro }}"   ><i class="ri-file-excel-2-fill label-icon align-middle fs-16 ms-2"></i>Importation Excel</button>
                     <!-- <button type="button" title='Actions' data-id="{{ $promotion->id_pro }}" class="btn btn-sm btn-secondary waves-effect waves-light btn-action" data-toggle="modal">Motif</button> -->
                     </div>
                 </div>
