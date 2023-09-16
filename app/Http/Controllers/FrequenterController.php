@@ -211,21 +211,7 @@ class FrequenterController extends Controller {
 		//$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
 		return view('frequenter.pop-up');
     }
-
-/*	public static function importEleve(Request $req){
-    try {
-        $import = Excel::import(new ElevesImport, $req->fichier_excel);
-        if ($import) {
-            return Redirect::back()->with('success', 'Fichier importé avec succès ... !');
-        } else {
-            return Redirect::back()->with('error', 'Une erreur s\'est produite lors de l\'importation.');
-        }
-    } catch (\Illuminate\Database\QueryException $e) {
-        return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
-    }
-}*/
-
-	public function importEleve(Request $req){
+	/*public function importEleve(Request $req){
 		try {
 			$import = new ElevesImport();
 			Excel::import($import, $req->file('fichier_excel'));
@@ -240,7 +226,31 @@ class FrequenterController extends Controller {
 		} catch (\Illuminate\Database\QueryException $e) {
 			return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
 		}
-	}
+	}*/
+
+			public function importEleve(Request $req){
+			try {
+				$import = new ElevesImport();
+				Excel::import($import, $req->file('fichier_excel'));
+				$importErrors = $import->getImportErrors();
+
+				$importedCount = $import->getImportedCount();
+				$skippedCount = $import->getSkippedCount();
+
+				if (!empty($importErrors)) {
+					foreach ($importErrors as $error) {
+						return Redirect::back()->with('error', $error);
+					}
+				} else {
+					$message = "Fichier importé avec succès. Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
+					return Redirect::back()->with('success', $message);
+				}
+			} catch (\Illuminate\Database\QueryException $e) {
+				$message = "Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
+				return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+			}
+		}
+
 	
 
 

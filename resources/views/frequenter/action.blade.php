@@ -11,10 +11,10 @@
         </strong>
         <form id="formAction" action="{{ route('frequenter.importEleve') }}" class="needs-validation" method="post"  novalidate enctype='multipart/form-data'>
             @csrf()
-            <div class="col-md-12">
+            <div class="col-md-12"> 
                 <div class="mb-3">
                     <label for="justifier" class="form-label">Sélectionnez un fichier Excel :</label>
-                    <input type="file" class="form-control" id="fichier_excel" name="fichier_excel" accept=".xls, .xlsx">
+                    <input type="file" class="form-control" id="fichier_excel" name="fichier_excel" accept=".xls, .xlsx" required>
                     <span class="text-danger" id="justifierError"></span>
                 </div>
 

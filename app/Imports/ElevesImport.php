@@ -15,11 +15,20 @@ class ElevesImport implements ToModel
     * @return \Illuminate\Database\Eloquent\Model|null
     */
  private $importErrors = [];
+ private $importedCount = 0;
+ private $skippedCount = 0;
     public function model(array $row){
+        static $firstRow = true; 
+
+        if ($firstRow) {
+            $firstRow = false; // Marquer la première ligne comme traitée
+            return null; // Ignorer la première ligne
+        }
         $matricule = $row[0];
         $ecoleId = session('etablis_idSess');
         $existingEleve = Eleve::where('matricule_el', $matricule)->where('ecole_id', $ecoleId)->first();
         if (!$existingEleve) {
+            $this->importedCount++;
             $eleve = new Eleve([
                 'matricule_el' => $matricule,
                 'nom_el' => $row[1],
@@ -33,19 +42,18 @@ class ElevesImport implements ToModel
                 'init_id' => Auth::id(),
             ]);
             $eleve->save();
-
             Frequenter::create([
                 'eleve_id' => $eleve->id_el,
                 'promotion_id' => session('promotion_idSess')
             ]);
             return $eleve;
         } else {
+            $this->skippedCount++;
             $this->importErrors[] = "L'élève avec le matricule $matricule existe déjà dans cette école.";
             return null;
         }
     }
-
-    public function getImportErrors(){
-        return $this->importErrors;
-    }
+    public function getImportErrors(){return $this->importErrors;}
+    public function getImportedCount(){return $this->importedCount;}
+    public function getSkippedCount(){return $this->skippedCount;}
 }

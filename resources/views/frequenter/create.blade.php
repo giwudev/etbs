@@ -1,22 +1,20 @@
 @extends('layouts.general')
 
 @section('path_content')
-@if (sizeof($pathMenu) != 0)
-@for ($i = 0; $i < count($pathMenu); $i++) <li class="breadcrumb-item active"><a href="{{ $pathMenu[$i]['lien'] }}" class="kt-subheader__breadcrumbs-link">{{ $pathMenu[$i]['titre'] }}</a></li>
-    @endfor
+    @if (sizeof($pathMenu) != 0)
+        @for ($i = 0; $i < count($pathMenu); $i++) 
+            <li class="breadcrumb-item active"><a href="{{ $pathMenu[$i]['lien'] }}" class="kt-subheader__breadcrumbs-link">{{ $pathMenu[$i]['titre'] }}</a></li>
+         @endfor
     @endif
-    @stop
+@stop
 
-    @section('content')
+@section('content')
 
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">{{ $titre . ' ' . $promotion->libelle_pro }}</h4>
-                <div class="flex-shrink-0">
-                    <button type="button" class="btn btn-secondary btn-label right btn-action waves-effect waves-light btn-action"data-toggle="modal"  data-id="{{ $promotion->id_pro }}"   ><i class="ri-file-excel-2-fill label-icon align-middle fs-16 ms-2"></i>Importation Excel</button>
-                    <!-- <button type="button" title='Actions' data-id="{{ $promotion->id_pro }}" class="btn btn-sm btn-secondary waves-effect waves-light btn-action" data-toggle="modal">Motif</button> -->
-                    </div>
+                <div class="flex-shrink-0"><button type="button" class="btn btn-secondary btn-label right btn-action waves-effect waves-light btn-action"data-toggle="modal"  data-id="{{ $promotion->id_pro }}"   ><i class="ri-file-excel-2-fill label-icon align-middle fs-16 ms-2"></i>Importation Excel</button> </div>
                 </div>
             </div><!-- end card header -->
             <div class="card-body">
