@@ -242,7 +242,7 @@ class FrequenterController extends Controller {
 						return Redirect::back()->with('error', $error);
 					}
 				} else {
-					$message = "Fichier importé avec succès. Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
+					$message = "Fichier importé avec succès.\nLignes importées : $importedCount\nLignes non importées : $skippedCount.";
 					return Redirect::back()->with('success', $message);
 				}
 			} catch (\Illuminate\Database\QueryException $e) {

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 16 sep. 2023 à 13:25
--- Version du serveur : 5.7.26
--- Version de PHP : 8.0.13
+-- Généré le : sam. 16 sep. 2023 à 21:50
+-- Version du serveur : 8.0.31
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `db_etbs`
+-- Base de données : `etbs`
 --
 
 -- --------------------------------------------------------
@@ -29,15 +29,15 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `etbs_action_acces`;
 CREATE TABLE IF NOT EXISTS `etbs_action_acces` (
-  `id_action` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_menu` bigint(20) UNSIGNED NOT NULL,
+  `id_action` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_menu` bigint UNSIGNED NOT NULL,
   `libelle_action` varchar(255) DEFAULT NULL,
   `dev_action` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_action`),
   KEY `matierefp_action_acces_id_menu_foreign` (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=309 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=309 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `etbs_action_acces`
@@ -111,18 +111,18 @@ INSERT INTO `etbs_action_acces` (`id_action`, `id_menu`, `libelle_action`, `dev_
 
 DROP TABLE IF EXISTS `etbs_action_menu_acces`;
 CREATE TABLE IF NOT EXISTS `etbs_action_menu_acces` (
-  `id_actionmenu` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_menu` bigint(20) UNSIGNED NOT NULL,
-  `action_id` bigint(20) UNSIGNED NOT NULL,
-  `statut_action` bigint(20) DEFAULT NULL,
-  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `id_actionmenu` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_menu` bigint UNSIGNED NOT NULL,
+  `action_id` bigint UNSIGNED NOT NULL,
+  `statut_action` bigint DEFAULT NULL,
+  `role_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_actionmenu`),
   KEY `emp_action_menu_acces_id_menu_foreign` (`id_menu`),
   KEY `emp_action_menu_acces_action_id_foreign` (`action_id`),
   KEY `emp_action_menu_acces_role_id_foreign` (`role_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1202 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1202 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `etbs_action_menu_acces`
@@ -370,12 +370,12 @@ INSERT INTO `etbs_action_menu_acces` (`id_actionmenu`, `id_menu`, `action_id`, `
 
 DROP TABLE IF EXISTS `etbs_annee_sco`;
 CREATE TABLE IF NOT EXISTS `etbs_annee_sco` (
-  `id_annee` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `annee_debut` bigint(20) NOT NULL,
-  `annee_fin` bigint(20) NOT NULL,
-  `statut_annee` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `etablis_id` bigint(20) UNSIGNED NOT NULL,
+  `id_annee` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `annee_debut` bigint NOT NULL,
+  `annee_fin` bigint NOT NULL,
+  `statut_annee` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
+  `etablis_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_annee`),
@@ -399,15 +399,15 @@ INSERT INTO `etbs_annee_sco` (`id_annee`, `annee_debut`, `annee_fin`, `statut_an
 
 DROP TABLE IF EXISTS `etbs_appeler`;
 CREATE TABLE IF NOT EXISTS `etbs_appeler` (
-  `id_appel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `emploi_id` bigint(20) UNSIGNED NOT NULL,
-  `eleve_id` bigint(20) NOT NULL,
+  `id_appel` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emploi_id` bigint UNSIGNED NOT NULL,
+  `eleve_id` bigint NOT NULL,
   `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
   `date_presence` date DEFAULT NULL,
-  `justifier` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `motif_just` longtext COLLATE utf8mb4_unicode_ci,
-  `fichier_justif` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
+  `justifier` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `motif_just` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `fichier_justif` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_appel`),
@@ -440,15 +440,15 @@ INSERT INTO `etbs_appeler` (`id_appel`, `emploi_id`, `eleve_id`, `etat_appel`, `
 
 DROP TABLE IF EXISTS `etbs_appeler_1`;
 CREATE TABLE IF NOT EXISTS `etbs_appeler_1` (
-  `id_appel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `emploi_id` bigint(20) UNSIGNED NOT NULL,
-  `eleve_id` bigint(20) NOT NULL,
+  `id_appel` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emploi_id` bigint UNSIGNED NOT NULL,
+  `eleve_id` bigint NOT NULL,
   `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
   `date_presence` date DEFAULT NULL,
-  `justifier` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `motif_just` longtext COLLATE utf8mb4_unicode_ci,
-  `fichier_justif` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
+  `justifier` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `motif_just` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `fichier_justif` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_appel`),
@@ -479,15 +479,40 @@ INSERT INTO `etbs_appeler_1` (`id_appel`, `emploi_id`, `eleve_id`, `etat_appel`,
 
 DROP TABLE IF EXISTS `etbs_appeler_2`;
 CREATE TABLE IF NOT EXISTS `etbs_appeler_2` (
-  `id_appel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `emploi_id` bigint(20) UNSIGNED NOT NULL,
-  `eleve_id` bigint(20) NOT NULL,
+  `id_appel` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emploi_id` bigint UNSIGNED NOT NULL,
+  `eleve_id` bigint NOT NULL,
   `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
   `date_presence` date DEFAULT NULL,
-  `justifier` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `motif_just` longtext COLLATE utf8mb4_unicode_ci,
-  `fichier_justif` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
+  `justifier` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `motif_just` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `fichier_justif` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id_appel`),
+  KEY `etbs_appeler_emploi_id_foreign` (`emploi_id`),
+  KEY `etbs_appeler_eleve_id_foreign` (`eleve_id`),
+  KEY `etbs_appeler_init_id_foreign` (`init_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `etbs_appeler_7`
+--
+
+DROP TABLE IF EXISTS `etbs_appeler_7`;
+CREATE TABLE IF NOT EXISTS `etbs_appeler_7` (
+  `id_appel` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emploi_id` bigint UNSIGNED NOT NULL,
+  `eleve_id` bigint NOT NULL,
+  `etat_appel` tinyint(1) NOT NULL DEFAULT '0',
+  `date_presence` date DEFAULT NULL,
+  `justifier` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `motif_just` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `fichier_justif` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_appel`),
@@ -504,10 +529,10 @@ CREATE TABLE IF NOT EXISTS `etbs_appeler_2` (
 
 DROP TABLE IF EXISTS `etbs_classe`;
 CREATE TABLE IF NOT EXISTS `etbs_classe` (
-  `id_clas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle_clas` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `annee_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) NOT NULL,
+  `id_clas` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `libelle_clas` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `annee_id` bigint UNSIGNED NOT NULL,
+  `init_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_clas`),
@@ -533,9 +558,9 @@ INSERT INTO `etbs_classe` (`id_clas`, `libelle_clas`, `annee_id`, `init_id`, `cr
 
 DROP TABLE IF EXISTS `etbs_defini_promotion`;
 CREATE TABLE IF NOT EXISTS `etbs_defini_promotion` (
-  `id_def` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `prof_id` bigint(20) NOT NULL,
-  `promo_id` bigint(20) NOT NULL,
+  `id_def` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `prof_id` bigint NOT NULL,
+  `promo_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_def`),
@@ -558,11 +583,11 @@ INSERT INTO `etbs_defini_promotion` (`id_def`, `prof_id`, `promo_id`, `created_a
 
 DROP TABLE IF EXISTS `etbs_discipline`;
 CREATE TABLE IF NOT EXISTS `etbs_discipline` (
-  `id_disci` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `code_disci` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `libelle_disci` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `ecole_id` bigint(20) UNSIGNED NOT NULL,
+  `id_disci` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `code_disci` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `libelle_disci` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
+  `ecole_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_disci`),
@@ -588,18 +613,18 @@ INSERT INTO `etbs_discipline` (`id_disci`, `code_disci`, `libelle_disci`, `init_
 
 DROP TABLE IF EXISTS `etbs_ecole`;
 CREATE TABLE IF NOT EXISTS `etbs_ecole` (
-  `id_eco` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nom_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sigle_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `adres_eco` text COLLATE utf8mb4_unicode_ci,
-  `ville_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CodePos_eco` text COLLATE utf8mb4_unicode_ci,
-  `pays_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tel_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `directeur_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `niveau_educ_eco` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
+  `id_eco` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nom_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sigle_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `adres_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ville_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CodePos_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `pays_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tel_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `directeur_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `niveau_educ_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_eco`),
@@ -622,24 +647,24 @@ INSERT INTO `etbs_ecole` (`id_eco`, `nom_eco`, `sigle_eco`, `adres_eco`, `ville_
 
 DROP TABLE IF EXISTS `etbs_eleve`;
 CREATE TABLE IF NOT EXISTS `etbs_eleve` (
-  `id_el` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nom_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prenom_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `matricule_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_el` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nom_el` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prenom_el` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `matricule_el` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_nais_el` date DEFAULT NULL,
-  `sexe_el` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo_el` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tuteur_el` text COLLATE utf8mb4_unicode_ci,
-  `email_el` text COLLATE utf8mb4_unicode_ci,
-  `tel_el` text COLLATE utf8mb4_unicode_ci,
-  `ecole_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
+  `sexe_el` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo_el` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tuteur_el` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `email_el` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `tel_el` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ecole_id` bigint UNSIGNED NOT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_el`),
   KEY `etbs_eleve_ecole_id_foreign` (`ecole_id`),
   KEY `etbs_eleve_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_eleve`
@@ -650,7 +675,14 @@ INSERT INTO `etbs_eleve` (`id_el`, `nom_el`, `prenom_el`, `matricule_el`, `date_
 (2, 'TOHON', 'Réné', '808080', '2000-07-09', 'f', '', NULL, NULL, NULL, 1, 1, '2023-09-06 07:14:53', '2023-09-06 07:14:53'),
 (3, 'TOHON', 'Cica', '707070', '1997-07-08', 'f', '', NULL, NULL, NULL, 1, 1, '2023-09-06 07:16:48', '2023-09-06 07:16:48'),
 (4, 'AHOHOUENDO', 'Pierrette', '101010', '2000-09-09', 'f', '', NULL, NULL, NULL, 2, 1, '2023-09-06 07:18:53', '2023-09-06 07:18:53'),
-(5, 'AHOHOUENDO', 'Jeannette', '2020202', '1997-07-08', 'f', '', NULL, NULL, NULL, 2, 1, '2023-09-06 07:29:12', '2023-09-06 07:29:12');
+(5, 'AHOHOUENDO', 'Jeannette', '2020202', '1997-07-08', 'f', '', NULL, NULL, NULL, 2, 1, '2023-09-06 07:29:12', '2023-09-06 07:29:12'),
+(33, 'Elevec', 'onea', '12242', '2000-08-15', 'M', NULL, 'Bake ', 'test@exel.com', '9887455', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(32, 'Elevep', 'twov', '12241', '2000-08-14', 'M', NULL, 'Bake ', 'test@exel.com', '9887454', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(31, 'Eleveo', 'onem', '12240', '2000-08-13', 'F', NULL, 'Bake ', 'test@exel.com', '9887453', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(30, 'Elevett', 'twohh', '12239', '2000-08-12', 'M', NULL, 'Bake ', 'test@exel.com', '9887452', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(29, 'Elever', 'onenn', '12238', '2000-08-11', 'M', NULL, 'Bake ', 'test@exel.com', '9887451', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(28, 'Eleveb', 'twoQ', '12237', '2000-08-10', 'F', NULL, 'Bake ', 'test@exel.com', '9887450', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(27, 'Eleved', 'onex', '12236', '2000-08-09', 'M', NULL, 'Bake ', 'test@exel.com', '9887449', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52');
 
 -- --------------------------------------------------------
 
@@ -660,15 +692,15 @@ INSERT INTO `etbs_eleve` (`id_el`, `nom_el`, `prenom_el`, `matricule_el`, `date_
 
 DROP TABLE IF EXISTS `etbs_emploi_temp`;
 CREATE TABLE IF NOT EXISTS `etbs_emploi_temp` (
-  `id_empl` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_empl` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `heure_debut` time NOT NULL,
   `heure_fin` time NOT NULL,
-  `jour_semaine` bigint(20) NOT NULL,
-  `discipline_id` bigint(20) UNSIGNED NOT NULL,
-  `promotion_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
-  `annee_id` bigint(20) UNSIGNED NOT NULL,
-  `prof_id` bigint(20) UNSIGNED NOT NULL,
+  `jour_semaine` bigint NOT NULL,
+  `discipline_id` bigint UNSIGNED NOT NULL,
+  `promotion_id` bigint UNSIGNED NOT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
+  `annee_id` bigint UNSIGNED NOT NULL,
+  `prof_id` bigint UNSIGNED NOT NULL,
   `nbreheure` double(10,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -699,12 +731,12 @@ INSERT INTO `etbs_emploi_temp` (`id_empl`, `heure_debut`, `heure_fin`, `jour_sem
 
 DROP TABLE IF EXISTS `etbs_failed_jobs`;
 CREATE TABLE IF NOT EXISTS `etbs_failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -717,15 +749,15 @@ CREATE TABLE IF NOT EXISTS `etbs_failed_jobs` (
 
 DROP TABLE IF EXISTS `etbs_frequenter`;
 CREATE TABLE IF NOT EXISTS `etbs_frequenter` (
-  `id_freq` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `eleve_id` bigint(20) UNSIGNED NOT NULL,
-  `promotion_id` bigint(20) UNSIGNED NOT NULL,
+  `id_freq` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `eleve_id` bigint UNSIGNED NOT NULL,
+  `promotion_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_freq`),
   KEY `etbs_frequenter_eleve_id_foreign` (`eleve_id`),
   KEY `etbs_frequenter_promotion_id_foreign` (`promotion_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_frequenter`
@@ -733,7 +765,14 @@ CREATE TABLE IF NOT EXISTS `etbs_frequenter` (
 
 INSERT INTO `etbs_frequenter` (`id_freq`, `eleve_id`, `promotion_id`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, '2023-09-06 08:56:47', '2023-09-06 08:56:47'),
-(2, 2, 1, '2023-09-06 08:59:32', '2023-09-06 08:59:32');
+(2, 2, 1, '2023-09-06 08:59:32', '2023-09-06 08:59:32'),
+(29, 33, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(28, 32, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(27, 31, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(26, 30, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(25, 29, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(24, 28, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(23, 27, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52');
 
 -- --------------------------------------------------------
 
@@ -743,16 +782,16 @@ INSERT INTO `etbs_frequenter` (`id_freq`, `eleve_id`, `promotion_id`, `created_a
 
 DROP TABLE IF EXISTS `etbs_menu`;
 CREATE TABLE IF NOT EXISTS `etbs_menu` (
-  `id_menu` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_menu` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `libelle_menu` varchar(255) DEFAULT NULL,
   `titre_page` varchar(255) DEFAULT NULL,
   `controler` varchar(255) DEFAULT NULL,
   `route` varchar(255) DEFAULT NULL,
-  `topmenu_id` bigint(20) DEFAULT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `topmenu_id` bigint DEFAULT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
   `menu_icon` varchar(255) DEFAULT NULL,
-  `num_ordre` bigint(20) DEFAULT NULL,
-  `order_ss` bigint(20) DEFAULT NULL,
+  `num_ordre` bigint DEFAULT NULL,
+  `order_ss` bigint DEFAULT NULL,
   `architecture` varchar(255) DEFAULT NULL,
   `elmt_menu` varchar(3) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -760,7 +799,7 @@ CREATE TABLE IF NOT EXISTS `etbs_menu` (
   PRIMARY KEY (`id_menu`),
   KEY `matierefp_menu_topmenu_id_foreign` (`topmenu_id`),
   KEY `matierefp_menu_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=212 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=212 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `etbs_menu`
@@ -829,9 +868,9 @@ INSERT INTO `etbs_menu` (`id_menu`, `libelle_menu`, `titre_page`, `controler`, `
 
 DROP TABLE IF EXISTS `etbs_migrations`;
 CREATE TABLE IF NOT EXISTS `etbs_migrations` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -861,8 +900,8 @@ INSERT INTO `etbs_migrations` (`id`, `migration`, `batch`) VALUES
 
 DROP TABLE IF EXISTS `etbs_password_resets`;
 CREATE TABLE IF NOT EXISTS `etbs_password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -874,12 +913,12 @@ CREATE TABLE IF NOT EXISTS `etbs_password_resets` (
 
 DROP TABLE IF EXISTS `etbs_personal_access_tokens`;
 CREATE TABLE IF NOT EXISTS `etbs_personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -894,10 +933,10 @@ CREATE TABLE IF NOT EXISTS `etbs_personal_access_tokens` (
 
 DROP TABLE IF EXISTS `etbs_promotion`;
 CREATE TABLE IF NOT EXISTS `etbs_promotion` (
-  `id_pro` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle_pro` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `class_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
+  `id_pro` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `libelle_pro` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `class_id` bigint UNSIGNED NOT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_pro`),
@@ -925,14 +964,14 @@ INSERT INTO `etbs_promotion` (`id_pro`, `libelle_pro`, `class_id`, `init_id`, `c
 
 DROP TABLE IF EXISTS `etbs_role`;
 CREATE TABLE IF NOT EXISTS `etbs_role` (
-  `id_role` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_role` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `libelle_role` varchar(255) NOT NULL,
-  `user_save_id` bigint(20) UNSIGNED NOT NULL,
+  `user_save_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_role`),
   KEY `matierefp_role_user_save_id_foreign` (`user_save_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `etbs_role`
@@ -952,16 +991,16 @@ INSERT INTO `etbs_role` (`id_role`, `libelle_role`, `user_save_id`, `created_at`
 
 DROP TABLE IF EXISTS `etbs_role_acces`;
 CREATE TABLE IF NOT EXISTS `etbs_role_acces` (
-  `role_id` bigint(20) NOT NULL,
-  `id_menu` bigint(20) UNSIGNED NOT NULL,
-  `id_roleacces` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `statut_role` bigint(20) NOT NULL,
+  `role_id` bigint NOT NULL,
+  `id_menu` bigint UNSIGNED NOT NULL,
+  `id_roleacces` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `statut_role` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_roleacces`),
   KEY `matierefp_role_acces_role_id_foreign` (`role_id`),
   KEY `matierefp_role_acces_id_menu_foreign` (`id_menu`)
-) ENGINE=MyISAM AUTO_INCREMENT=871 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=871 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `etbs_role_acces`
@@ -1189,15 +1228,15 @@ INSERT INTO `etbs_role_acces` (`role_id`, `id_menu`, `id_roleacces`, `statut_rol
 
 DROP TABLE IF EXISTS `etbs_save_trace`;
 CREATE TABLE IF NOT EXISTS `etbs_save_trace` (
-  `id_trace` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_trace` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `libelle_trace` varchar(13000) NOT NULL,
   `naviguateur` varchar(255) DEFAULT NULL,
-  `id_user` bigint(20) UNSIGNED NOT NULL,
+  `id_user` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_trace`),
   KEY `matierefp_save_trace_id_user_foreign` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=230 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=232 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `etbs_save_trace`
@@ -1391,7 +1430,9 @@ INSERT INTO `etbs_save_trace` (`id_trace`, `libelle_trace`, `naviguateur`, `id_u
 (226, 'Modification du menu : Old infos ((titre_page=>Modification d\'un emploi temps) <br/>)  New infos ((titre_page=>Modification d\'un emploi temps école) <br/>) ', ' ', 1, '2023-09-16 12:05:17', '2023-09-16 12:05:17'),
 (227, 'Modification du rôle : Old infos ((id_role=>16) <br/>(user_save_id=>1) <br/>(created_at=>2023-08-22T19:20:28.000000Z) <br/>)  New infos ((_token=>6tFCT3g9rawnSkkNKWAgLAonh3C4rWnU74PLscWJ) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher199=>199) <br/>(cocher203=>203) <br/>(action303=>303) <br/>(cocher205=>205) <br/>(cocher206=>206) <br/>(cocher207=>207) <br/>(cocher208=>208) <br/>(cocher209=>209) <br/>(action305=>305) <br/>(action306=>306) <br/>) ', ' ', 1, '2023-09-16 12:06:42', '2023-09-16 12:06:42'),
 (228, 'Modification du rôle : Old infos ((id_role=>15) <br/>(user_save_id=>1) <br/>(created_at=>2023-06-10T15:12:41.000000Z) <br/>)  New infos ((_token=>6tFCT3g9rawnSkkNKWAgLAonh3C4rWnU74PLscWJ) <br/>(_method=>PATCH) <br/>(cocher1=>1) <br/>(cocher2=>2) <br/>(cocher5=>5) <br/>(action9=>9) <br/>(action10=>10) <br/>(action11=>11) <br/>(action12=>12) <br/>(cocher6=>6) <br/>(action24=>24) <br/>(cocher7=>7) <br/>(cocher8=>8) <br/>(cocher9=>9) <br/>(cocher10=>10) <br/>(cocher18=>18) <br/>(cocher19=>19) <br/>(action170=>170) <br/>(action210=>210) <br/>(cocher17=>17) <br/>(cocher20=>20) <br/>(cocher24=>24) <br/>(cocher74=>74) <br/>(cocher172=>172) <br/>(action263=>263) <br/>(action264=>264) <br/>(action266=>266) <br/>(cocher173=>173) <br/>(cocher174=>174) <br/>(cocher175=>175) <br/>(action267=>267) <br/>(action268=>268) <br/>(action269=>269) <br/>(action270=>270) <br/>(cocher184=>184) <br/>(cocher183=>183) <br/>(cocher182=>182) <br/>(action282=>282) <br/>(action281=>281) <br/>(action280=>280) <br/>(action279=>279) <br/>(cocher179=>179) <br/>(action275=>275) <br/>(action276=>276) <br/>(action277=>277) <br/>(action278=>278) <br/>(cocher180=>180) <br/>(cocher181=>181) <br/>(cocher185=>185) <br/>(action283=>283) <br/>(action284=>284) <br/>(action285=>285) <br/>(action286=>286) <br/>(cocher186=>186) <br/>(cocher187=>187) <br/>(cocher188=>188) <br/>(cocher189=>189) <br/>(cocher190=>190) <br/>(action287=>287) <br/>(action288=>288) <br/>(action289=>289) <br/>(action290=>290) <br/>(cocher191=>191) <br/>(cocher192=>192) <br/>(cocher193=>193) <br/>(action291=>291) <br/>(action292=>292) <br/>(action293=>293) <br/>(action294=>294) <br/>(cocher194=>194) <br/>(cocher195=>195) <br/>(cocher196=>196) <br/>(action295=>295) <br/>(action296=>296) <br/>(action297=>297) <br/>(action298=>298) <br/>(cocher197=>197) <br/>(cocher198=>198) <br/>(cocher199=>199) <br/>(cocher200=>200) <br/>(action299=>299) <br/>(action300=>300) <br/>(action301=>301) <br/>(action302=>302) <br/>(cocher201=>201) <br/>(cocher202=>202) <br/>(cocher203=>203) <br/>(action303=>303) <br/>(cocher204=>204) <br/>(action304=>304) <br/>(cocher205=>205) <br/>(cocher210=>210) <br/>(cocher211=>211) <br/>) ', ' ', 1, '2023-09-16 12:08:55', '2023-09-16 12:08:55'),
-(229, 'Ajout du role : (libelle_role=>Administrateur école) <br/>(user_save_id=>1) <br/>(created_at=>2023-09-16T13:14:19.000000Z) <br/>(id_role=>17) <br/>', ' ', 1, '2023-09-16 12:14:20', '2023-09-16 12:14:20');
+(229, 'Ajout du role : (libelle_role=>Administrateur école) <br/>(user_save_id=>1) <br/>(created_at=>2023-09-16T13:14:19.000000Z) <br/>(id_role=>17) <br/>', ' ', 1, '2023-09-16 12:14:20', '2023-09-16 12:14:20'),
+(230, 'Ajout du nouveau utilisateur : (name=>ALLADAYE) <br/>(prenom=>Eric) <br/>(tel_user=>+22996983501) <br/>(email=>erickoalladaye@gmail.com) <br/>(id_role=>16) <br/>(etablis_id=>1) <br/>(is_active=>1) <br/>(other_infos_user=>) <br/>(id_ini=>1) <br/>(code=>bf603dd9-932f-4d20-8d00-7bf30ce6ed10) <br/>(image_profil=>defaut.jpg) <br/>(created_at=>2023-09-16T21:49:45.000000Z) <br/>(id=>23) <br/>', ' ', 1, '2023-09-16 20:49:45', '2023-09-16 20:49:45'),
+(231, 'Ajout du nouveau utilisateur : (name=>hounsou) <br/>(prenom=>Ericko) <br/>(tel_user=>40157389) <br/>(email=>kendallboobsss@gmail.com) <br/>(id_role=>16) <br/>(etablis_id=>1) <br/>(is_active=>1) <br/>(other_infos_user=>) <br/>(id_ini=>1) <br/>(code=>e91be141-e40a-4c6a-9cc2-8dfa76ae9f88) <br/>(image_profil=>defaut.jpg) <br/>(created_at=>2023-09-16T21:50:03.000000Z) <br/>(id=>24) <br/>', ' ', 1, '2023-09-16 20:50:03', '2023-09-16 20:50:03');
 
 -- --------------------------------------------------------
 
@@ -1401,7 +1442,7 @@ INSERT INTO `etbs_save_trace` (`id_trace`, `libelle_trace`, `naviguateur`, `id_u
 
 DROP TABLE IF EXISTS `etbs_societe`;
 CREATE TABLE IF NOT EXISTS `etbs_societe` (
-  `id_societe` int(2) NOT NULL,
+  `id_societe` int NOT NULL,
   `nom_soc` varchar(255) DEFAULT NULL,
   `contact_soc` varchar(50) DEFAULT NULL,
   `mail_soc` varchar(100) DEFAULT NULL,
@@ -1411,7 +1452,7 @@ CREATE TABLE IF NOT EXISTS `etbs_societe` (
   `pied_page_soc` longtext,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `etbs_societe`
@@ -1428,13 +1469,13 @@ INSERT INTO `etbs_societe` (`id_societe`, `nom_soc`, `contact_soc`, `mail_soc`, 
 
 DROP TABLE IF EXISTS `etbs_trim_sem`;
 CREATE TABLE IF NOT EXISTS `etbs_trim_sem` (
-  `id_trimSem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelle_trimSem` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `statut_trimSem` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_trimSem` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `libelle_trimSem` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `statut_trimSem` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_debut` date DEFAULT NULL,
   `date_fin` date DEFAULT NULL,
-  `annee_id` bigint(20) UNSIGNED NOT NULL,
-  `init_id` bigint(20) UNSIGNED NOT NULL,
+  `annee_id` bigint UNSIGNED NOT NULL,
+  `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_trimSem`),
@@ -1459,27 +1500,27 @@ INSERT INTO `etbs_trim_sem` (`id_trimSem`, `libelle_trimSem`, `statut_trimSem`, 
 
 DROP TABLE IF EXISTS `etbs_users`;
 CREATE TABLE IF NOT EXISTS `etbs_users` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prenom` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prenom` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tel_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `other_infos_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_ini` int(11) NOT NULL,
-  `id_role` int(11) NOT NULL,
-  `etablis_id` int(11) NOT NULL,
-  `image_profil` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tel_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `other_infos_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_ini` int NOT NULL,
+  `id_role` int NOT NULL,
+  `etablis_id` int NOT NULL,
+  `image_profil` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `init_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `init_id` bigint UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `users_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_users`
@@ -1489,7 +1530,9 @@ INSERT INTO `etbs_users` (`id`, `code`, `name`, `prenom`, `email`, `email_verifi
 (1, 'a40d4493-c471-462e-80ed-2bcdd2365c09', 'GIWU', 'Richard123', 'richardtohon@gmail.com', NULL, '$2y$10$6QUE1GIJXGAd1NmEZtXAie/zMMih2hdA1RSKLhVJ6W8kjs04LU5AW', NULL, '956617', 'test', 1, 1, 1, 'php1627.tmp.png', 1, '2022-06-20 14:06:09', '2022-12-30 18:51:25', NULL),
 (20, '07ee93c8-139c-46a5-abb5-553f1e6a5c73', 'SOANON', 'Jean-pierre', 'test@gmail.com', NULL, '$2y$10$pi5KqYRhJuK4C8Emx5xu9.tEveBprhww2KDYA6kg.cbCO7eGdssvS', NULL, '890909090', NULL, 1, 16, 1, 'defaut.jpg', 1, '2023-06-10 14:13:09', '2023-09-07 12:21:54', NULL),
 (21, '77763165-72ea-4129-9b7c-653607bfd8df', 'ADJASSOHO', 'Elodie', 'elodie@gmail.com', NULL, '$2y$10$INvaOgLHO58x4HlarGIJXOmHfbE1rtKOMEHbu3HOxb4wQPxO06.Fy', NULL, '90909090', NULL, 1, 16, 2, 'defaut.jpg', 1, '2023-09-07 12:24:04', '2023-09-07 12:24:04', NULL),
-(22, '7da55229-1caa-4fb0-b321-4157b90be965', 'AMI', 'FRERE', 'admin@gmail.com', NULL, '$2y$10$GDksKviWR5y704n1dkVi/OfaR5Mkd7cVwMFiXqXv/p/nGdcphM63.', NULL, '-', NULL, 1, 15, 1, 'defaut.jpg', 1, '2023-09-07 12:38:49', '2023-09-07 12:38:49', NULL);
+(22, '7da55229-1caa-4fb0-b321-4157b90be965', 'AMI', 'FRERE', 'admin@gmail.com', NULL, '$2y$10$GDksKviWR5y704n1dkVi/OfaR5Mkd7cVwMFiXqXv/p/nGdcphM63.', NULL, '-', NULL, 1, 15, 1, 'defaut.jpg', 1, '2023-09-07 12:38:49', '2023-09-07 12:38:49', NULL),
+(23, 'bf603dd9-932f-4d20-8d00-7bf30ce6ed10', 'ALLADAYE', 'Eric', 'erickoalladaye@gmail.com', NULL, '$2y$10$HrDYlnZfaz1FBLh2pHztneMpXnEcVRXV6umbE2YUKKkBTJUiRJMCy', NULL, '+22996983501', NULL, 1, 16, 1, 'defaut.jpg', 1, '2023-09-16 20:49:45', '2023-09-16 20:49:45', NULL),
+(24, 'e91be141-e40a-4c6a-9cc2-8dfa76ae9f88', 'hounsou', 'Ericko', 'kendallboobsss@gmail.com', NULL, '$2y$10$eiUeathigFBnzul3ahWNv.Hn1g9fn0JlUdiA1hmU64ZfqTJ7B9xdS', NULL, '40157389', NULL, 1, 16, 1, 'defaut.jpg', 1, '2023-09-16 20:50:03', '2023-09-16 20:50:03', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
