@@ -103,14 +103,14 @@
     <script type="text/javascript">
         $(document).ready(function() {
           
-                $('#date_presence').on('change', function() {
-                    var selectedDate = new Date($(this).val());
-                    console.log(selectedDate.getDay());
-                    if (selectedDate.getDay() === 6 || selectedDate.getDay() === 0) {
-                        alert("Les weekend sont excluts");
-                        continue;
-                    }
-                });
+                // $('#date_presence').on('change', function() {
+                //     var selectedDate = new Date($(this).val());
+                //     console.log(selectedDate.getDay());
+                //     if (selectedDate.getDay() === 6 || selectedDate.getDay() === 0) {
+                //         alert("Les weekend sont excluts");
+                //         continue;
+                //     }
+                // });
            
 
             $(".exporterXls").attr('href', '{{ url('appeler/exporterExcel') }}');
