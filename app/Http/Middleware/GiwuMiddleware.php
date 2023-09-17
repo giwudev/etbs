@@ -19,23 +19,10 @@ class GiwuMiddleware
     public function handle($request, Closure $next)
     {   
         GiwuService::BrowserControl();
-        ///Application en cours de maintenance
-        // if(trans('data.maintenance') == "oui"){
-        //     return Redirect::to('webmaint');
-        // }
-        
-        ///Controle sur les sessions
-        if(!session('InfosAgent')){
-            Session()->forget('InfosAgent');  
-            return Redirect::to('/');
-        }elseif(session('DateCnx') != date('Y-m-d') ){
-            Session()->forget('InfosAgent');  
-            return Redirect::to('/');
-        }
-        $assCh = Associeragent::where('agent_id',session('InfosAgent')->id_ag)->get()->count();
-        if($assCh == 0){
-            Session()->forget('InfosAgent');  
-            return Redirect::to('/');
+        // /Application en cours de maintenance
+        if(trans('data.maintenance') == "oui"){
+            dd('Page en maintenance');
+            // return Redirect::to('webmaint');
         }
         return $next($request);
     }

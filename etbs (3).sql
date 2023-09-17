@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 17 sep. 2023 à 10:10
+-- Généré le : dim. 17 sep. 2023 à 11:28
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -641,6 +641,8 @@ CREATE TABLE IF NOT EXISTS `etbs_ecole` (
   `email_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `directeur_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `niveau_educ_eco` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `plafond_conduite` int DEFAULT NULL,
+  `unite_conduite` int DEFAULT NULL,
   `init_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -652,9 +654,9 @@ CREATE TABLE IF NOT EXISTS `etbs_ecole` (
 -- Déchargement des données de la table `etbs_ecole`
 --
 
-INSERT INTO `etbs_ecole` (`id_eco`, `nom_eco`, `sigle_eco`, `adres_eco`, `ville_eco`, `CodePos_eco`, `pays_eco`, `tel_eco`, `email_eco`, `directeur_eco`, `niveau_educ_eco`, `init_id`, `created_at`, `updated_at`) VALUES
-(1, 'Complexe Scolaire Félix Houphouët Boigny', 'C.S.F.H.B.', NULL, 'Cotonou', NULL, 'Bénin', '90890989', 'houphouetboigny@gmail.com', 'TOURE Jean', 's', 1, '2023-09-06 06:37:50', '2023-09-06 06:37:50'),
-(2, 'Compexe Scolaire Notre Dame', 'C.S.N.D.', NULL, 'Cotonou', NULL, 'Bénin', '98090900', 'notredame@gmail.com', 'AKPAKA Nobert', 's', 1, '2023-09-06 06:39:06', '2023-09-06 06:39:06');
+INSERT INTO `etbs_ecole` (`id_eco`, `nom_eco`, `sigle_eco`, `adres_eco`, `ville_eco`, `CodePos_eco`, `pays_eco`, `tel_eco`, `email_eco`, `directeur_eco`, `niveau_educ_eco`, `plafond_conduite`, `unite_conduite`, `init_id`, `created_at`, `updated_at`) VALUES
+(1, 'Complexe Scolaire Félix Houphouët Boigny', 'C.S.F.H.B.', NULL, 'Cotonou', NULL, 'Bénin', '90890989', 'houphouetboigny@gmail.com', 'TOURE Jean', 's', 18, 4, 1, '2023-09-06 06:37:50', '2023-09-17 09:42:59'),
+(2, 'Compexe Scolaire Notre Dame', 'C.S.N.D.', NULL, 'Cotonou', NULL, 'Bénin', '98090900', 'notredame@gmail.com', 'AKPAKA Nobert', 's', 16, 3, 1, '2023-09-06 06:39:06', '2023-09-17 09:42:37');
 
 -- --------------------------------------------------------
 
@@ -681,7 +683,7 @@ CREATE TABLE IF NOT EXISTS `etbs_eleve` (
   PRIMARY KEY (`id_el`),
   KEY `etbs_eleve_ecole_id_foreign` (`ecole_id`),
   KEY `etbs_eleve_init_id_foreign` (`init_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_eleve`
@@ -699,7 +701,12 @@ INSERT INTO `etbs_eleve` (`id_el`, `nom_el`, `prenom_el`, `matricule_el`, `date_
 (30, 'Elevett', 'twohh', '12239', '2000-08-12', 'M', NULL, 'Bake ', 'test@exel.com', '9887452', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
 (29, 'Elever', 'onenn', '12238', '2000-08-11', 'M', NULL, 'Bake ', 'test@exel.com', '9887451', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
 (28, 'Eleveb', 'twoQ', '12237', '2000-08-10', 'F', NULL, 'Bake ', 'test@exel.com', '9887450', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
-(27, 'Eleved', 'onex', '12236', '2000-08-09', 'M', NULL, 'Bake ', 'test@exel.com', '9887449', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52');
+(27, 'Eleved', 'onex', '12236', '2000-08-09', 'M', NULL, 'Bake ', 'test@exel.com', '9887449', 1, 1, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(34, 'TOHON', 'GIWUFD', '1111111', '2000-07-09', 'M', NULL, 'BB', 'giwu@gmail.com', '9898808', 2, 1, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(35, 'TOHON', 'GIWUGH', '1111112', '2000-07-10', 'M', NULL, 'BB', 'giwu@gmail.com', '9898809', 2, 1, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(36, 'TOHON', 'GIWU2', '1111113', '2000-07-11', 'F', NULL, 'BB', 'giwu@gmail.com', '9898810', 2, 1, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(37, 'TOHON', 'GIWUHGH', '1111114', '2000-07-12', 'M', NULL, 'BB', 'giwu@gmail.com', '9898811', 2, 1, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(38, 'TOHON', 'GIWULKL', '1111115', '2000-07-13', 'M', NULL, 'BB', 'giwu@gmail.com', '9898812', 2, 1, '2023-09-17 10:13:25', '2023-09-17 10:13:25');
 
 -- --------------------------------------------------------
 
@@ -776,7 +783,7 @@ CREATE TABLE IF NOT EXISTS `etbs_frequenter` (
   PRIMARY KEY (`id_freq`),
   KEY `etbs_frequenter_eleve_id_foreign` (`eleve_id`),
   KEY `etbs_frequenter_promotion_id_foreign` (`promotion_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `etbs_frequenter`
@@ -791,7 +798,12 @@ INSERT INTO `etbs_frequenter` (`id_freq`, `eleve_id`, `promotion_id`, `created_a
 (26, 30, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
 (25, 29, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
 (24, 28, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
-(23, 27, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52');
+(23, 27, 4, '2023-09-16 20:42:52', '2023-09-16 20:42:52'),
+(30, 34, 6, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(31, 35, 6, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(32, 36, 6, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(33, 37, 6, '2023-09-17 10:13:25', '2023-09-17 10:13:25'),
+(34, 38, 6, '2023-09-17 10:13:25', '2023-09-17 10:13:25');
 
 -- --------------------------------------------------------
 
@@ -1255,7 +1267,7 @@ CREATE TABLE IF NOT EXISTS `etbs_save_trace` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_trace`),
   KEY `matierefp_save_trace_id_user_foreign` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=249 DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM AUTO_INCREMENT=251 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `etbs_save_trace`
@@ -1468,7 +1480,9 @@ INSERT INTO `etbs_save_trace` (`id_trace`, `libelle_trace`, `naviguateur`, `id_u
 (245, 'Ajout du nouveau emploi de temps : (heure_debut=>07:00) <br/>(heure_fin=>10:00) <br/>(jour_semaine=>1) <br/>(discipline_id=>1) <br/>(promotion_id=>1) <br/>(annee_id=>1) <br/>(prof_id=>23) <br/>(nbreheure=>3) <br/>(init_id=>23) <br/>(created_at=>2023-09-17T09:36:57.000000Z) <br/>(id_empl=>7) <br/>', ' ', 23, '2023-09-17 08:36:57', '2023-09-17 08:36:57'),
 (246, 'Ajout du nouveau emploi de temps : (heure_debut=>07:00) <br/>(heure_fin=>08:00) <br/>(jour_semaine=>1) <br/>(discipline_id=>2) <br/>(promotion_id=>2) <br/>(annee_id=>1) <br/>(prof_id=>23) <br/>(nbreheure=>1) <br/>(init_id=>23) <br/>(created_at=>2023-09-17T09:37:42.000000Z) <br/>(id_empl=>8) <br/>', ' ', 23, '2023-09-17 08:37:42', '2023-09-17 08:37:42'),
 (247, 'Modification trimsem : Old infos ((date_debut=>2022-03-30T00:00:00.000000Z) <br/>(date_fin=>2022-06-30T00:00:00.000000Z) <br/>)  New infos ((date_debut=>2023-11-01T00:00:00.000000Z) <br/>(date_fin=>2023-12-30T00:00:00.000000Z) <br/>) ', ' ', 1, '2023-09-17 08:51:26', '2023-09-17 08:51:26'),
-(248, 'Modification trimsem : ', ' ', 1, '2023-09-17 08:51:26', '2023-09-17 08:51:26');
+(248, 'Modification trimsem : ', ' ', 1, '2023-09-17 08:51:26', '2023-09-17 08:51:26'),
+(249, 'Modification ecole : Old infos ((plafond_conduite=>) <br/>(unite_conduite=>) <br/>)  New infos ((plafond_conduite=>16) <br/>(unite_conduite=>3) <br/>) ', ' ', 1, '2023-09-17 09:42:37', '2023-09-17 09:42:37'),
+(250, 'Modification ecole : Old infos ((plafond_conduite=>) <br/>(unite_conduite=>) <br/>)  New infos ((plafond_conduite=>18) <br/>(unite_conduite=>4) <br/>) ', ' ', 1, '2023-09-17 09:42:59', '2023-09-17 09:42:59');
 
 -- --------------------------------------------------------
 

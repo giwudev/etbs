@@ -116,9 +116,20 @@ class Appeler extends Model {
                     $q->orWhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
                 });
             }
-
             return $query;
         }
+
+		public static function note_conduite($valeur){
+			if($valeur == 0){
+				return 0;
+			}
+			$etabli = Ecole::find(session('etablis_idSess'));
+			if($etabli){
+				return $etabli->plafond_conduite  - intval($valeur / $etabli->unite_conduite);
+			}
+			return 0;
+
+		}
 
 		public static function nbre_heure_abs($eleve_id,$promotion_id){
 			$trimSem = Trimsem::find(session('periode_id'));

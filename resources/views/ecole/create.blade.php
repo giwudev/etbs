@@ -73,6 +73,18 @@
 							</div>
 							<div class="col-md-6">
 								<div class="mb-3">
+									<label for="plafond_conduite" class="form-label">{!!trans('data.plafond_conduite')!!} <strong style='color: red;'> *</strong></label>
+									{!! Form::number('plafond_conduite','',["id"=>"plafond_conduite","class"=>"form-control" ,"required"=>"required" ,'autocomplete'=>'off' ,'placeholder'=>"Entrer plafond de la conduite" ]) !!}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="unite_conduite" class="form-label">{!!trans('data.unite_conduite')!!} <strong style='color: red;'> *</strong></label>
+									{!! Form::number('unite_conduite','',["id"=>"unite_conduite","class"=>"form-control" ,"required"=>"required" ,'autocomplete'=>'off' ,'placeholder'=>"Entrer l'unité de la conduite" ]) !!}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
 									<label for="directeur_eco" class="form-label">{!!trans('data.directeur_eco')!!} <strong style='color: red;'> *</strong></label>
 									{!! Form::text('directeur_eco','',["id"=>"directeur_eco","class"=>"form-control" ,"required"=>"required" ,'autocomplete'=>'off' ,'placeholder'=>"Entrer Directeur" ]) !!}
 								</div>

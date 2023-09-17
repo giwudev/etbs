@@ -236,17 +236,18 @@ class FrequenterController extends Controller {
 
 				$importedCount = $import->getImportedCount();
 				$skippedCount = $import->getSkippedCount();
-
+				$erroFile = "";
 				if (!empty($importErrors)) {
 					foreach ($importErrors as $error) {
-						return Redirect::back()->with('error', $error);
+						$erroFile .= $error;
 					}
+					return Redirect::back()->with('error', $erroFile);
 				} else {
 					$message = "Fichier importé avec succès.\nLignes importées : $importedCount\nLignes non importées : $skippedCount.";
 					return Redirect::back()->with('success', $message);
 				}
 			} catch (\Illuminate\Database\QueryException $e) {
-				$message = "Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
+				// $message = "Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
 				return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
 			}
 		}

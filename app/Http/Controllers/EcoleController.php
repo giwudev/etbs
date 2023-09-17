@@ -72,6 +72,8 @@ class EcoleController extends Controller {
 			$newAdd->tel_eco = $datas['tel_eco'];
 			$newAdd->email_eco = $datas['email_eco'];
 			$newAdd->directeur_eco = $datas['directeur_eco'];
+			$newAdd->plafond_conduite = $datas['plafond_conduite'];
+			$newAdd->unite_conduite = $datas['unite_conduite'];
 			$newAdd->niveau_educ_eco = $datas['niveau_educ_eco'];
 			$newAdd->init_id = Auth::id();
 			$newAdd->save(); 
@@ -136,6 +138,8 @@ class EcoleController extends Controller {
 			$newUpd->tel_eco = $datas['tel_eco'];
 			$newUpd->email_eco = $datas['email_eco'];
 			$newUpd->directeur_eco = $datas['directeur_eco'];
+			$newUpd->plafond_conduite = $datas['plafond_conduite'];
+			$newUpd->unite_conduite = $datas['unite_conduite'];
 			$newUpd->niveau_educ_eco = $datas['niveau_educ_eco'];
 			$newUpd->save();
 
@@ -187,6 +191,8 @@ class EcoleController extends Controller {
 				$tablgiwu[$i]['tel_eco'] = $giw->tel_eco;
 				$tablgiwu[$i]['email_eco'] = $giw->email_eco;
 				$tablgiwu[$i]['directeur_eco'] = $giw->directeur_eco;
+				$tablgiwu[$i]['plafond_conduite'] = $giw->plafond_conduite;
+				$tablgiwu[$i]['unite_conduite'] = $giw->unite_conduite;
 				$tablgiwu[$i]['niveau_educ_eco'] = $giw->niveau_educ_eco;
 				$tablgiwu[$i]['init_id'] = isset($giw->users_g) ? $giw->users_g->name.' '.$giw->users_g->prenom : trans('data.not_found');
 				$i++;

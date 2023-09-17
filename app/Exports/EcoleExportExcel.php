@@ -30,6 +30,8 @@ class EcoleExportExcel implements FromCollection, WithHeadings,ShouldAutoSize {
 			trans('data.tel_eco'),
 			trans('data.email_eco'),
 			trans('data.directeur_eco'),
+			trans('data.plafond_conduite'),
+			trans('data.unite_conduite'),
 			trans('data.niveau_educ_eco'),
 			trans('data.init_id'),
 		];

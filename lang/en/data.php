@@ -65,6 +65,8 @@ return [
 	'tel_eco'=>'Contact',
 	'email_eco'=>'E-mail',
 	'directeur_eco'=>'Directeur',
+	'plafond_conduite'=>'Plafond conduite',
+	'unite_conduite'=>'Unité conduite',
 	'niveau_educ_eco'=>'Niveau éducation',
 
 	/*
@@ -236,4 +238,5 @@ return [
     </style> ',
     'signaturePdf' => 'Imprimé par '.Config('app.name').' Page ',
     'styleLignePdf' => '#b4b4a4',
+    'maintenance' => 'non',
 ];

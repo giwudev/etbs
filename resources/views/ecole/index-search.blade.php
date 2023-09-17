@@ -11,6 +11,8 @@
 			<th scope="col" >{!!trans('data.tel_eco')!!}</th>
 			<!-- <th scope="col" >{!!trans('data.email_eco')!!}</th> -->
 			<th scope="col" >{!!trans('data.directeur_eco')!!}</th>
+			<th scope="col" >{!!trans('data.plafond_conduite')!!}</th>
+			<th scope="col" >{!!trans('data.unite_conduite')!!}</th>
 			<th scope="col" >{!!trans('data.niveau_educ_eco')!!}</th>
 			<th scope="col" class="text-center">{!!trans('data.init_id')!!}</th>
 			@if(in_array('update_ecole',session('InfosAction')) || in_array('delete_ecole',session('InfosAction')) )
@@ -29,6 +31,8 @@
 					<td>{!! $listgiwu->tel_eco !!}</td>
 					<!-- <td>{!! $listgiwu->email_eco !!}</td> -->
 					<td>{!! $listgiwu->directeur_eco !!}</td>
+					<td>{!! $listgiwu->plafond_conduite !!}</td>
+					<td>{!! $listgiwu->unite_conduite !!}</td>
 					<td>{!! trans('entite.niveau')[$listgiwu->niveau_educ_eco] !!}</td>
 					<td>{!! isset($listgiwu->users_g) ? $listgiwu->users_g->name." ".$listgiwu->users_g->prenom : trans('data.not_found') !!}</td>
 					@if(in_array('update_ecole',session('InfosAction')) || in_array('delete_ecole',session('InfosAction')) )
