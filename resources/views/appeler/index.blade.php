@@ -102,6 +102,17 @@
     <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+          
+                $('#date_presence').on('change', function() {
+                    var selectedDate = new Date($(this).val());
+                    console.log(selectedDate.getDay());
+                    if (selectedDate.getDay() === 6 || selectedDate.getDay() === 0) {
+                        alert("Les weekend sont excluts");
+                        continue;
+                    }
+                });
+           
+
             $(".exporterXls").attr('href', '{{ url('appeler/exporterExcel') }}');
             $(".exporterPdf").attr('href', '{{ url('appeler/exporterPdf') }}');
             // Pagination
