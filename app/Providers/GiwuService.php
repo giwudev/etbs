@@ -15,8 +15,7 @@ use Auth;
 class GiwuService extends ServiceProvider
 {
 
-	public static function Path_Image_menu($path)
-    {
+	public static function Path_Image_menu($path){
 		$acces = self::getAccesPage($path);
 		if($acces == '0'){
             $array['icone'] = '';
@@ -31,7 +30,6 @@ class GiwuService extends ServiceProvider
     }
 
 	public static function PathMenu($pMenu){
-
         $str = explode('/', $pMenu);
         $path = "";
         $table = [];

@@ -45,7 +45,7 @@ class EmploitempController extends Controller {
 
 		$giwu['type'] = $type;
 		$giwu['link_create'] = "emploitemp".$type."/create";
-		$giwu['list'] = Emploitemp::getListEmploieTemps($req)->paginate(20);
+		$giwu['list'] = Emploitemp::getListEmploieTemps($req,$type)->paginate(20);
 		$giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
 		if($type =='e'){
 			$giwu['listpromotion_id'] = Promotion::sltListPromotionEcole();
@@ -73,7 +73,11 @@ class EmploitempController extends Controller {
 		$array = GiwuService::Path_Image_menu("/emplo/emploitemp". $type."/create");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
-		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
+		if($type =='e'){
+			$giwu['listpromotion_id'] = Promotion::sltListPromotionEcole();
+		}else{
+			$giwu['listpromotion_id'] = Promotion::sltListPromotionProfesseur();
+		}
 		$giwu['listannee_id'] = Anneesco::sltListAnneesco();
 		$giwu['listprof_id'] = User::sltListProf();
 		$giwu['listinit_id'] = User::sltListUser();
@@ -118,7 +122,11 @@ class EmploitempController extends Controller {
 			$newAdd->discipline_id = $datas['discipline_id'];
 			$newAdd->promotion_id = $datas['promotion_id'];
 			$newAdd->annee_id = $datas['annee_id'];
-			$newAdd->prof_id = $datas['prof_id'];
+			if($type == 'p'){
+				$newAdd->prof_id = Auth::id();
+			}else{
+				$newAdd->prof_id = $datas['prof_id'];
+			}
 			$newAdd->nbreheure = Emploitemp::DifferenceTime($newAdd->heure_debut,$newAdd->heure_fin);
 			$newAdd->init_id = Auth::id();
 			$newAdd->save();
@@ -175,9 +183,12 @@ class EmploitempController extends Controller {
 		$giwu['type'] = $type;
 		$giwu['link_store'] = "emploitemp".$type;
 		$giwu['link_update'] = "emploitemp".$type."/".$id;
-
         $giwu['listdiscipline_id'] = Discipline::sltListDiscipline();
-        $giwu['listpromotion_id'] = Promotion::sltListPromotion();
+        if($type =='e'){
+			$giwu['listpromotion_id'] = Promotion::sltListPromotionEcole();
+		}else{
+			$giwu['listpromotion_id'] = Promotion::sltListPromotionProfesseur();
+		}
         $giwu['listannee_id'] = Anneesco::sltListAnneesco();
         $giwu['listprof_id'] = User::sltListUser();
         $giwu['listinit_id'] = User::sltListUser();
@@ -228,7 +239,11 @@ class EmploitempController extends Controller {
             $newUpd->discipline_id 	= $datas['discipline_id'];
             $newUpd->promotion_id 	= $datas['promotion_id'];
             $newUpd->annee_id 		= $datas['annee_id'];
-            $newUpd->prof_id 		= $datas['prof_id'];
+            if($type == 'p'){
+				$newUpd->prof_id = Auth::id();
+			}else{
+				$newUpd->prof_id = $datas['prof_id'];
+			}
 			$newUpd->nbreheure = Emploitemp::DifferenceTime($newUpd->heure_debut,$newUpd->heure_fin);
             $newUpd->save();
             // self::ChargerAppel($newUpd->promotion_id,$id);
@@ -269,7 +284,7 @@ class EmploitempController extends Controller {
 	}
 
 	public function exporterExcel(Request $req,$type) {
-		$Resultat = Emploitemp::getListEmploieTemps($req)->get();
+		$Resultat = Emploitemp::getListEmploieTemps($req,$type)->get();
 		if(sizeof($Resultat) != 0){
 			$i = 0;
 			foreach($Resultat as $giw){
@@ -292,7 +307,7 @@ class EmploitempController extends Controller {
 
 	public function exporterPdf(Request $req,$type) {
 
-		$Resultat = Emploitemp::getListEmploieTemps($req)->get();
+		$Resultat = Emploitemp::getListEmploieTemps($req,$type)->get();
 		if($type == 'e'){
 			$type = 'de l\'école';
 		}else{			

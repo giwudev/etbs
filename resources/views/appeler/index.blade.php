@@ -130,6 +130,10 @@
         //Fonction sur la recherche
         function funcRecher() {
             var filtreData = $("#formSearch").serialize();
+            // var selectedDate = new Date(input.value);
+            // if (selectedDate.getDay() === 6 || selectedDate.getDay() === 0) {
+            // alert("Vous avez choisi un week-end !");
+            //     }
             $(".exporterXls").attr('href', '{{ url('appeler/exporterExcel') }}?' + filtreData);
             $(".exporterPdf").attr('href', '{{ url('appeler/exporterPdf') }}?' + filtreData);
             $("div#dataRefresh").html('<h3 class="col-xs-12 text-center kt-subheader__title" style="padding-top: 3em;">' +

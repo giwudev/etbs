@@ -208,7 +208,7 @@ class FrequenterController extends Controller {
 		return view('frequenter.action')->with($giwu);
     }
 	public static function AffichePopUp(){
-		//$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
+		$texte="Veuillez d'abord choisir une école, une année et une promotion.";
 		return view('frequenter.pop-up');
     }
 	/*public function importEleve(Request $req){

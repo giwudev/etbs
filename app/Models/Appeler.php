@@ -79,6 +79,7 @@ class Appeler extends Model {
 			$appel->emploi_id = session('emploi_idSess');
 			$appel->eleve_id = $eleve;
 			$appel->etat_appel = true;
+			$appel->justifier = 'non';
 			$appel->date_presence = session('date_presenceSess');
 			$appel->init_id = Auth::id();
 			$appel->save();
@@ -132,6 +133,58 @@ class Appeler extends Model {
 								->where('date_presence','>=',$dateDebut)
 								->where('date_presence','<=',$dateFin)
 								->where('etat_appel',false)
+								->select('emploi_id')
+								->get()
+					->toArray();
+				$emploiTempTotal = 0; 
+				foreach ($allApp as $app) {
+					$emploi_id = $app['emploi_id'];
+					$emploiTemp = Emploitemp::where('promotion_id', $promotion_id)->where('id_empl', $emploi_id)->sum('nbreheure');
+					$emploiTempTotal += $emploiTemp;
+				}
+				return $emploiTempTotal;
+		}
+
+		public static function nbre_heure_abs_justifier($eleve_id,$promotion_id){
+			$trimSem = Trimsem::find(session('periode_id'));
+			if($trimSem){
+				$dateDebut 	= $trimSem->date_debut;
+				$dateFin 	= $trimSem->date_fin;
+			}else{
+				$dateDebut 	= '1970-01-01';
+				$dateFin 	= '1970-01-01';
+			}
+			$allApp = Appeler::where('eleve_id',$eleve_id)
+								->where('date_presence','>=',$dateDebut)
+								->where('date_presence','<=',$dateFin)
+								->where('etat_appel',false)
+								->where('justifier','oui')
+								->select('emploi_id')
+								->get()
+					->toArray();
+				$emploiTempTotal = 0; 
+				foreach ($allApp as $app) {
+					$emploi_id = $app['emploi_id'];
+					$emploiTemp = Emploitemp::where('promotion_id', $promotion_id)->where('id_empl', $emploi_id)->sum('nbreheure');
+					$emploiTempTotal += $emploiTemp;
+				}
+				return $emploiTempTotal;
+		}
+
+		public static function nbre_heure_abs_non_justifier($eleve_id,$promotion_id){
+			$trimSem = Trimsem::find(session('periode_id'));
+			if($trimSem){
+				$dateDebut 	= $trimSem->date_debut;
+				$dateFin 	= $trimSem->date_fin;
+			}else{
+				$dateDebut 	= '1970-01-01';
+				$dateFin 	= '1970-01-01';
+			}
+			$allApp = Appeler::where('eleve_id',$eleve_id)
+								->where('date_presence','>=',$dateDebut)
+								->where('date_presence','<=',$dateFin)
+								->where('etat_appel',false)
+								->where('justifier','non')
 								->select('emploi_id')
 								->get()
 					->toArray();

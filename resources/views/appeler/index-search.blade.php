@@ -1,3 +1,5 @@
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 @if (count($list) != 0)
     <table class="table table-striped table-bordered table-nowrap">

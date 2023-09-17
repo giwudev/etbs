@@ -42,7 +42,7 @@ class Emploitemp extends Model {
 		return $dif;
     }
 
-	public static function getListEmploieTemps(Request $req){
+	public static function getListEmploieTemps(Request $req,$type){
 
 		$query = Emploitemp::with(['discipline','promotion','anneesco','users_g','users_g'])->orderBy('created_at','desc');
 
@@ -69,7 +69,9 @@ class Emploitemp extends Model {
 			//Session()->put('annee_idSess', '')
 			$query->where('annee_id',session('annee_idSess'));
 		}
-
+		if($type == 'p'){
+			$query->where('prof_id',Auth::id());
+		}
 		$recherche = $req->get('query');
 		if(isset($recherche)){
 				$query->where(function ($query) Use ($recherche){					$query->where('heure_debut','like','%'.strtoupper(trim($recherche).'%'));
@@ -81,14 +83,14 @@ class Emploitemp extends Model {
 			});
 
 			//Recherche avancee sur promotion
-			$query->orWhereHas('promotion', function ($q) use ($recherche) {
-				$q->where('libelle_pro', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
+			// $query->orWhereHas('promotion', function ($q) use ($recherche) {
+			// 	$q->where('libelle_pro', 'like', '%'.strtoupper(trim($recherche).'%'));
+			// });
 
 			//Recherche avancee sur anneesco
-			$query->orWhereHas('anneesco', function ($q) use ($recherche) {
-				$q->where('statut_annee', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
+			// $query->orWhereHas('anneesco', function ($q) use ($recherche) {
+			// 	$q->where('statut_annee', 'like', '%'.strtoupper(trim($recherche).'%'));
+			// });
 
 
 		}

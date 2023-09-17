@@ -90,13 +90,13 @@
                                     ]) !!}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" <?php echo (($type == 'p') ? "style='display:none;'" : '')?>>
                                 <div class="mb-3">
                                     <label for="prof_id" class="form-label">{!! trans('data.prof_id') !!} <strong
                                             style='color: red;'> *</strong></label>
                                     <?php $addUse = ['' => 'S&eacute;lectionnez un &eacute;l&eacute;ment'];
                                     $listprof_id = $addUse + $listprof_id->toArray(); ?>
-                                    {!! Form::select('prof_id', $listprof_id, null, [
+                                    {!! Form::select('prof_id', $listprof_id, $type=='p'?Auth::id():null, [
                                         'id' => 'prof_id',
                                         'class' => 'form-select allselect',
                                         'required' => 'required',

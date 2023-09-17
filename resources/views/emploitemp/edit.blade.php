@@ -92,7 +92,7 @@
                                     ]) !!}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6"<?php echo (($type == 'p') ? "style='display:none;'" : '')?>>
                                 <div class="mb-3">
                                     <label for="prof_id" class="form-label">{!! trans('data.prof_id') !!} <strong
                                             style='color: red;'> *</strong></label>

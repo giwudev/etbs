@@ -18,8 +18,8 @@
 							? $listgiwu->eleve->nom_el . ' ' . $listgiwu->eleve->prenom_el
 							: trans('data.not_found') !!}</td>
 					<td  class="text-center">{{\App\Models\Appeler::nbre_heure_abs($listgiwu->eleve_id,$listgiwu->promotion_id )." H"}} </td>
-					<td class="text-center"></td>
-					<td class="text-center"></td>
+					<td  class="text-center">{{\App\Models\Appeler::nbre_heure_abs_justifier($listgiwu->eleve_id,$listgiwu->promotion_id )." H"}} </td>
+					<td  class="text-center">{{\App\Models\Appeler::nbre_heure_abs_non_justifier($listgiwu->eleve_id,$listgiwu->promotion_id )." H"}} </td>
 					<td class="text-center"></td>
 				</tr>
 			@endforeach
