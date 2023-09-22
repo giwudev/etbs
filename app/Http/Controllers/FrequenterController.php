@@ -73,21 +73,21 @@ class FrequenterController extends Controller {
     try {
         $datas = $request->all();
         unset($datas['_token']);
+		
         $existingFrequenter = Frequenter::where('eleve_id', $datas['eleve_id'])->first();
-
         if ($existingFrequenter) {
             return Redirect::back()->withInput()->with('error', "Cet élève fréquente déjà une autre promotion.");
         }
-
+		$datas['mail'] = $request->has('mail') ? true : false;
+        $datas['whatsapp'] = $request->has('whatsapp') ? true : false;
+        $datas['sms'] = $request->has('sms') ? true : false;
         $newAdd = new Frequenter();
         $newAdd->eleve_id = $datas['eleve_id'];
         $newAdd->promotion_id = $datas['promotion_id'];
+		$newAdd->send_mail = $datas['mail'];
+        $newAdd->send_whatsapp = $datas['whatsapp'];
+        $newAdd->send_sms = $datas['sms'];
         $newAdd->save();
-        //Charger les emploi du tempe en fonction de la promotion choisie
-        // $emploi = Emploitemp::where('promotion_id',$newAdd->promotion_id)->get();
-        // foreach ($emploi as  $emp) {
-        //     # code...
-        // }
         GiwuSaveTrace::enregistre('Ajout du nouveau frequenter : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 
         return Redirect::back()->with('success', trans('data.infos_add'));
@@ -120,7 +120,7 @@ class FrequenterController extends Controller {
 		//
 		$array = GiwuService::Path_Image_menu("/param/frequenter/edit");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
-		$giwu['listeleve_id'] = Eleve::getElevesAvecPromotion();
+		$giwu['listeleve_id'] = Eleve::sltListEleve();
 		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
 		$giwu['item'] = Frequenter::where('id_freq',$id)->first();
 		return view('frequenter.edit')->with($giwu);
@@ -140,10 +140,15 @@ class FrequenterController extends Controller {
 			$datas = $request->all();
 			unset($datas['_token']);
 
+			$datas['mail'] = $request->has('mail') ? true : false;
+			$datas['whatsapp'] = $request->has('whatsapp') ? true : false;
+			$datas['sms'] = $request->has('sms') ? true : false;
 			$newUpd=Frequenter::where('id_freq',$id)->first();
-
 			$newUpd->eleve_id = $datas['eleve_id'];
 			$newUpd->promotion_id = $datas['promotion_id'];
+			$newUpd->send_mail = $datas['mail'];
+			$newUpd->send_whatsapp = $datas['whatsapp'];
+			$newUpd->send_sms = $datas['sms'];
 			$newUpd->save();
 
 			GiwuSaveTrace::enregistre("Modification frequenter : ".GiwuService::DiffDetailModifier($dataInitiale,$newUpd->toArray()));
@@ -211,39 +216,24 @@ class FrequenterController extends Controller {
 		$texte="Veuillez d'abord choisir une école, une année et une promotion.";
 		return view('frequenter.pop-up');
     }
-	/*public function importEleve(Request $req){
-		try {
-			$import = new ElevesImport();
-			Excel::import($import, $req->file('fichier_excel'));
-			$importErrors = $import->getImportErrors();
-			if (!empty($importErrors)) {
-				foreach ($importErrors as $error) {
-					return Redirect::back()->with('error',  $error );
-				}
-			} else {
-				return Redirect::back()->with('success', 'Fichier importé avec succès ... !');
-			}
-		} catch (\Illuminate\Database\QueryException $e) {
-			return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
-		}
-	}*/
-
-			public function importEleve(Request $req){
+	
+		public function  importEleve(Request $req){
 			try {
 				$import = new ElevesImport();
 				Excel::import($import, $req->file('fichier_excel'));
 				$importErrors = $import->getImportErrors();
-
 				$importedCount = $import->getImportedCount();
 				$skippedCount = $import->getSkippedCount();
 				$erroFile = "";
 				if (!empty($importErrors)) {
 					foreach ($importErrors as $error) {
-						$erroFile .= $error;
+						$erroFile .= '<br>'.$error;
 					}
+					$message = "<br>&nbsp;Fin importation : <br><li>Lignes importées : $importedCount.</li><br><li>Lignes non importées : $skippedCount.</li>";
+					$erroFile .= '<br>'.$message;
 					return Redirect::back()->with('error', $erroFile);
 				} else {
-					$message = "Fichier importé avec succès.\nLignes importées : $importedCount\nLignes non importées : $skippedCount.";
+					$message = "Fichier importé avec succès.<li>Lignes importées : $importedCount; <li>Lignes non importées : $skippedCount.";
 					return Redirect::back()->with('success', $message);
 				}
 			} catch (\Illuminate\Database\QueryException $e) {
@@ -251,7 +241,7 @@ class FrequenterController extends Controller {
 				return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
 			}
 		}
-
+ 
 	
 
 

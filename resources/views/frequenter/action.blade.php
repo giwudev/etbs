@@ -5,6 +5,11 @@
         <h5 class="modal-title d-flex justify-content-center" id="varyingcontentModalLabel"> Importer les élèves via un ficher excel:</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
+         <div class="modal-footer d-flex justify-content-between">
+                <div>
+                    <a target="_blank" href="{{ asset('document/testimport.xlsx') }}"  class="btn btn-warning">Telecharger un exemplaire &nbsp; <i class="ri-download-2-fill"></i></span> </a>
+                </div>
+          </div>
     <div class="modal-body">
         <strong>
             <div class="msgAction"></div>
@@ -20,9 +25,10 @@
 
                 <b class="text-danger"> <u>NB </u>: Ce fichier doit contenir exclusivement la listes des élèves à ajouter à la promotion {{$promotion->libelle_pro}} .</b>
             </div>
+          
             <div class="modal-footer d-flex justify-content-between">
                 <div>
-                    <a target="_blank" href="{{ asset('document/testimport.xlsx') }}"  class="btn btn-warning">Telecharger un exemplaire &nbsp; <i class="ri-download-2-fill"></i></span> </a>
+                    <!-- <a target="_blank" href="{{ asset('document/testimport.xlsx') }}"  class="btn btn-warning">Telecharger un exemplaire &nbsp; <i class="ri-download-2-fill"></i></span> </a> -->
                 </div>
                 <div>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Femer</button>

@@ -18,12 +18,14 @@ class Definipromotion extends Model {
 	protected $primaryKey = 'id_def';
 	protected $guarded = array('*');
 	public $timestamps = true;
+	protected $fillable = [
+		'prof_id',
+        'promo_id',
+	 ];
 
 
 	public function users_g(){return $this->belongsTo('App\Models\User','prof_id','id');}
-
 	public function promotion(){return $this->belongsTo('App\Models\Promotion','promo_id','id_pro');}
-
 	public static function getListDefinirPromotion(Request $req){
 
 		$query = Definipromotion::with(['users_g','promotion'])->orderBy('created_at','desc');

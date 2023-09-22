@@ -75,6 +75,21 @@ class Ecole extends Model {
             KEY `etbs_appeler_init_id_foreign` (`init_id`)
         ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
     }
+		public function createFrequenterTable() {
+			$table_name = 'etbs_frequenter_' . $this->id_eco;
+			// DROP TABLE IF EXISTS `etbs_frequenter`;
+			DB::statement("CREATE TABLE IF NOT EXISTS `$table_name` ( 
+				`id_freq` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+				`eleve_id` bigint UNSIGNED NOT NULL,
+				`promotion_id` bigint UNSIGNED NOT NULL,
+				`created_at` timestamp NULL DEFAULT NULL,
+				`updated_at` timestamp NULL DEFAULT NULL,
+				PRIMARY KEY (`id_freq`),
+				KEY `etbs_frequenter_eleve_id_foreign` (`eleve_id`),
+				KEY `etbs_frequenter_promotion_id_foreign` (`promotion_id`)
+			) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+		}
+
 
 }
 

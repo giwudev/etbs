@@ -1,15 +1,14 @@
 @extends('layouts.general')
 
 @section('path_content')
-    @if (sizeof($pathMenu) != 0)
-        @for ($i = 0; $i < count($pathMenu); $i++)
-            <li class="breadcrumb-item active"><a href="{{ $pathMenu[$i]['lien'] }}"
-                    class="kt-subheader__breadcrumbs-link">{{ $pathMenu[$i]['titre'] }}</a></li>
-        @endfor
+@if (sizeof($pathMenu) != 0)
+@for ($i = 0; $i < count($pathMenu); $i++) <li class="breadcrumb-item active"><a href="{{ $pathMenu[$i]['lien'] }}"
+        class="kt-subheader__breadcrumbs-link">{{ $pathMenu[$i]['titre'] }}</a></li>
+    @endfor
     @endif
-@stop
+    @stop
 
-@section('content')
+    @section('content')
 
 
 
@@ -20,19 +19,19 @@
                     <h5 class="card-title mb-0 flex-grow-1"><i class="{{ $icone }} m-2"></i>{{ $titre }}</h5>
                     <div class="flex-shrink-0">
                         @if (in_array('add_frequenter', session('InfosAction')))
-                            <a href="{{ route('frequenter.create') }}"  class="btn btn-primary btn-label right" onclick="f(event)" ><i
-                                    class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Ajouter</a>
+                        <a href="{{ route('frequenter.create') }}" class="btn btn-primary btn-label right"
+                            onclick="f(event)"><i class="ri-add-line label-icon align-middle fs-16 ms-2"></i>Ajouter</a>
                         @endif
                         @if (in_array('exporter_frequenter', session('InfosAction')))
-                            <div class="btn-group"><button type="button" class="btn btn-primary">Exporter</button>
-                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                                    id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false"
-                                    data-bs-reference="parent"><span class="visually-hidden">Toggle Dropdown</span></button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                                    <li><a class="dropdown-item exporterXls" target="_blank" href="#">Excel</a></li>
-                                    <li><a class="dropdown-item exporterPdf" target="_blank" href="#">PDF</a></li>
-                                </ul>
-                            </div>
+                        <div class="btn-group"><button type="button" class="btn btn-primary">Exporter</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false"
+                                data-bs-reference="parent"><span class="visually-hidden">Toggle Dropdown</span></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                                <li><a class="dropdown-item exporterXls" target="_blank" href="#">Excel</a></li>
+                                <li><a class="dropdown-item exporterPdf" target="_blank" href="#">PDF</a></li>
+                            </ul>
+                        </div>
                         @endif
                     </div>
                 </div>
@@ -41,15 +40,16 @@
                 {!! Form::open(['id' => 'formSearch', 'class' => '', 'method' => 'GET']) !!}
                 <div class="row gy-4">
                     <!--end col-->
-                    
-                    <div class="col-xxl-3 col-md-3" <?php echo !in_array('combo_ecole', session('InfosAction')) ? "style='display:none;'" : ''; ?>>
+
+                    <div class="col-xxl-3 col-md-3" <?php echo !in_array('combo_ecole',
+                        session('InfosAction'))? "style='display:none;'" : '' ; ?>>
                         <div><label for="labelInput" class="form-label">Liste des écoles</label>
                             <?php $addUse = ['-1' => 'Sélectionnez un élément'];
                             $listetablis_id = $addUse + $listetablis_id->toArray(); ?>
                             {!! Form::select('etablis_id', $listetablis_id, session('etablis_idSess'), [
-                                'id' => 'etablis_id',
-                                'onchange' => 'refreshEcole()',
-                                'class' => 'form-select allselect',
+                            'id' => 'etablis_id',
+                            'onchange' => 'refreshEcole()',
+                            'class' => 'form-select allselect',
                             ]) !!}
                         </div>
                     </div>
@@ -59,9 +59,9 @@
                             <?php $addUse = ['' => 'Selectionnez un element'];
                             $listannee_id = $addUse + $listannee_id->toArray(); ?>
                             {!! Form::select('annee_id', $listannee_id, session('annee_idSess'), [
-                                'id' => 'annee_id',
-                                'onchange' => 'funcRecher()',
-                                'class' => 'form-select allselect',
+                            'id' => 'annee_id',
+                            'onchange' => 'funcRecher()',
+                            'class' => 'form-select allselect',
                             ]) !!}
                         </div>
                     </div>
@@ -71,9 +71,9 @@
                             <?php $addUse = ['' => 'Selectionnez un element'];
                             $listpromotion_id = $addUse + $listpromotion_id->toArray(); ?>
                             {!! Form::select('promotion_id', $listpromotion_id, session('promotion_idSess'), [
-                                'id' => 'promotion_id',
-                                'onchange' => 'funcRecher()',
-                                'class' => 'form-select allselect',
+                            'id' => 'promotion_id',
+                            'onchange' => 'funcRecher()',
+                            'class' => 'form-select allselect',
                             ]) !!}
                         </div>
                     </div>
@@ -81,45 +81,50 @@
                     <div class="col-xxl-3 col-md-3">
                         <div><label for="placeholderInput" class="form-label">Rechercher </label>
                             {!! Form::text('query', '', [
-                                'id' => 'SearchUSer',
-                                'class' => 'form-control search ',
-                                'onkeyup' => 'funcRecher()',
-                                'autocomplete' => 'off',
-                                'placeholder' => 'Rechercher...',
+                            'id' => 'SearchUSer',
+                            'class' => 'form-control search ',
+                            'onkeyup' => 'funcRecher()',
+                            'autocomplete' => 'off',
+                            'placeholder' => 'Rechercher...',
                             ]) !!}
                         </div>
                     </div>
                 </div>
                 {!! Form::close() !!}
                 @if (session()->has('success') || session()->has('error'))
-                    <div class="col-md-12 mt-2">
-                        <div class="alert {!! session()->has('success') ? 'alert-success' : '' !!} {!! session()->has('error') ? 'alert-danger' : '' !!} alert-border-left alert-dismissible fade show"
-                            role="alert"><i title="{!! session()->has('errorMsg') ? session()->get('errorMsg') : '' !!}"
-                                class=" {!! session()->has('success') ? 'ri-notification-off-line' : 'ri-error-warning-line' !!} me-3 align-middle"></i> <strong>Infos </strong> -
-                            {!! session()->has('success') ? session()->get('success') : session()->get('error') !!}<button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button></div>
+                <div class="col-md-12 mt-2">
+                    <div class="alert {!! session()->has('success') ? 'alert-success' : '' !!} {!! session()->has('error') ? 'alert-danger' : '' !!} alert-border-left alert-dismissible fade show"
+                        role="alert"><i title="{!! session()->has('errorMsg') ? session()->get('errorMsg') : '' !!}"
+                            class=" {!! session()->has('success') ? 'ri-notification-off-line' : 'ri-error-warning-line' !!} me-3 align-middle"></i>
+                        <strong>Infos </strong> -
+                        {!! session()->has('success') ? session()->get('success') : session()->get('error') !!}<button
+                            type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
+                </div>
                 @endif
 
             </div>
 
             <div class="card-body">
-                <div id='dataRefresh' class="table-responsive table-card mb-4 m-2 giwuRefresh">@include('frequenter.index-search')
+                <div id='dataRefresh' class="table-responsive table-card mb-4 m-2 giwuRefresh">
+                    @include('frequenter.index-search')
                 </div>
             </div>
-        </div><!--end card-->
-    </div><!--end col-->
+        </div>
+        <!--end card-->
+    </div>
+    <!--end col-->
 
     <!--begin::delete-->
     <div>
-        <div class="modal fade bs-example-modal-center" id="kt_delete_4" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" role="dialog">
+        <div class="modal fade bs-example-modal-center" id="kt_delete_4" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
             <div class="modal-dialog modal-dialog-centered"></div>
         </div>
     </div>
     <div>
-        <div class="modal fade bs-example-modal-center" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" role="dialog">
+        <div class="modal fade bs-example-modal-center" id="confirmationModal" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
             <div class="modal-dialog modal-dialog-centered"></div>
         </div>
     </div>
@@ -128,9 +133,9 @@
 
 
 
-@endsection
+    @endsection
 
-@section('JS_content')
+    @section('JS_content')
     <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -219,7 +224,8 @@
                         }
                     }
     </script>
-    <script>/*
+    <script>
+        /*
 $(document).ready(function() {
     $('#ajouterEleveLink').on('click', function(e) {
     var ecoleSelected = $('#etablis_id').val();
@@ -253,9 +259,9 @@ $(document).ready(function() {
 });
 });
 */
-</script>
+    </script>
 
 
 
 
-@endsection
+    @endsection

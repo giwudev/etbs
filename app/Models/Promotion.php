@@ -54,17 +54,22 @@ class Promotion extends Model {
 
 	public static function sltListPromotion(){
 		$query = self::with(['classe','classe.anneesco']);
-		
 		$sessionEcole = session('etablis_idSess');
 		$query = $query->WhereHas('classe.anneesco', function ($q) use ($sessionEcole) {
 			$q->where('etablis_id', $sessionEcole);
 		})->pluck('libelle_pro','id_pro');
 		return $query;
 	}
+	public static function findPromotion($ecole){
+		$query = self::with(['classe','classe.anneesco']);
+		$query = $query->WhereHas('classe.anneesco', function ($q) use ($ecole) {
+			$q->where('etablis_id', $ecole);
+		})->pluck('libelle_pro','id_pro');
+		return $query;
+	}
 
 	public static function sltListPromotionEcole(){
 		$query = self::with(['classe','classe.anneesco']);
-		
 		$sessionEcole = session('etablis_idSess');
 		$query = $query->WhereHas('classe.anneesco', function ($q) use ($sessionEcole) {
 			$q->where('etablis_id', $sessionEcole);

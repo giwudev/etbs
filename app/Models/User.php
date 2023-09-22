@@ -51,11 +51,8 @@ class User extends Authenticatable
     }
     
 	public static function getListeUsers(Request $req){
-
 		$query = self::with(['role'])->orderBy('name','asc');
-
         $query->WhereHas('role', function ($q) { $q->where('id_role', '<>', '1');});
-
         $etablis_idv = $req->get('etablis_id');
 		if(isset($etablis_idv)){
 			if($etablis_idv != null && $etablis_idv != '' && $etablis_idv != '-1'){

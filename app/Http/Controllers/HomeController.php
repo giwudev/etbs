@@ -33,9 +33,7 @@ class HomeController extends Controller
         }
         $giwu['pathMenu'] = GiwuService::PathMenu('/');
         // Récupérer l'emploi du temps du professeur connecté
-        $emploiDuTemps = EmploiTemp::where('prof_id', auth()->user()->id)->get();
-
-        // Espace admin
+        $emploiDuTemps = EmploiTemp::where('prof_id', auth()->user()->id)->orderBy('jour_semaine')->orderByRaw("CAST(heure_debut AS time) ASC")->orderByRaw("CAST(heure_fin AS time) ASC")->get();        // Espace admin
         $giwu['image'] = GiwuService::PhotoProfilUtilisateur();
         // Passer les données de l'emploi du temps à la vue
         $giwu['emploiDuTemps'] = $emploiDuTemps;

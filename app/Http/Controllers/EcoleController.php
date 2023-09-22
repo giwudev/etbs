@@ -78,6 +78,7 @@ class EcoleController extends Controller {
 			$newAdd->init_id = Auth::id();
 			$newAdd->save(); 
 			$newAdd->createAppelerTable();
+			$newAdd->createFrequenterTable();
 			GiwuSaveTrace::enregistre('Ajout du nouveau ecole : '.GiwuService::DetailInfosInitial($newAdd->toArray()));
 			
 			return Redirect::back()->with('success',trans('data.infos_add'));

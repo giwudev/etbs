@@ -36,7 +36,7 @@ class Appeler extends Model {
 		if(isset($date_presence)){
 			Session()->put('date_presenceSess', $date_presence);
 		}else{
-			Session()->put('date_presenceSess', date('Y-m-d'));
+			Session()->put('date_presenceSess', '1970-01-01');
 		}
 		$emploi_idv = $req->get('emploi_id');
 		if(isset($emploi_idv)){
@@ -69,23 +69,25 @@ class Appeler extends Model {
 
 	public static function CheckElevePresence($eleve){
 		//Vérifier si la ligne existe dans Appeler
-
+		
 		$query = Appeler::with(['emploitemp','eleve'])
 						->where('emploi_id', session('emploi_idSess'))
 						->where('eleve_id', $eleve)
 						->where('date_presence', session('date_presenceSess'))->first();
 		if(!$query){ //Si la ligne n'existe pas créer
-			$appel = new Appeler();
-			$appel->emploi_id = session('emploi_idSess');
-			$appel->eleve_id = $eleve;
-			$appel->etat_appel = true;
-			$appel->justifier = 'non';
-			$appel->date_presence = session('date_presenceSess');
-			$appel->init_id = Auth::id();
-			$appel->save();
-
-			$query = Appeler::with(['emploitemp','eleve'])
-							->where('id_appel', $appel->id_appel)->first();
+			if(session('date_presenceSess') !="1970-01-01"){
+				$appel = new Appeler();
+				$appel->emploi_id = session('emploi_idSess');
+				$appel->eleve_id = $eleve;
+				$appel->etat_appel = true;
+				$appel->justifier = 'non';
+				$appel->date_presence = session('date_presenceSess');
+				$appel->init_id = Auth::id();
+				$appel->save();
+	
+				$query = Appeler::with(['emploitemp','eleve'])
+								->where('id_appel', $appel->id_appel)->first();
+			}
 		}
 		return $query;
 	}
@@ -102,7 +104,7 @@ class Appeler extends Model {
             $emploi_idv = $req->get('emploi_id');
             if(isset($emploi_idv)){
                 if($emploi_idv != null && $emploi_idv != '' && $emploi_idv != '-1'){
-                    Session()->put('emploi_idSess', intval($emploi_idv));
+                    // Session()->put('emploi_idSess', intval($emploi_idv));
                 }
                 $query->where('emploi_id', $req->get('emploi_id'));
             } else {
@@ -132,14 +134,8 @@ class Appeler extends Model {
 		}
 
 		public static function nbre_heure_abs($eleve_id,$promotion_id){
-			$trimSem = Trimsem::find(session('periode_id'));
-			if($trimSem){
-				$dateDebut 	= $trimSem->date_debut;
-				$dateFin 	= $trimSem->date_fin;
-			}else{
-				$dateDebut 	= '1970-01-01';
-				$dateFin 	= '1970-01-01';
-			}
+			$dateDebut 	= session('periode_debut');
+			$dateFin 	= session('periode_fin');
 			$allApp = Appeler::where('eleve_id',$eleve_id)
 								->where('date_presence','>=',$dateDebut)
 								->where('date_presence','<=',$dateFin)
@@ -157,14 +153,8 @@ class Appeler extends Model {
 		}
 
 		public static function nbre_heure_abs_justifier($eleve_id,$promotion_id){
-			$trimSem = Trimsem::find(session('periode_id'));
-			if($trimSem){
-				$dateDebut 	= $trimSem->date_debut;
-				$dateFin 	= $trimSem->date_fin;
-			}else{
-				$dateDebut 	= '1970-01-01';
-				$dateFin 	= '1970-01-01';
-			}
+			$dateDebut 	= session('periode_debut');
+			$dateFin 	= session('periode_fin');
 			$allApp = Appeler::where('eleve_id',$eleve_id)
 								->where('date_presence','>=',$dateDebut)
 								->where('date_presence','<=',$dateFin)
@@ -183,14 +173,10 @@ class Appeler extends Model {
 		}
 
 		public static function nbre_heure_abs_non_justifier($eleve_id,$promotion_id){
-			$trimSem = Trimsem::find(session('periode_id'));
-			if($trimSem){
-				$dateDebut 	= $trimSem->date_debut;
-				$dateFin 	= $trimSem->date_fin;
-			}else{
-				$dateDebut 	= '1970-01-01';
-				$dateFin 	= '1970-01-01';
-			}
+			
+			$dateDebut 	= session('periode_debut');
+			$dateFin 	= session('periode_fin');
+			
 			$allApp = Appeler::where('eleve_id',$eleve_id)
 								->where('date_presence','>=',$dateDebut)
 								->where('date_presence','<=',$dateFin)

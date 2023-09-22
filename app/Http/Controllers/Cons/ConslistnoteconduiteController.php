@@ -26,26 +26,27 @@ use PDF;
 class ConslistnoteconduiteController extends Controller {
 
 	public static function getListEleveFrequente(Request $req){
-
-		$query = Frequenter::where('created_at','-1');
-		
+		$query = Frequenter::where('id_freq','-1');
 		$checkAction = $req->get('id_giwu');
+		// dd($checkAction);
 		if(isset($checkAction)){
-			$trimSem = $req->get('periode_id');
-			if(isset($trimSem)){
-				Session()->put('periode_id', $trimSem);
+			// $trimSem = $req->get('periode_id');
+			// if(isset($trimSem)){Session()->put('periode_id', $trimSem);}else{Session()->put('periode_id','');}
+			$dated = $req->get('datedebut');
+			$datef = $req->get('datefin');
+			if(isset($dated) && isset($datef) ){
+				Session()->put('periode_debut', GiwuService::ChangeFormatDateY_m_d($dated));
+				Session()->put('periode_fin', GiwuService::ChangeFormatDateY_m_d($datef));
 			}else{
-				Session()->put('periode_id','');
+				Session()->put('periode_debut', date('Y-m-d'));
+				Session()->put('periode_fin', date('Y-m-d'));
 			}
-			
 			//Promotion
 			$promotion_idr = $req->get('promotion_id');
-			if(isset($promotion_idr)){
-				Session()->put('promotion_idSess', $promotion_idr);
-			}else{
+			if(isset($promotion_idr)){Session()->put('promotion_idSess', $promotion_idr);}else{
 				Session()->put('promotion_idSess','');
 			}
-			if(isset($promotion_idr) && isset($trimSem)){
+			if(isset($promotion_idr)){
 				$query = Frequenter::with(['eleve','promotion'])->orderBy('created_at','desc');
 				//recherche simple
 				$recherche = $req->get('query');
@@ -72,7 +73,6 @@ class ConslistnoteconduiteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function listnoteconduiteCons(Request $req) {
-
 		$array = GiwuService::Path_Image_menu("/cons/listnoteconduite");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = self::getListEleveFrequente($req)->paginate(20);
@@ -105,7 +105,8 @@ class ConslistnoteconduiteController extends Controller {
 
 	public function exporterPdf(Request $req) {
 		$Resultat = self::getListEleveFrequente($req)->get();
-		$pdf = PDF::loadView('cons.listnoteconduite.pdf',['list' => $Resultat])->setPaper('a4','landscape');
+		$promo=$Resultat[0]->promotion->libelle_pro ;
+		$pdf = PDF::loadView('cons.listnoteconduite.pdf',['list' => $Resultat , 'promo'=>$promo ])->setPaper('a4','landscape');
 		return $pdf->stream('listnoteconduite-'.date('Ymdhis').'.pdf');
 	}
 

@@ -19,16 +19,14 @@ class ElevesImport implements ToModel
  private $skippedCount = 0;
     public function model(array $row){
         static $firstRow = true; 
-
         if ($firstRow) {
-            $firstRow = false; // Marquer la première ligne comme traitée
-            return null; // Ignorer la première ligne
+            $firstRow = false;
+            return null; 
         }
         $matricule = $row[0];
         $ecoleId = session('etablis_idSess');
         $existingEleve = Eleve::where('matricule_el', $matricule)->where('ecole_id', $ecoleId)->first();
         if (!$existingEleve) {
-            $this->importedCount++;
             $eleve = new Eleve([
                 'matricule_el' => $matricule,
                 'nom_el' => $row[1],
@@ -42,6 +40,7 @@ class ElevesImport implements ToModel
                 'init_id' => Auth::id(),
             ]);
             $eleve->save();
+            $this->importedCount++;
             Frequenter::create([
                 'eleve_id' => $eleve->id_el,
                 'promotion_id' => session('promotion_idSess')

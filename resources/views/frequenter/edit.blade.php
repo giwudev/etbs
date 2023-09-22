@@ -23,12 +23,13 @@
 						@method('PATCH')
 							<div class="row">
 							@if(session()->has('success') || session()->has('error'))<div class="col-md-12 mt-2"><div class="alert {!! session()->has('success') ? 'alert-success' : '' !!} {!! session()->has('error') ? 'alert-danger' : '' !!} alert-border-left alert-dismissible fade show" role="alert"><i title ="{!!session()->has('errorMsg')? session()->get('errorMsg') : '' !!}" class=" {!!session()->has('success') ? 'ri-notification-off-line' : 'ri-error-warning-line'!!} me-3 align-middle"></i> <strong>Infos </strong> - {!! session()->has('success') ? session()->get('success') : session()->get('error') !!}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>@endif
-
 							<div class="col-md-6">
 								<div class="mb-3">
 									<label for="eleve_id" class="form-label">{!!trans('data.eleve_id')!!} <strong style='color: red;'> *</strong></label>
-									<?php $addUse = array(''=>'S&eacute;lectionnez un &eacute;l&eacute;ment'); $listeleve_id = $addUse + $listeleve_id->toArray();?>
-									{!! Form::select('eleve_id',$listeleve_id ,$item->eleve_id,["id"=>"eleve_id","class"=>"form-select allselect" ,"required"=>"required"]) !!}
+									<select name="eleve_id" id="eleve_id" class="form-select allselect" required="required">
+										<option value="">Sélectionnez un élément</option>
+											<option selected value="{{ $item->eleve_id}}">{{ $item->eleve->nom_el.' '.$item->eleve->prenom_el}}</option>
+									</select>
 								</div>
 							</div>
 							<div class="col-md-6" style="display:none">
@@ -38,6 +39,24 @@
 									{!! Form::select('promotion_id',$listpromotion_id ,$item->promotion_id,["id"=>"promotion_id","class"=>"form-select allselect" ,"required"=>"required"]) !!}
 								</div>
 							</div>
+							<div class="col-md-12">
+								<div class="my-3">
+									<label for="eleve_id" class="form-label">Souscription pour l'élève <strong style='color: red;'> *</strong></label>
+									<div class="form-check form-switch form-switch-danger my-2">
+										<input class="form-check-input" type="checkbox" name="mail" role="switch" id="SwitchCheck5" {{ $item->send_mail ? 'checked' : '' }}>
+										<label class="form-check-label" for="SwitchCheck5">Par Mail</label>
+									</div>
+									<div class="form-check form-switch form-switch-info my-2">
+										<input class="form-check-input" type="checkbox" name="whatsapp" role="switch" id="SwitchCheck6" {{ $item->send_whatsapp ? 'checked' : '' }}>
+										<label class="form-check-label" for="SwitchCheck6">Par WhatsApp</label>
+									</div>
+									<div class="form-check form-switch form-switch-dark my-2">
+										<input class="form-check-input" type="checkbox" name="sms" role="switch" id="SwitchCheck7" {{ $item->send_sms ? 'checked' : '' }}>
+										<label class="form-check-label" for="SwitchCheck7">Par SMS</label>
+									</div>
+								</div>
+							</div>
+
 							<div class="col-12">
 								<div class="text-end">
 									<a href="{{route('frequenter.index')}}" class="btn btn-outline-dark waves-effect mr-10">Fermer</a>

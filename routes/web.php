@@ -55,6 +55,10 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 		Route::get('users/AffichePopDelete/{code}',[App\Http\Controllers\UserController::class, 'AffichePopDelete']);
 		Route::get('users/exporterExcel',[App\Http\Controllers\UserController::class, 'exporterExcel']);
 		Route::get('users/exporterPdf',[App\Http\Controllers\UserController::class, 'exporterPdf']);
+		Route::get('users/AffichePopAction/{id}',[App\Http\Controllers\UserController::class, 'AffichePopAction']);
+		Route::get('users/findPromo/{id}',[App\Http\Controllers\UserController::class, 'findPromo']);
+		Route::post('users/importProf', 'App\Http\Controllers\UserController@importProf')->name('users.importProf');
+	
 		//Menu
 		Route::get('menu/AffichePopDelete/{id}',[App\Http\Controllers\MenuController::class, 'AffichePopDelete']);
 		Route::get('menu/AffichePopAction/{id}',[App\Http\Controllers\MenuController::class, 'AffichePopAction']);

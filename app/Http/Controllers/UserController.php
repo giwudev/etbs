@@ -12,6 +12,10 @@ use App\Models\Ecole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Exports\UserExportExcel;
+use App\Imports\ElevesImport;
+use App\Imports\ProfImport;
+use App\Models\Promotion;
+use App\Models\Trimsem;
 use Ramsey\Uuid\Uuid;
 use Auth,Hash,PDF;
 
@@ -49,6 +53,7 @@ class UserController extends Controller
         if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
         $giwu['sltRole'] = GiwuRole::sltListRole();
         $giwu['listEcole_id'] = Ecole::sltListEcole();
+		$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
         return view('users.create')->with($giwu);
     }
 
@@ -181,10 +186,37 @@ class UserController extends Controller
 		return Excel::download(new UserExportExcel, 'UserExportExcel_'.date('Y-m-d-h-i-s').'.xls');
 	}
 
+
 	public static function exporterPdf(Request $request){
 
 		$Resultat = User::getListeUsers($request)->get();
         $pdf = PDF::loadView('users.pdf',['list' => $Resultat])->setPaper('a4','landscape');
         return $pdf->stream('users-'.date('Ymdhis').'.pdf');
 	}
+	public static function findPromo($id){
+        $promotions = Promotion::findPromotion($id);
+        return response()->json(['promotions' => $promotions]);
+	}
+        public static function AffichePopAction($id){
+        $giwu['listEcole_id'] = Ecole::sltListEcole();
+		$giwu['listpromotion_id'] = Promotion::sltListPromotion();
+        $giwu['item'] = User::find($id);
+            $giwu['promotion'] = Promotion::find(session('promotion_idSess'));
+            return view('users.action')->with($giwu);
+        }
+        public function importProf(Request $req){
+            try {
+                $import = new ProfImport($req->etablis, $req->promo);
+				Excel::import($import, $req->file('fichier_excel'));
+				$importedCount = $import->getImportedCount();
+				$skippedCount = $import->getSkippedCount();
+				$message = "Fichier importé avec succès.\nLignes importées : $importedCount\nLignes non importées : $skippedCount.";
+				return Redirect::back()->with('success', $message);
+			} catch (\Illuminate\Database\QueryException $e) {
+				// $message = "Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
+				return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+			}
+		}
+
+        
 }

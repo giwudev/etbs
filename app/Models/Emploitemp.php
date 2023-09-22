@@ -42,7 +42,7 @@ class Emploitemp extends Model {
 		return $dif;
     }
 
-	public static function getListEmploieTemps(Request $req,$type){
+	/*public static function getListEmploieTemps(Request $req,$type){
 
 		$query = Emploitemp::with(['discipline','promotion','anneesco','users_g','users_g'])->orderBy('created_at','desc');
 
@@ -74,7 +74,7 @@ class Emploitemp extends Model {
 		}
 		$recherche = $req->get('query');
 		if(isset($recherche)){
-				$query->where(function ($query) Use ($recherche){					$query->where('heure_debut','like','%'.strtoupper(trim($recherche).'%'));
+				$query->where(function ($query) Use ($recherche){$query->where('heure_debut','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('heure_fin','like','%'.strtoupper(trim($recherche).'%'));
 				});			//Recherche avancee sur discipline
 			$query->orWhereHas('discipline', function ($q) use ($recherche) {
@@ -95,7 +95,53 @@ class Emploitemp extends Model {
 
 		}
 		return $query;
-	}
+	}*/
+
+	public static function getListEmploieTemps(Request $req, $type){
+    $query = Emploitemp::with(['discipline', 'promotion', 'anneesco', 'users_g', 'users_g'])
+        ->orderBy('jour_semaine') // Triez par jour de la semaine croissante
+        ->orderBy('created_at', 'desc'); // Ajoutez d'autres critères de tri si nécessaire
+
+    $promotion_idv = $req->get('promotion_id');
+    if (isset($promotion_idv)) {
+        if ($promotion_idv != null && $promotion_idv != '' && $promotion_idv != '-1') {
+            Session()->put('promotion_idSess', intval($promotion_idv));
+        }
+        $query->where('promotion_id', $req->get('promotion_id'));
+    } else {
+        $query->where('promotion_id', session('promotion_idSess'));
+    }
+
+    $annee_idv = $req->get('annee_id');
+    if (isset($annee_idv)) {
+        if ($annee_idv != null && $annee_idv != '' && $annee_idv != '-1') {
+            Session()->put('annee_idSess', intval($annee_idv));
+        }
+        $query->where('annee_id', $req->get('annee_id'));
+    } else {
+        $query->where('annee_id', session('annee_idSess'));
+    }
+    
+    if ($type == 'p') {
+        $query->where('prof_id', Auth::id());
+    }
+
+    $recherche = $req->get('query');
+    if (isset($recherche)) {
+        $query->where(function ($query) use ($recherche) {
+            $query->where('heure_debut', 'like', '%' . strtoupper(trim($recherche)) . '%');
+            $query->orWhere('heure_fin', 'like', '%' . strtoupper(trim($recherche)) . '%');
+        });
+
+        $query->orWhereHas('discipline', function ($q) use ($recherche) {
+            $q->where('code_disci', 'like', '%' . strtoupper(trim($recherche)) . '%');
+            $q->orWhere('libelle_disci', 'like', '%' . strtoupper(trim($recherche)) . '%');
+        });
+    }
+
+    return $query;
+}
+
 
 	public static function sltListAppel(){
 

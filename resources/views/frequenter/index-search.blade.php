@@ -5,6 +5,7 @@
             <tr>
                 <th scope="col" class="text-center">{!! trans('data.eleve_id') !!}</th>
                 <th scope="col" class="text-center">{!! trans('data.promotion_id') !!}</th>
+                <th scope="col" class="text-center">Type Souscription :</th>
                 @if (in_array('update_frequenter', session('InfosAction')) || in_array('delete_frequenter', session('InfosAction')))
                     <th class="text-center"> Actions</th>
                 @endif
@@ -17,7 +18,12 @@
                         ? $listgiwu->eleve->nom_el . ' ' . $listgiwu->eleve->prenom_el
                         : trans('data.not_found') !!}</td>
                     <td>{!! isset($listgiwu->promotion) ? $listgiwu->promotion->libelle_pro : trans('data.not_found') !!}</td>
-                    @if (in_array('update_frequenter', session('InfosAction')) || in_array('delete_frequenter', session('InfosAction')))
+                     <td class="text-center" > 
+                    {{ $listgiwu->send_sms ? 'SMS' : '' }}
+                    {{ $listgiwu->send_whatsapp ? ($listgiwu->send_sms ? ', ' : '') . 'WhatsApp' : '' }}
+                    {{ $listgiwu->send_mail ? ($listgiwu->send_sms || $listgiwu->send_whatsapp ? ', ' : '') . 'Mail' : '' }}
+                    </td>                  
+                      @if (in_array('update_frequenter', session('InfosAction')) || in_array('delete_frequenter', session('InfosAction')))
                         <td class="text-center">
                             @if (in_array('update_frequenter', session('InfosAction')))
                                 <a href="{{ route('frequenter.edit', $listgiwu->id_freq) }}" title='Modifier'

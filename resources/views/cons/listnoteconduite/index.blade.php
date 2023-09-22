@@ -60,10 +60,18 @@
 							</div>
 						</div>
 						<div class="col-xxl-3 col-md-3"> 
-							<div><label for="labelInput" class="form-label"> Liste des Périodes</label>
-								<?php $addUse = array(''=>'Selectionnez un element'); $listPeriode = $addUse + $listPeriode->toArray();?>
+							<!-- <div><label for="labelInput" class="form-label"> Liste des Périodes</label>
+								<?php // $addUse = array(''=>'Selectionnez un element'); $listPeriode = $addUse + $listPeriode->toArray();?>
 								{!! Form::select('periode_id',$listPeriode ,session('periode_id'),["id"=>"periode_id","onchange"=>"funcRecher()","class"=>"form-select allselect"]) !!}
-							</div>
+							</div> -->
+							 <div>
+                                <label for="basiInput" class="form-label">Date début et date fin</label>
+                                    <div class="input-group">
+                                        {!! Form::text('datedebut',date('d/m/Y'),["id"=>"datedebut",'onchange'=>"funcRecher()","class"=>"form-control",'placeholder'=>"Début",'autocomplete'=>"off"]) !!}
+                                        <span class="input-group-text"> à </span>
+                                        {!! Form::text('datefin',date('d/m/Y'),["id"=>"datefin",'onchange'=>"funcRecher()","class"=>"form-control datefin",'placeholder'=>"Fin",'autocomplete'=>"off"]) !!}
+                                    </div>
+                            </div> 
 						</div>
 						<!--end Recherche par defaut col-->
 						<div class="col-xxl-3 col-md-3">
@@ -105,14 +113,19 @@
 		function funcRecher(){
 			window.idVar = '';
 			var filtreData = $("#formSearch").serialize();
+			console.log(filtreData) ;
 			$(".exporterXls").attr('href','{{url("listnoteconduite/exporterExcel")}}?'+filtreData);
 			$(".exporterPdf").attr('href','{{url("listnoteconduite/exporterPdf")}}?'+filtreData);
 			$("div#dataRefresh").html('<h3 class="col-xs-12 text-center kt-subheader__title" style="padding-top: 3em;">' +
 										'<span class="spinner-border flex-shrink-0" role="status"> <span class="visually-hidden"></span></span></h3>');
 			return $.ajax({
 				url: '{{ url("/listnoteconduite/")}}',data: filtreData,type: 'GET',
-				success: function (e) {$('#dataRefresh').html(e);},
-				error: function (data) {$('#dataRefresh').html('<div class="alert alert-danger" role="alert">Erreur dans la recherche!</div>');},
+				success: function (e,xhr) {$('#dataRefresh').html(e);
+                    console.log(xhr.responseText); 
+				},
+				error: function (data, xhr) {$('#dataRefresh').html('<div class= "alert alert-danger" role="alert">Erreur dans la recherche!</div>');
+                    console.log(xhr.responseText); 
+				},
 			});
 		};
 

@@ -8,9 +8,7 @@
         @endfor
     @endif
 @stop
-
 @section('content')
-
     <div class="col-lg-12">
         <div class="card" id="ticketsList">
             <div class="card-header border-0">
@@ -48,14 +46,13 @@
                         <div><label for="labelInput" class="form-label">Liste vos programmes</label>
                             <?php $addUse = ['' => 'Sélectionnez un élément'];
                             $listemploi_id = $addUse + $listemploi_id->toArray(); ?>
-                            {!! Form::select('emploi_id', $listemploi_id, session('emploi_idSess'), ['id' => 'emploi_id','onchange' => 'funcRecher()','class' => 'form-select allselect']) !!}
+                            {!! Form::select('emploi_id', $listemploi_id, null, ['id' => 'emploi_id','onchange' => 'funcRecher()','class' => 'form-select allselect']) !!}
                         </div>
                     </div>
                     <div class="col-xxl-3 col-md-3">
                         <div>
                             <label for="date_presence" class="form-label">Date de présence</label>
-                            <input type="date" id="date_presence" onchange='funcRecher()' name="date_presence" class="form-control"
-                                value="{{session('date_presenceSess')}}">
+                            <input type="date" id="date_presence" onchange='funcRecher()' name="date_presence" class="form-control">
                         </div>
                     </div>
                     <!--end Recherche par defaut col-->
@@ -98,21 +95,36 @@
     <!-- action data-bs-backdrop="static" -->
 @endsection
 
-@section('JS_content')
+    @section('JS_content')
     <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.fr.min.js"></script>
+  
+    <script>
+    $(document).ready(function() {
+        $('#date_presence').datepicker({
+            autoclose: true,
+            daysOfWeekDisabled: [0, 6],
+            format: 'yyyy-mm-dd',
+            language: 'fr'
+        });
+        var joursSemaine = {lundi: 1,mardi: 2,mercredi: 3,jeudi: 4,vendredi: 5,samedi: 6,dimanche: 0};
+        $('#emploi_id').change(function() {
+            var selectedDay = $(this).find(':selected').text().split(' ')[0].toLowerCase();
+            $('#date_presence').datepicker('setDaysOfWeekDisabled', [0, 1, 2, 3, 4, 5, 6]);
+            var jourIndex = joursSemaine[selectedDay];
+            if (jourIndex !== undefined) {
+                 $('#date_presence').datepicker('setDaysOfWeekDisabled', [0, 1, 2, 3, 4, 5, 6].filter(i => i !== jourIndex));
+                }
+        });
+        $('#date_picker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+        });
+    });
+    </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-          
-                // $('#date_presence').on('change', function() {
-                //     var selectedDate = new Date($(this).val());
-                //     console.log(selectedDate.getDay());
-                //     if (selectedDate.getDay() === 6 || selectedDate.getDay() === 0) {
-                //         alert("Les weekend sont excluts");
-                //         continue;
-                //     }
-                // });
-           
-
+        $(document).ready(function() {                 
             $(".exporterXls").attr('href', '{{ url('appeler/exporterExcel') }}');
             $(".exporterPdf").attr('href', '{{ url('appeler/exporterPdf') }}');
             // Pagination
@@ -136,15 +148,13 @@
                     }
                 });
             }
+        $('#emploi_id').change(function() {
+        $('#date_presence').val('');
         });
-
+        });
         //Fonction sur la recherche
         function funcRecher() {
             var filtreData = $("#formSearch").serialize();
-            // var selectedDate = new Date(input.value);
-            // if (selectedDate.getDay() === 6 || selectedDate.getDay() === 0) {
-            // alert("Vous avez choisi un week-end !");
-            //     }
             $(".exporterXls").attr('href', '{{ url('appeler/exporterExcel') }}?' + filtreData);
             $(".exporterPdf").attr('href', '{{ url('appeler/exporterPdf') }}?' + filtreData);
             $("div#dataRefresh").html('<h3 class="col-xs-12 text-center kt-subheader__title" style="padding-top: 3em;">' +
@@ -177,10 +187,19 @@
                             $('#dochoix' + id).removeClass('btn-danger');
                             $('#dochoix' + id).addClass('btn-secondary');
                             $('#dochoix' + id).html('Présent');
+                            // $('#boutonMotif' + id).prop('disabled', !$(this).is(':checked'));
+                            // $('#boutonMotif' + id).toggle($(this).is(':checked'));
+                            document.getElementById('boutonMotif' + id).style.visibility = 'hidden';
+
                         } else if (code_html.etat == false) {
                             $('#dochoix' + id).removeClass('btn-secondary');
                             $('#dochoix' + id).addClass('btn-danger');
                             $('#dochoix' + id).html('Absent');
+                            // $('#boutonMotif' + id).prop('disabled', $(this).is(':checked'));
+                            // $('#boutonMotif' + id).toggle(!$(this).is(':checked'));
+                            document.getElementById('boutonMotif' + id).style.visibility = 'visible';
+
+
                         }
                         // alert(code_html.etat);
                     }
@@ -194,5 +213,13 @@
 			});
 		});
     </script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+    [type="date"]::-webkit-inner-spin-button {
+    display: none;
+    }
+    [type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    }
+    </style>
 @endsection

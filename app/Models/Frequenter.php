@@ -13,7 +13,11 @@ use Auth;
 
 class Frequenter extends Model {
 
-	protected $table = 'etbs_frequenter';
+	// protected $table = 'etbs_frequenter';
+	public function __construct() {
+        parent::__construct();
+        $this->table = 'etbs_frequenter_' . session('etablis_idSess');
+    }
 	protected $primaryKey = 'id_freq';
 	protected $guarded = array('*');
 	public $timestamps = true;

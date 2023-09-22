@@ -13,8 +13,9 @@
         </thead>
         <tbody>
             @foreach ($list as $listgiwu)
+            <?php $appel = \App\Models\Appeler::CheckElevePresence($listgiwu->eleve_id); ?>
+                @if($appel)
                 <tr>
-                    <?php $appel = \App\Models\Appeler::CheckElevePresence($listgiwu->eleve_id); ?>
                     <td>
                         <button id="dochoix{{ $appel->id_appel }}" type="button" data-id="{{$appel->id_appel }}"
                             class="btn {{ $appel->etat_appel == true ? 'btn-secondary' : 'btn-danger' }} btn-sm bg-gradient waves-effect waves-light btn-confirmer">
@@ -47,11 +48,10 @@
                         @endif
                     </td>
                     <td class="text-center">
-                        <button type="button" title='Actions' data-id="{{ $appel->id_appel }}"
-                            class="btn btn-sm btn-secondary waves-effect waves-light btn-action"
-                            data-toggle="modal">Motif</button>
+                    <button id="boutonMotif{{ $appel->id_appel }}" type="button" title='Actions' data-id="{{ $appel->id_appel }}" class="btn btn-sm btn-secondary waves-effect waves-light btn-action" data-toggle="modal" style="visibility: {{ $appel->etat_appel ? 'hidden' : 'visible' }};">Motif</button>
                     </td>
                 </tr>
+                @endif
             @endforeach
         </tbody>
     </table>
