@@ -21,13 +21,12 @@
                 <tr>
                     
                     <!-- <td>{!! $listgiwu->heure_fin !!}</td> -->
-                    <td class="text-center" style='text-align:right'>
-                        {{ trans('entite.semaine')[$listgiwu->jour_semaine] }}</td>
-                        <td class="text-center">{!! substr($listgiwu->heure_debut, 0, 5) . ' - ' . substr($listgiwu->heure_fin, 0, 5) !!}</td>
-                    <td>{!! isset($listgiwu->discipline) ? $listgiwu->discipline->code_disci : trans('data.not_found') !!}</td>
+                    <td> {{ trans('entite.semaine')[$listgiwu->jour_semaine] }}</td>
+                    <td style='text-align:left'>{!! substr($listgiwu->heure_debut, 0, 5) . ' - ' . substr($listgiwu->heure_fin, 0, 5) !!}</td>
+                    <td title="{{isset($listgiwu->discipline) ? $listgiwu->discipline->libelle_disci : trans('data.not_found')}}">{!! isset($listgiwu->discipline) ? $listgiwu->discipline->code_disci : trans('data.not_found') !!}</td>
                     <td>{!! isset($listgiwu->promotion) ? $listgiwu->promotion->libelle_pro : trans('data.not_found') !!}</td>
-                    <td>{!! isset($listgiwu->anneesco)
-                        ? $listgiwu->anneesco->annee_debut . ' ' . $listgiwu->anneesco->annee_fin
+                    <td class="text-center">{!! isset($listgiwu->anneesco)
+                        ? $listgiwu->anneesco->annee_debut . ' - ' . $listgiwu->anneesco->annee_fin
                         : trans('data.not_found') !!}</td>
                     <td>{!! isset($listgiwu->users_g)
                         ? $listgiwu->users_g->name . ' ' . $listgiwu->users_g->prenom

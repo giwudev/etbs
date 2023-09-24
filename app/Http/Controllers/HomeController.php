@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Providers\GiwuService;
 use Auth;
 use App\Models\GiwuSociete;
-use App\Models\EmploiTemp;
+use App\Models\Emploitemp;
 
 
 class HomeController extends Controller

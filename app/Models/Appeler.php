@@ -122,15 +122,14 @@ class Appeler extends Model {
         }
 
 		public static function note_conduite($valeur){
-			if($valeur == 0){
-				return 0;
-			}
 			$etabli = Ecole::find(session('etablis_idSess'));
 			if($etabli){
+				if($valeur == 0){
+					return $etabli->plafond_conduite;
+				}
 				return $etabli->plafond_conduite  - intval($valeur / $etabli->unite_conduite);
 			}
 			return 0;
-
 		}
 
 		public static function nbre_heure_abs($eleve_id,$promotion_id){
