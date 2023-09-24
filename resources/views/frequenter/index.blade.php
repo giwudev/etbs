@@ -149,18 +149,16 @@
                     console.log('id',id);
                     console.log('isChecked',isChecked);
                     $.ajax({
-                        type: 'POST', // Ou tout autre type de requête approprié
-                        url: '/update-subscription', // URL de la route de mise à jour
+                        type: 'POST', 
+                        url: '',
                         data: {
                             id: id,
                             service: service,
                             isChecked: isChecked
                         },
                         success: function(response) {
-                            // Gérez la réponse si nécessaire
                         },
                         error: function(xhr, textStatus, errorThrown) {
-                            // Gérez les erreurs si nécessaire
                         }
                     });
                 });

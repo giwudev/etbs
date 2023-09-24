@@ -21,6 +21,7 @@ class Frequenter extends Model {
 	protected $primaryKey = 'id_freq';
 	protected $guarded = array('*');
 	public $timestamps = true;
+	
 	protected $fillable = [
 		
 		'eleve_id',
