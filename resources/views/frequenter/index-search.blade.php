@@ -6,6 +6,9 @@
                 <th scope="col" class="text-center">{!! trans('data.eleve_id') !!}</th>
                 <th scope="col" class="text-center">{!! trans('data.promotion_id') !!}</th>
                 <th scope="col" class="text-center">Type Souscription :</th>
+                <th scope="col" class="text-center">Souscription Mail:</th>
+                <th scope="col" class="text-center">Souscription SMS :</th>
+                <th scope="col" class="text-center">Souscription whatsApp :</th>
                 @if (in_array('update_frequenter', session('InfosAction')) || in_array('delete_frequenter', session('InfosAction')))
                     <th class="text-center"> Actions</th>
                 @endif
@@ -22,7 +25,22 @@
                     {{ $listgiwu->send_sms ? 'SMS' : '' }}
                     {{ $listgiwu->send_whatsapp ? ($listgiwu->send_sms ? ', ' : '') . 'WhatsApp' : '' }}
                     {{ $listgiwu->send_mail ? ($listgiwu->send_sms || $listgiwu->send_whatsapp ? ', ' : '') . 'Mail' : '' }}
-                    </td>                  
+                    </td>                
+                    <td class="text-center">
+                        <div class="checkbox">
+                        <input type="checkbox" id="{{ $listgiwu->id_freq}}" data-id="{{ $listgiwu->id_freq}}" data-toggle="toggle" data-on="Abonner" data-onstyle="success" data-offstyle="danger" data-off="Désabonner" data-service="mail">
+                        </div>
+                    </td>  
+                    <td class="text-center">
+                        <div class="checkbox">
+                        <input type="checkbox" id="{{ $listgiwu->id_freq}}" data-id="{{ $listgiwu->id_freq}}" data-toggle="toggle" data-on="Abonner" data-onstyle="success" data-offstyle="danger" data-off="Désabonner" data-service="sms">
+                        </div>
+                    </td>  
+                    <td class="text-center">
+                        <div class="checkbox">
+                        <input type="checkbox" id="{{ $listgiwu->id_freq}}" data-id="{{ $listgiwu->id_freq}}" data-toggle="toggle" data-on="Abonner" data-onstyle="success" data-offstyle="danger" data-off="Désabonner" data-service="whatsapp">
+                        </div>
+                    </td>   
                       @if (in_array('update_frequenter', session('InfosAction')) || in_array('delete_frequenter', session('InfosAction')))
                         <td class="text-center">
                             @if (in_array('update_frequenter', session('InfosAction')))

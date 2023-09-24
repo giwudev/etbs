@@ -137,6 +137,36 @@
 
     @section('JS_content')
     <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script>
+            $(document).ready(function() {
+                $('.checkbox input[type="checkbox"]').change(function() {
+                    var id = $(this).data('id');
+                    var service = $(this).data('service');
+                    var isChecked = $(this).prop('checked');
+                    console.log('service name',service);
+                    console.log('id',id);
+                    console.log('isChecked',isChecked);
+                    $.ajax({
+                        type: 'POST', // Ou tout autre type de requête approprié
+                        url: '/update-subscription', // URL de la route de mise à jour
+                        data: {
+                            id: id,
+                            service: service,
+                            isChecked: isChecked
+                        },
+                        success: function(response) {
+                            // Gérez la réponse si nécessaire
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            // Gérez les erreurs si nécessaire
+                        }
+                    });
+                });
+            });
+</script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $(".exporterXls").attr('href', '{{ url('frequenter/exporterExcel') }}');
@@ -223,7 +253,7 @@
                         });
                         }
                     }
-    </script>
+    </scrip>
     <script>
         /*
 $(document).ready(function() {
