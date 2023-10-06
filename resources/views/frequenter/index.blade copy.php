@@ -133,36 +133,36 @@
 
 
 
-@endsection
+    @endsection
 
-@section('JS_content')
+    @section('JS_content')
     <script src="{{ url('assets/js/jquery.min.js') }}" type="text/javascript"></script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.checkbox input[type="checkbox"]').change(function() {
-                var id = $(this).data('id');
-                var service = $(this).data('service');
-                var isChecked = $(this).prop('checked');
-                console.log('service name',service);
-                console.log('id',id);
-                console.log('isChecked',isChecked);
-                $.ajax({
-                    type: 'POST', 
-                    url: '',
-                    data: {
-                        id: id,
-                        service: service,
-                        isChecked: isChecked
-                    },
-                    success: function(response) {
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                    }
+            $(document).ready(function() {
+                $('.checkbox input[type="checkbox"]').change(function() {
+                    var id = $(this).data('id');
+                    var service = $(this).data('service');
+                    var isChecked = $(this).prop('checked');
+                    console.log('service name',service);
+                    console.log('id',id);
+                    console.log('isChecked',isChecked);
+                    $.ajax({
+                        type: 'POST', 
+                        url: '',
+                        data: {
+                            id: id,
+                            service: service,
+                            isChecked: isChecked
+                        },
+                        success: function(response) {
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                        }
+                    });
                 });
             });
-        });
 
         $(document).ready(function() {
             $(".exporterXls").attr('href', '{{ url('frequenter/exporterExcel') }}');
@@ -249,5 +249,45 @@
                         });
                         }
                     }
+    </scrip>
+    <script>
+        /*
+$(document).ready(function() {
+    $('#ajouterEleveLink').on('click', function(e) {
+    var ecoleSelected = $('#etablis_id').val();
+    var anneeSelected = $('#annee_id').val();
+    var promotionSelected = $('#promotion_id').val();
+    console.log(ecoleSelected)
+            console.log(anneeSelected)
+            console.log(promotionSelected)
+
+    if ( ecoleSelected == -1 || !anneeSelected || !promotionSelected) {
+            console.log(ecoleSelected)
+            console.log(anneeSelected)
+            console.log(promotionSelected)
+        console.log('OKI');
+        $.ajax({
+                url: {{ url('frequenter/pop-up') }}, 
+                type: 'GET',
+                dataType: 'html',
+                success: function(code_html, statut, data) {
+                    $("#confirmationModal .modal-dialog").html(code_html);
+                    $("#confirmationModal").modal('show'); 
+                },
+                error: function(xhr, status, error) {
+
+                    console.error(status);
+                    console.error(error);
+                }
+            });
+
+    }
+});
+});
+*/
     </script>
-@endsection
+
+
+
+
+    @endsection
