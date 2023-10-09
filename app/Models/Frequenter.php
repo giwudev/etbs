@@ -34,7 +34,7 @@ class Frequenter extends Model {
 	public function promotion(){return $this->belongsTo('App\Models\Promotion','promotion_id','id_pro');}
 
 	public static function getListEleveFrequente(Request $req){
-
+		
 		$query = Frequenter::with(['eleve' => function ($query) {
 							$query->orderBy('nom_el', 'asc')->orderBy('prenom_el', 'asc');
 						},'promotion']);

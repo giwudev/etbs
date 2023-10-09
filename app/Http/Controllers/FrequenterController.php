@@ -212,35 +212,36 @@ class FrequenterController extends Controller {
 		$giwu['promotion'] = Promotion::find(session('promotion_idSess'));
 		return view('frequenter.action')->with($giwu);
     }
+	
 	public static function AffichePopUp(){
 		$texte="Veuillez d'abord choisir une école, une année et une promotion.";
 		return view('frequenter.pop-up');
     }
 	
-		public function  importEleve(Request $req){
-			try {
-				$import = new ElevesImport();
-				Excel::import($import, $req->file('fichier_excel'));
-				$importErrors = $import->getImportErrors();
-				$importedCount = $import->getImportedCount();
-				$skippedCount = $import->getSkippedCount();
-				$erroFile = "";
-				if (!empty($importErrors)) {
-					foreach ($importErrors as $error) {
-						$erroFile .= '<br>'.$error;
-					}
-					$message = "<br>&nbsp;Fin importation : <br><li>Lignes importées : $importedCount.</li><br><li>Lignes non importées : $skippedCount.</li>";
-					$erroFile .= '<br>'.$message;
-					return Redirect::back()->with('error', $erroFile);
-				} else {
-					$message = "Fichier importé avec succès.<li>Lignes importées : $importedCount; <li>Lignes non importées : $skippedCount.";
-					return Redirect::back()->with('success', $message);
+	public function  importEleve(Request $req){
+		try {
+			$import = new ElevesImport();
+			Excel::import($import, $req->file('fichier_excel'));
+			$importErrors = $import->getImportErrors();
+			$importedCount = $import->getImportedCount();
+			$skippedCount = $import->getSkippedCount();
+			$erroFile = "";
+			if (!empty($importErrors)) {
+				foreach ($importErrors as $error) {
+					$erroFile .= '<br>'.$error;
 				}
-			} catch (\Illuminate\Database\QueryException $e) {
-				// $message = "Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
-				return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
+				$message = "<br>&nbsp;Fin importation : <br><li>Lignes importées : $importedCount.</li><br><li>Lignes non importées : $skippedCount.</li>";
+				$erroFile .= '<br>'.$message;
+				return Redirect::back()->with('error', $erroFile);
+			} else {
+				$message = "Fichier importé avec succès.<li>Lignes importées : $importedCount; <li>Lignes non importées : $skippedCount.";
+				return Redirect::back()->with('success', $message);
 			}
+		} catch (\Illuminate\Database\QueryException $e) {
+			// $message = "Lignes importées : $importedCount,  lignes non importées : $skippedCount.";
+			return Redirect::back()->withInput()->with('error', trans('data.infos_error'))->with("errorMsg", $e->getMessage());
 		}
+	}
  
 	
 
