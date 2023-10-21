@@ -190,9 +190,19 @@ class FrequenterController extends Controller {
 		if(sizeof($Resultat) != 0){
 			$i = 0;
 			foreach($Resultat as $giw){
-				$tablgiwu[$i]['id_freq'] = $giw->id_freq;
-				$tablgiwu[$i]['eleve'] = isset($giw->eleve) ? $giw->eleve->nom_el : trans('data.not_found');
-				$tablgiwu[$i]['promotion'] = isset($giw->promotion) ? $giw->promotion->libelle_pro : trans('data.not_found');
+				// $tablgiwu[$i]['id_el'] = $giw->id_el;
+				$tablgiwu[$i]['matricule_el'] = isset($giw->eleve) ? $giw->eleve->matricule_el : trans('data.not_found');
+				$tablgiwu[$i]['nom_el'] = isset($giw->eleve) ? $giw->eleve->nom_el : trans('data.not_found');
+				$tablgiwu[$i]['prenom_el'] = isset($giw->eleve) ? $giw->eleve->prenom_el : trans('data.not_found');
+				$tablgiwu[$i]['date_nais_el'] = isset($giw->eleve) ? date('d/m/Y',strtotime($giw->eleve->date_nais_el)) : trans('data.not_found');
+				$tablgiwu[$i]['sexe_el'] = isset($giw->eleve) ? $giw->eleve->sexe_el : trans('data.not_found');;
+				// $tablgiwu[$i]['photo_el'] = $giw->photo_el;
+				$tablgiwu[$i]['tuteur_el'] = isset($giw->eleve) ? $giw->eleve->tuteur_el : trans('data.not_found');
+				$tablgiwu[$i]['email_el'] = isset($giw->eleve) ? $giw->eleve->email_el : trans('data.not_found');
+				$tablgiwu[$i]['tel_el'] = isset($giw->eleve) ? $giw->eleve->tel_el : trans('data.not_found');
+				// $tablgiwu[$i]['id_freq'] = $giw->id_freq;
+				// $tablgiwu[$i]['eleve'] = isset($giw->eleve) ? $giw->eleve->nom_el : trans('data.not_found');
+				// $tablgiwu[$i]['promotion'] = isset($giw->promotion) ? $giw->promotion->libelle_pro : trans('data.not_found');
 				$i++;
 			}
 			$Resultat = new Collection($tablgiwu);

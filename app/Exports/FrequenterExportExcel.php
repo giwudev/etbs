@@ -21,9 +21,14 @@ class FrequenterExportExcel implements FromCollection, WithHeadings,ShouldAutoSi
 
 	public function  headings():array{
 		return [
-			trans('data.id_freq'),
-			trans('data.eleve_id'),
-			trans('data.promotion_id'),
+			trans('data.matricule_el'),
+			trans('data.nom_el'),
+			trans('data.prenom_el'),
+			trans('data.date_nais_el'),
+			trans('data.sexe_el'),
+			trans('data.tuteur_el'),
+			trans('data.email_el'),
+			trans('data.tel_el'),
 		];
 	}
 }

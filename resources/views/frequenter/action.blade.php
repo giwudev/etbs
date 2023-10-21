@@ -91,44 +91,41 @@
         });
     }*/
 
-    
-    
-function addAction() {
+    function addAction() {
 
-    console.log()
-    $('#valider').attr("disabled", true);
-    $('#valider .flex-shrink-0').addClass("spinner-border");
-    $("div.msgAction").html('').hide(200);
-    $('#justifierError').addClass('d-none');
-    $('#fichier_excelError').addClass('d-none');
-    $('#motif_justError').addClass('d-none');
-    $('#libelle_actionError').addClass('d-none');
-    var form = $('#formAction')[0];
-    var data = new FormData(form);
-    $.ajax({
-        type: 'POST',
-        url: "{{ url('/frequenter/importEleve/') }}",
-        data: data,
-        processData: false,
-        contentType: false,
-        dataType: 'json', 
-        success: function (data) {
-            $('#valider').attr("disabled", false);
-            $('#valider .flex-shrink-0').removeClass("spinner-border");
-            console.log(data);
-            if (data.error) {
-                console.error(data.error); 
-            } else if (data.success) {
-                $("div.msgAction").html(
-                    '<div class="alert alert-success alert-border-left alert-dismissible fade show" role="alert"><i class="ri-notification-off-line me-3 align-middle"></i> <strong>Infos </strong> Enregistrement réussi. </div>'
-                ).show(200);
-                window.location.reload();
-            }
-        },
-        error: function (data) {
-            console.log(data);        }
-    });
-}
+        $('#valider').attr("disabled", true);
+        $('#valider .flex-shrink-0').addClass("spinner-border");
+        $("div.msgAction").html('').hide(200);
+        $('#justifierError').addClass('d-none');
+        $('#fichier_excelError').addClass('d-none');
+        $('#motif_justError').addClass('d-none');
+        $('#libelle_actionError').addClass('d-none');
+        var form = $('#formAction')[0];
+        var data = new FormData(form);
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('/frequenter/importEleve/') }}",
+            data: data,
+            processData: false,
+            contentType: false,
+            dataType: 'json', 
+            success: function (data) {
+                $('#valider').attr("disabled", false);
+                $('#valider .flex-shrink-0').removeClass("spinner-border");
+                console.log(data);
+                if (data.error) {
+                    console.error(data.error); 
+                } else if (data.success) {
+                    $("div.msgAction").html(
+                        '<div class="alert alert-success alert-border-left alert-dismissible fade show" role="alert"><i class="ri-notification-off-line me-3 align-middle"></i> <strong>Infos </strong> Enregistrement réussi. </div>'
+                    ).show(200);
+                    window.location.reload();
+                }
+            },
+            error: function (data) {
+                console.log(data);        }
+        });
+    }
 
 
 </script>

@@ -1,16 +1,14 @@
 @extends('layouts.general')
 
 @section('path_content')
-@if (sizeof($pathMenu) != 0)
-@for ($i = 0; $i < count($pathMenu); $i++) <li class="breadcrumb-item active"><a href="{{ $pathMenu[$i]['lien'] }}"
-        class="kt-subheader__breadcrumbs-link">{{ $pathMenu[$i]['titre'] }}</a></li>
-    @endfor
+    @if (sizeof($pathMenu) != 0)
+        @for ($i = 0; $i < count($pathMenu); $i++) 
+            <li class="breadcrumb-item active"><a href="{{ $pathMenu[$i]['lien'] }}" class="kt-subheader__breadcrumbs-link">{{ $pathMenu[$i]['titre'] }}</a></li>
+        @endfor
     @endif
-    @stop
+@stop
 
-    @section('content')
-
-
+@section('content')
 
     <div class="col-lg-12">
         <div class="card" id="ticketsList">
@@ -29,7 +27,7 @@
                                 data-bs-reference="parent"><span class="visually-hidden">Toggle Dropdown</span></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuReference">
                                 <li><a class="dropdown-item exporterXls" target="_blank" href="#">Excel</a></li>
-                                <li><a class="dropdown-item exporterPdf" target="_blank" href="#">PDF</a></li>
+                                <!-- <li><a class="dropdown-item exporterPdf" target="_blank" href="#">PDF</a></li> -->
                             </ul>
                         </div>
                         @endif
@@ -128,10 +126,6 @@
             <div class="modal-dialog modal-dialog-centered"></div>
         </div>
     </div>
-
-
-
-
 
 @endsection
 
