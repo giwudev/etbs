@@ -185,7 +185,7 @@ class EleveController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function AffichePopDelete($id) {
+		public function AffichePopDelete($id) {
 		$giwu['item'] = Eleve::where('id_el',$id)->first();
 		return view('eleve.delete')->with($giwu);
 	}
