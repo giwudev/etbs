@@ -18,6 +18,7 @@ use App\Models\Frequenter;
 use App\Models\Eleve;
 use App\Models\Ecole;
 use App\Models\Promotion;
+use App\Models\Appeler;
 use App\Models\Emploitemp;
 use App\Models\Anneesco;
 use Maatwebsite\Excel\Facades\Excel;
@@ -35,7 +36,6 @@ class FrequenterController extends Controller {
 	public function index(Request $req) {
 
 		$array = GiwuService::Path_Image_menu("/param/frequenter");
-       // dd($array);
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
 		$giwu['list'] = Frequenter::getListEleveFrequente($req)->paginate(20);
 		$giwu['listeleve_id'] = Eleve::sltListEleve();
@@ -170,6 +170,18 @@ class FrequenterController extends Controller {
 		return view('frequenter.delete')->with($giwu);
 	}
 
+	public function AffichePopDeletePromo() {
+		$promo = Promotion::find(session('promotion_idSess'));
+		if($promo) {
+			$giwu['item'] = "Cette opération est irrévessible. Voulez-vous vraiment supprimer tous les éléves de cette promotion ".$promo->libelle_pro." ?";
+			$giwu['trv'] = true;
+		}else{
+			$giwu['item'] = "Veuillez choisir une promotion ";
+			$giwu['trv'] = false;
+		}
+		return view('frequenter.delete-promotion')->with($giwu);
+	}
+
 	public function destroy($id) {
 		//
 		try {
@@ -179,6 +191,26 @@ class FrequenterController extends Controller {
 				$dataSupp = GiwuService::DetailInfosInitial($dataInitiale);
 				GiwuSaveTrace::enregistre("Suppression du frequenter : ".$dataSupp);
 				return redirect()->route('frequenter.index')->with('success',trans('data.infos_delete'));
+			}
+		} catch (\Illuminate\Database\QueryException $e) {
+			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());
+		}
+	}
+
+	public function DeletePromo() {
+		//
+		try {
+			$promo = Promotion::find(session('promotion_idSess'));
+			if($promo){
+				$dataInitiale = Frequenter::wherePromotion_id(session('promotion_idSess'))
+											->get()->pluck('eleve_id','eleve_id')->toArray();
+				$appel = Appeler::whereIn('eleve_id',$dataInitiale)->delete();
+				$appel = Eleve::whereIn('id_el',$dataInitiale)->delete();
+				$affectedRows = Frequenter::wherePromotion_id(session('promotion_idSess'))->delete();
+				if ($affectedRows) {
+					GiwuSaveTrace::enregistre("Suppression du tous les éléves de la promotion : ".$promo->libelle_pro);
+					return redirect()->route('frequenter.index')->with('success',trans('data.infos_delete'));
+				}
 			}
 		} catch (\Illuminate\Database\QueryException $e) {
 			return Redirect::back()->withInput()->with('error',trans('data.infos_error'))->with("errorMsg",$e->getMessage());

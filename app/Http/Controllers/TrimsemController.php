@@ -76,8 +76,14 @@ class TrimsemController extends Controller {
         if ($datas['date_debut'] >= $datas['date_fin']) {return Redirect::back()->withInput()->with('error', "La date de début doit être inférieure à la date de fin.");}
         $anneeScolaire = Anneesco::find($datas['annee_id']);
         if ($datas['date_debut'] < $anneeScolaire->annee_debut || $datas['date_fin'] > $anneeScolaire->annee_fin.'-12-31') {return Redirect::back()->withInput()->with('error', "Les dates doivent être incluses dans l'année scolaire en cours.");}
-		$existingPeriod = TrimSem::where(function ($query) use ($datas) {$query->where('date_debut', '<=', $datas['date_debut'])->where('date_fin', '>=', $datas['date_debut']);})->orWhere(function ($query) use ($datas) {$query->where('date_debut', '<=', $datas['date_fin'])->where('date_fin', '>=', $datas['date_fin']);})->first();
-		if ($existingPeriod) {return Redirect::back()->withInput()->with('error', "Une période active chevauche déjà la plage de période que vous souhaitez ajouter.");}
+		$existingPeriod = TrimSem::where(function ($query) use ($datas) {
+			$query->where('date_debut', '<=', $datas['date_debut'])->where('date_fin', '>=', $datas['date_debut']);
+		})->orWhere(function ($query) use ($datas) {
+			$query->where('date_debut', '<=', $datas['date_fin'])->where('date_fin', '>=', $datas['date_fin']);
+		})->first();
+		if ($existingPeriod) {
+			return Redirect::back()->withInput()->with('error', "Une période active chevauche déjà la plage de période que vous souhaitez ajouter.");
+		}
 		
         $newAdd = new Trimsem();
         $newAdd->libelle_trimSem = $datas['libelle_trimSem'];

@@ -22,14 +22,18 @@
                         @endif
                         @if (in_array('exporter_frequenter', session('InfosAction')))
                         <div class="btn-group"><button type="button" class="btn btn-primary">Exporter</button>
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                                id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false"
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                        id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false"
                                 data-bs-reference="parent"><span class="visually-hidden">Toggle Dropdown</span></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuReference">
                                 <li><a class="dropdown-item exporterXls" target="_blank" href="#">Excel</a></li>
                                 <!-- <li><a class="dropdown-item exporterPdf" target="_blank" href="#">PDF</a></li> -->
                             </ul>
                         </div>
+                        @endif
+                        @if(in_array('deletepromo_frequenter', session('InfosAction')))
+                            <button type="button" title='Supprimer la promotion choisie' class="btn btn-danger waves-effect waves-light btn-delete-promotion"
+                                    data-bs-toggle="modal">Supprimer <i class="ri-delete-bin-6-line"></i></button>
                         @endif
                     </div>
                 </div>
@@ -205,10 +209,23 @@
                 },
             });
         };
+        
         $(document).on('click', '.btn-delete', function() {
             id = $(this).data("id");
             $.ajax({
                 url: '{{ url('frequenter/AffichePopDelete/') }}/' + id,
+                type: 'GET',
+                dataType: 'html',
+                success: function(code_html, statut) {
+                    $("#kt_delete_4 .modal-dialog").html(code_html);
+                    $("#kt_delete_4").modal('show');
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-delete-promotion', function() {
+            $.ajax({
+                url: '{{ url('frequenter/AffichePopDeletePromo/') }}',
                 type: 'GET',
                 dataType: 'html',
                 success: function(code_html, statut) {

@@ -25,7 +25,7 @@ class ElevesImport implements ToModel
             $firstRow = false;
             return null; 
         }
-        $matricule = $row[0];
+        $matricule = str_replace(' ', '', $row[0]);
         $ecoleId = session('etablis_idSess');
         $existingEleve = Eleve::where('matricule_el', $matricule)->where('ecole_id', $ecoleId)->first();
         if (!$existingEleve) {
@@ -33,11 +33,11 @@ class ElevesImport implements ToModel
                 'matricule_el' => $matricule,
                 'nom_el' => $row[1],
                 'prenom_el' => $row[2],
-                'date_nais_el' => GiwuService::ChangeFormatDateY_m_d($row[3]),
+                'date_nais_el' => GiwuService::ChangeFormatDateY_m_d( str_replace(' ', '', $row[3])),
                 'sexe_el' => $row[4],
                 'tuteur_el' => $row[5],
                 'email_el' => $row[6],
-                'tel_el' => $row[7],
+                'tel_el' => str_replace(' ', '', $row[7]),
                 'ecole_id' => session('etablis_idSess'),
                 'init_id' => Auth::id(),
             ]);
@@ -54,11 +54,11 @@ class ElevesImport implements ToModel
             //Mise à jour des données
             $existingEleve->nom_el = $row[1];
 			$existingEleve->prenom_el = $row[2];
-			$existingEleve->date_nais_el = GiwuService::ChangeFormatDateY_m_d($row[3]);
+			$existingEleve->date_nais_el = GiwuService::ChangeFormatDateY_m_d( str_replace(' ', '', $row[3]));
 			$existingEleve->sexe_el = $row[4];
 			$existingEleve->tuteur_el = $row[5];
 			$existingEleve->email_el = $row[6];
-			$existingEleve->tel_el = $row[7];
+			$existingEleve->tel_el = str_replace(' ', '', $row[7]);
 			$existingEleve->save();
             return null;
         }

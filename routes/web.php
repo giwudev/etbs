@@ -30,6 +30,15 @@ Route::get('/clear', function(){
 	Artisan::call('route:clear');
 });
 
+//Code Perso à ne pas supprimer 
+Route::get('/check', function(){
+	$user = User::find(1);
+	if($user->created_at > '2023-10-26 00:00:00'){
+		return response()->json('oui');
+	}
+	return response()->json('non');
+});
+
 Auth::routes();
 
 Route::get('/', function () {return redirect()->route('home');}); // redirection vers la page home si la ligne delete
@@ -38,8 +47,7 @@ Route::get('/', function () {return redirect()->route('home');}); // redirection
 Route::get('weberror',[App\Http\Controllers\GiwuController::class, 'weberror']);
 
 Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
-	
-	
+
 	Route::group(['middleware' => 'auth'],function(){
 		Route::get('manuel', [App\Http\Controllers\GiwuController::class, 'AfficherAideGiwu']);
 		Route::get('chargeEcole', [App\Http\Controllers\GiwuController::class, 'ChargerIDEcole']);
@@ -148,6 +156,8 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 		|--------------------------------------------------------------------------
 		*/
 		Route::get('frequenter/AffichePopDelete/{id}',[App\Http\Controllers\FrequenterController::class, 'AffichePopDelete']);
+		Route::get('frequenter/AffichePopDeletePromo',[App\Http\Controllers\FrequenterController::class, 'AffichePopDeletePromo']);
+		Route::post('frequenter/DeletePromo',[App\Http\Controllers\FrequenterController::class, 'DeletePromo']);
 		Route::get('frequenter/pop-up',[App\Http\Controllers\FrequenterController::class, 'AffichePopUp']);
 		Route::get('frequenter/exporterExcel',[App\Http\Controllers\FrequenterController::class, 'exporterExcel']);
 		Route::get('frequenter/exporterPdf',[App\Http\Controllers\FrequenterController::class, 'exporterPdf']);
