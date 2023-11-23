@@ -48,10 +48,11 @@ class Trimsem extends Model {
 		if(isset($recherche)){
 			$query->where(function ($query) Use ($recherche){					
 				$query->orwhere('libelle_trimSem','like','%'.strtoupper(trim($recherche).'%'));
+				
+				$query->orWhereHas('anneesco', function ($q) use ($recherche) {
+					$q->where('statut_annee', 'like', '%'.strtoupper(trim($recherche).'%'));
+				});
 			});			//Recherche avancee sur anneesco
-			$query->orWhereHas('anneesco', function ($q) use ($recherche) {
-				$q->where('statut_annee', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
 
 			//Recherche avancee sur users
 			// $query->orWhereHas('users_g', function ($q) use ($recherche) {

@@ -103,12 +103,11 @@ class EmploitempController extends Controller {
 			if ($datas['heure_debut'] >= $datas['heure_fin']) {
 				return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
 			}
-
 			$existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
 				->where('promotion_id',$datas['promotion_id'])
 				->where(function ($query) use ($datas) {
-					$query->where('heure_debut', '<=', $datas['heure_fin'])
-						->where('heure_fin', '>=', $datas['heure_debut']);
+					$query->where('heure_debut', '<', $datas['heure_fin'])
+						->where('heure_fin', '>', $datas['heure_debut']);
 					})->first();
 
 			if ($existingEmploiTemp) {
@@ -218,14 +217,15 @@ class EmploitempController extends Controller {
                 return Redirect::back()->withInput()->with('error', "L'heure de début doit être inférieure à l'heure de fin.");
             }
 
-            // $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
-			// 	->where('promotion_id',$datas['promotion_id'])
-            //     ->where(function ($query) use ($datas) {
-            //         $query->where('heure_debut', '<=', $datas['heure_fin'])->where('heure_fin', '>=', $datas['heure_debut']);
-            //     })->first();
-            // if ($existingEmploiTemp) {
-            //     return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
-            // }
+            $existingEmploiTemp = Emploitemp::where('jour_semaine', $datas['jour_semaine'])
+				->where('promotion_id',$datas['promotion_id'])
+                ->where(function ($query) use ($datas) {
+                    $query->where('heure_debut', '<', $datas['heure_fin'])
+							->where('heure_fin', '>', $datas['heure_debut']);
+                })->first();
+            if ($existingEmploiTemp && $existingEmploiTemp->id_empl != $id) {
+                return Redirect::back()->withInput()->with('error', "Cette plage horaire est déjà prise par une autre matière.");
+            }
             //Faire une vérification sur la promotion avant la suppression
             $newUpd = Emploitemp::where('id_empl', $id)->first();
 

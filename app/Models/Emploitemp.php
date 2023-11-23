@@ -132,12 +132,13 @@ class Emploitemp extends Model {
 			$query->where(function ($query) use ($recherche) {
 				$query->where('heure_debut', 'like', '%' . strtoupper(trim($recherche)) . '%');
 				$query->orWhere('heure_fin', 'like', '%' . strtoupper(trim($recherche)) . '%');
+				
+				$query->orWhereHas('discipline', function ($q) use ($recherche) {
+					$q->where('code_disci', 'like', '%' . strtoupper(trim($recherche)) . '%');
+					$q->orWhere('libelle_disci', 'like', '%' . strtoupper(trim($recherche)) . '%');
+				});
 			});
 
-			$query->orWhereHas('discipline', function ($q) use ($recherche) {
-				$q->where('code_disci', 'like', '%' . strtoupper(trim($recherche)) . '%');
-				$q->orWhere('libelle_disci', 'like', '%' . strtoupper(trim($recherche)) . '%');
-			});
 		}
 
 		return $query;

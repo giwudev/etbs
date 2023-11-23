@@ -67,16 +67,16 @@ class Frequenter extends Model {
 		if(isset($recherche)){
 			$query->where(function ($query) Use ($recherche){
 				$query->where('eleve_id','like','%'.strtoupper(trim($recherche).'%'));
+				//Recherche avancee sur eleve
+				$query->orWhereHas('eleve', function ($q) use ($recherche) {
+					$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+					$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
+				});
+				//Recherche avancee sur promotion
+				$query->orWhereHas('promotion', function ($q) use ($recherche) {
+					$q->where('libelle_pro', 'like', '%'.strtoupper(trim($recherche).'%'));
+				});
 			});			
-			//Recherche avancee sur eleve
-			$query->orWhereHas('eleve', function ($q) use ($recherche) {
-				$q->where('nom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom_el', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
-			//Recherche avancee sur promotion
-			$query->orWhereHas('promotion', function ($q) use ($recherche) {
-				$q->where('libelle_pro', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
 
 		}
 		return $query;

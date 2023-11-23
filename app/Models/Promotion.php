@@ -35,8 +35,6 @@ class Promotion extends Model {
 			}
 			$query->where('class_id',$req->get('class_id'));
 		}else{
-			// User::whereId(Auth::id())->first()->id); -- Peux etre ajouter si cest la table user
-			//Session()->put('class_idSess', '')
 			$query->where('class_id',session('class_idSess'));
 		}
 

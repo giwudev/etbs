@@ -42,11 +42,12 @@ class Discipline extends Model {
 			$query->where(function ($query) Use ($recherche){					
 				$query->where('code_disci','like','%'.strtoupper(trim($recherche).'%'));
 				$query->orwhere('libelle_disci','like','%'.strtoupper(trim($recherche).'%'));
+				
+				$query->orWhereHas('ecole', function ($q) use ($recherche) {
+					$q->where('nom_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
+					$q->orwhere('sigle_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
+				});
 			});			//Recherche avancee sur ecole
-			$query->orWhereHas('ecole', function ($q) use ($recherche) {
-				$q->where('nom_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('sigle_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
 
 		}
 		return $query;

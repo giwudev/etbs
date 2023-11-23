@@ -50,7 +50,7 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 
 	Route::group(['middleware' => 'auth'],function(){
 		Route::get('manuel', [App\Http\Controllers\GiwuController::class, 'AfficherAideGiwu']);
-		Route::get('chargeEcole', [App\Http\Controllers\GiwuController::class, 'ChargerIDEcole']);
+			Route::get('chargeEcole', [App\Http\Controllers\GiwuController::class, 'ChargerIDEcole']);
 	
 		Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 		Route::get('myprofile',[App\Http\Controllers\GiwuController::class, 'AfficherProfile']);
@@ -164,10 +164,7 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 		Route::get('frequenter/AffichePopAction/{id}',[App\Http\Controllers\FrequenterController::class, 'AffichePopAction']);
 		// Route::post('frequenter/importEleve',[App\Http\Controllers\FrequenterController::class, 'importEleve']);
 		Route::post('frequenter/importEleve', 'App\Http\Controllers\FrequenterController@importEleve')->name('frequenter.importEleve');
-	
-	
-	
-	
+
 			/*
 		|--------------------------------------------------------------------------
 		|   APPELER

@@ -38,11 +38,12 @@ class Ecole extends Model {
 					$query->orwhere('tel_eco','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('email_eco','like','%'.strtoupper(trim($recherche).'%'));
 					$query->orwhere('directeur_eco','like','%'.strtoupper(trim($recherche).'%'));
-				});			//Recherche avancee sur users
-			$query->orWhereHas('users_g', function ($q) use ($recherche) {
-				$q->where('name', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('prenom', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
+						//Recherche avancee sur users
+					$query->orWhereHas('users_g', function ($q) use ($recherche) {
+						$q->where('name', 'like', '%'.strtoupper(trim($recherche).'%'));
+						$q->orwhere('prenom', 'like', '%'.strtoupper(trim($recherche).'%'));
+					});
+				});			
 
 		}
 		return $query;

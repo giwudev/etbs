@@ -32,7 +32,7 @@ class EleveController extends Controller {
 
 		$array = GiwuService::Path_Image_menu("/param/eleve");
 		if($array['titre']==""){return Redirect::to('weberror')->with(['typeAnswer' => trans('data.MsgCheckPage')]);}else{foreach($array as $name => $data){$giwu[$name] = $data;}}
-		$giwu['list'] = Eleve::getListEleve($req)->paginate(20);
+		$giwu['list'] = Eleve::getListEleve($req)->paginate(50);
 		$giwu['listecole_id'] = Ecole::sltListEcole();
 		$giwu['listinit_id'] = User::sltListUser();
 		if($req->ajax()) {

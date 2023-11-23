@@ -43,13 +43,14 @@ class Anneesco extends Model {
 			$query->where(function ($query) Use ($recherche){
 				$query->orwhere('annee_debut','like','%'.strtoupper(trim($recherche).'%'));
 				$query->orwhere('annee_fin','like','%'.strtoupper(trim($recherche).'%'));
+				
+				// Recherche avancee sur ecole
+				$query->orWhereHas('ecole', function ($q) use ($recherche) {
+					$q->where('nom_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
+					$q->orwhere('sigle_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
+				});
 			});
 
-			//Recherche avancee sur ecole
-			// $query->orWhereHas('ecole', function ($q) use ($recherche) {
-			// 	$q->where('nom_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
-			// 	$q->orwhere('sigle_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
-			// });
 
 		}
 		return $query;

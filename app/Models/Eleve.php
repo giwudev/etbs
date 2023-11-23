@@ -63,11 +63,12 @@ class Eleve extends Model {
 				$query->orwhere('tuteur_el','like','%'.strtoupper(trim($recherche).'%'));
 				$query->orwhere('email_el','like','%'.strtoupper(trim($recherche).'%'));
 				$query->orwhere('tel_el','like','%'.strtoupper(trim($recherche).'%'));
-			});			//Recherche avancee sur ecole
-			$query->orWhereHas('ecole', function ($q) use ($recherche) {
-				$q->where('nom_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
-				$q->orwhere('sigle_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
-			});
+				//Recherche avancee sur ecole
+				$query->orWhereHas('ecole', function ($q) use ($recherche) {
+					$q->where('nom_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
+					$q->orwhere('sigle_eco', 'like', '%'.strtoupper(trim($recherche).'%'));
+				});
+			});			
 
 		}
 		return $query;

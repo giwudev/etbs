@@ -3,9 +3,8 @@
     <table class="table table-striped table-bordered table-nowrap">
         <thead>
             <tr>
-                <th scope="col">{!! trans('data.nom_el') !!}</th>
-                <th scope="col">{!! trans('data.prenom_el') !!}</th>
                 <th scope="col">{!! trans('data.matricule_el') !!}</th>
+                <th scope="col">{!! trans('data.nom_el')." ".trans('data.prenom_el') !!}</th>
                 <th scope="col" class="text-center">{!! trans('data.date_nais_el') !!}</th>
                 <th scope="col">{!! trans('data.sexe_el') !!}</th>
                 <th scope="col" class="text-center">{!! trans('data.photo_el') !!}</th>
@@ -20,9 +19,8 @@
         <tbody>
             @foreach ($list as $listgiwu)
                 <tr>
-                    <td>{!! $listgiwu->nom_el !!}</td>
-                    <td>{!! $listgiwu->prenom_el !!}</td>
                     <td>{!! $listgiwu->matricule_el !!}</td>
+                    <td>{!! $listgiwu->nom_el." ".$listgiwu->prenom_el !!}</td>
                     <td class="text-center">{{ date('d/m/Y', strtotime($listgiwu->date_nais_el)) }}</td>
                     <td>{!! $listgiwu->sexe_el === 'f' ? 'Féminin' : 'Masculin' !!}</td>
                     <td class="text-center">
