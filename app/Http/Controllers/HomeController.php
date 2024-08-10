@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Providers\GiwuService;
-use Auth;
-use App\Models\GiwuSociete;
 use App\Models\Emploitemp;
 
 

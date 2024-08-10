@@ -1,11 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\HomeController;
-use App\Mail\TestMail;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -184,7 +182,7 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 		Route::get('listnoteconduite/exporterExcel',[App\Http\Controllers\Cons\ConslistnoteconduiteController::class, 'exporterExcel']);
 		Route::get('listnoteconduite/exporterPdf',[App\Http\Controllers\Cons\ConslistnoteconduiteController::class, 'exporterPdf']);
 	
-			/*
+		/*
 		|--------------------------------------------------------------------------
 		|   DEFINIPROMOTION
 		|--------------------------------------------------------------------------
@@ -201,7 +199,6 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 			'menu'=>App\Http\Controllers\MenuController::class,
 			'role'=>App\Http\Controllers\RoleController::class,
 			'trace'=>App\Http\Controllers\SaveTraceController::class,
-			'entite'=>App\Http\Controllers\EntiteController::class,
 			'ecole'=>App\Http\Controllers\EcoleController::class,
 			'anneesco'=>App\Http\Controllers\AnneescoController::class,
 			'trimsem'=>App\Http\Controllers\TrimsemController::class,
@@ -211,7 +208,6 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 			'eleve'=>App\Http\Controllers\EleveController::class,
 			'frequenter'=>App\Http\Controllers\FrequenterController::class,
 			'appeler'=>App\Http\Controllers\AppelerController::class,
-			// 'emploitemp{type}'=>App\Http\Controllers\EmploitempController::class,
 			'definipromotion'=>App\Http\Controllers\DefinipromotionController::class,
 			//resources-giwu
 		]);

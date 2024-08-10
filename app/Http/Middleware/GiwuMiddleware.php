@@ -18,6 +18,9 @@ class GiwuMiddleware
      */
     public function handle($request, Closure $next)
     {   
+        if (!session('InfosRole')) {
+            return redirect()->route('logout');
+        }
         GiwuService::BrowserControl();
         // /Application en cours de maintenance
         if(trans('data.maintenance') == "oui"){
