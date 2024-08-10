@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Redirect;
-use App\Providers\GiwuService;
 use App\Models\Associeragent;
+use App\Providers\GiwuService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class GiwuMiddleware
 {
@@ -19,7 +20,10 @@ class GiwuMiddleware
     public function handle($request, Closure $next)
     {   
         if (!session('InfosRole')) {
-            return redirect()->route('logout');
+            Auth::logout();
+            session()->flush();
+
+            return redirect()->route('login');
         }
         GiwuService::BrowserControl();
         // /Application en cours de maintenance
