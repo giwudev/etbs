@@ -1,3 +1,3 @@
-cd C:\wamp\www\etbs
-php artisan db:seed
+cd C:\wamp64\www\etbs
+php artisan migrate:refresh --path=/database/migrations/2023_06_01_204_CreerEtbspaiementprofTable.php
 pause

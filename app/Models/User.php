@@ -83,6 +83,15 @@ class User extends Authenticatable
                             ->distinct()->get()->pluck('nomprenom','id');
 		return $query;
 	}
+	public static function getListeProf(){
+		// $query = self::all()->pluck('name','id');
+        $query =  self::select(DB::raw("CONCAT(name,' ',prenom) AS nomprenom"),'etbs_users.id')
+                            ->whereNotIn('etbs_users.id',[1])
+                            ->where('etbs_users.etablis_id',session('etablis_idSess'))
+                            ->where('etbs_users.id_role',16) //Professeur
+                            ->distinct()->get()->pluck('nomprenom','id');
+		return $query;
+	}
 
 	public static function sltListProf(){
         $query =  self::select(DB::raw("CONCAT(name,' ',prenom) AS nomprenom"),'etbs_users.id')
@@ -100,5 +109,5 @@ class User extends Authenticatable
             return "Désactivé";
         }
     }
-
+ 
 }

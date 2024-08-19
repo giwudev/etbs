@@ -12,10 +12,8 @@ use App\Models\Ecole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Exports\UserExportExcel;
-use App\Imports\ElevesImport;
 use App\Imports\ProfImport;
 use App\Models\Promotion;
-use App\Models\Trimsem;
 use Ramsey\Uuid\Uuid;
 use Auth,Hash,PDF;
 

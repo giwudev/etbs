@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\PaiementprofController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,7 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 
 	Route::group(['middleware' => 'auth'],function(){
 		Route::get('manuel', [App\Http\Controllers\GiwuController::class, 'AfficherAideGiwu']);
-			Route::get('chargeEcole', [App\Http\Controllers\GiwuController::class, 'ChargerIDEcole']);
+		Route::get('chargeEcole', [App\Http\Controllers\GiwuController::class, 'ChargerIDEcole']);
 	
 		Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 		Route::get('myprofile',[App\Http\Controllers\GiwuController::class, 'AfficherProfile']);
@@ -191,7 +192,17 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 		Route::get('definipromotion/exporterExcel',[App\Http\Controllers\DefinipromotionController::class, 'exporterExcel']);
 		Route::get('definipromotion/exporterPdf',[App\Http\Controllers\DefinipromotionController::class, 'exporterPdf']);
 	
-		//add-route-cms
+			/*
+	|--------------------------------------------------------------------------
+	|   PAIEMENTPROF
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('paiementprof/AffichePopDelete/{id}',[PaiementprofController::class, 'AffichePopDelete']);
+	Route::get('paiementprof/exporterExcel',[PaiementprofController::class, 'exporterExcel']);
+	Route::get('paiementprof/exporterPdf',[PaiementprofController::class, 'exporterPdf']);
+	Route::patch('/paiementprof/{id}/toggle-payment', [PaiementprofController::class, 'togglePayment'])->name('paiementprof.togglePayment');
+
+	//add-route-cms
 	
 		Route::resource('emploitemp{type}', App\Http\Controllers\EmploitempController::class, ['parameters' => ['emploitemp{type}' => 'id']]);
 		Route::resources([
@@ -209,7 +220,8 @@ Route::group(['middleware' =>'App\Http\Middleware\GiwuMiddleware'],function(){
 			'frequenter'=>App\Http\Controllers\FrequenterController::class,
 			'appeler'=>App\Http\Controllers\AppelerController::class,
 			'definipromotion'=>App\Http\Controllers\DefinipromotionController::class,
-			//resources-giwu
+			'paiementprof'=>App\Http\Controllers\PaiementprofController::class,
+		//resources-giwu
 		]);
 	});
 

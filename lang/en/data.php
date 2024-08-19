@@ -194,6 +194,19 @@ return [
 	'prof_id'=>'Professeur',
 	'promo_id'=>'Promotion',
 
+	/*
+	|--------------------------------------------------------------------------
+	|   PAIEMENTPROF
+	|--------------------------------------------------------------------------
+	*/
+	'id_paie'=>'Identifiant',
+	'id_prof'=>'Professeur',
+	'datedebut'=>'Date debut',
+	'datefin'=>'Date fin',
+	'montant_total'=>'Montant Total',
+	'payer_bool'=>'Payer',
+	'init_id'=>'Initiateur',
+
 	//data-giwu-cms
 
 
